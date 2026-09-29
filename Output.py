@@ -51,6 +51,15 @@ class Output1D:
         self.Re          = np.ndarray(len(self.geometry[:, 1]))
         self.v_coolant   = np.ndarray(len(self.geometry[:, 1]))
         self.T_hg        = np.ndarray(len(self.geometry[:, 1]))
+        self.T_wall_c    = np.ndarray(len(self.geometry[:, 1]))
+
+        # return pass of two-pass cooling, not a number for single pass cooling
+        self.T_c2        = np.full(len(self.geometry[:, 1]), np.nan)
+        self.P_c2        = np.full(len(self.geometry[:, 1]), np.nan)
+        self.Re2         = np.full(len(self.geometry[:, 1]), np.nan)
+        self.v_coolant2  = np.full(len(self.geometry[:, 1]), np.nan)
+        self.halpha_c2   = np.full(len(self.geometry[:, 1]), np.nan)
+        self.T_wall_c2   = np.full(len(self.geometry[:, 1]), np.nan)
         self.folder_path = folder_path
 		
     def output_msg(self):
@@ -76,7 +85,14 @@ class Output1D:
                 " P_coolant [Pa]",
                 " Re_coolant",
                 " v_coolant [m/s]",
-                " T_hg (cinjarev) [K]",
+                " T_hg [K]",
+                " T_wall_coolant [K]",
+                " T_coolant_2 [K]",
+                " P_coolant_2 [Pa]",
+                " Re_coolant_2",
+                " v_coolant_2 [m/s]",
+                " halpha_c_2 [W/m^2/K]",
+                " T_wall_coolant_2 [K]",
             ]
         )
 
@@ -95,6 +111,13 @@ class Output1D:
                     self.Re[i],
                     self.v_coolant[i],
                     self.T_hg[i],
+                    self.T_wall_c[i],
+                    self.T_c2[i],
+                    self.P_c2[i],
+                    self.Re2[i],
+                    self.v_coolant2[i],
+                    self.halpha_c2[i],
+                    self.T_wall_c2[i],
                 ]
             )
 

@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyRocket</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f6f4; --panel: #ffffff; --panel-2: #f0f0ed; --line: #deddd8; --text: #1b1b1a; --text-2: #5c5b57; --muted: #8a8984;
+  --accent: #2a78d6; --accent-ink: #ffffff; --accent-soft: #e3eefb;
+  --good: #1f8a4c; --warn: #b8740b; --bad: #c83c3b; --bar: #2a78d6; --bar-bg: #e6e5e1;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #141413; --panel: #1d1d1c; --panel-2: #262624; --line: #33332f; --text: #ecebe6; --text-2: #b3b2ab; --muted: #85847d;
+    --accent: #3987e5; --accent-ink: #ffffff; --accent-soft: #1e2f45;
+    --good: #3fb56e; --warn: #d9962a; --bad: #e66767; --bar: #3987e5; --bar-bg: #33332f;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { display: flex; align-items: center; gap: 16px; padding: 10px 20px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; flex-wrap: wrap; }
+header h1 { font-size: 16px; margin: 0; letter-spacing: .2px; }
+header .meta { color: var(--muted); font-size: 12px; }
+nav { display: flex; gap: 4px; }
+nav button { background: none; border: 0; color: var(--text-2); padding: 7px 12px; border-radius: 6px; font: inherit; cursor: pointer; }
+nav button.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+nav button:hover:not(.active) { background: var(--panel-2); }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; padding: 20px; max-width: 1500px; margin: 0 auto; }
+@media (max-width: 980px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.panel + .panel { margin-top: 16px; }
+h2 { font-size: 15px; margin: 0 0 12px; }
+h3 { font-size: 13px; margin: 18px 0 8px; color: var(--text-2); text-transform: uppercase; letter-spacing: .6px; }
+.hint { color: var(--muted); font-size: 12.5px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px 16px; }
+label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--text-2); }
+input[type=text], input[type=number], select { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; width: 100%; }
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+label.check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.btn { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--text); padding: 7px 14px; border-radius: 6px; cursor: pointer; }
+.btn:hover { background: var(--panel-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.small { padding: 3px 9px; font-size: 12.5px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.spread { justify-content: space-between; }
+.configs { border: 1px solid var(--line); border-radius: 6px; max-height: 260px; overflow: auto; }
+.configs .item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+.configs .item:last-child { border-bottom: 0; }
+.configs .item:hover { background: var(--panel-2); }
+.configs .item .name { flex: 1; font-family: var(--mono); font-size: 13px; }
+.mode { font-weight: 600; color: var(--accent); }
+pre.code, pre.log { font-family: var(--mono); font-size: 12px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px; padding: 10px; overflow: auto; max-height: 420px; margin: 0; white-space: pre; }
+pre.log { max-height: 280px; }
+.error { color: var(--bad); margin-top: 10px; }
+.job { border: 1px solid var(--line); border-radius: 6px; padding: 10px; cursor: pointer; background: var(--panel); }
+.job + .job { margin-top: 8px; }
+.job:hover, .job.active { border-color: var(--accent); }
+.job .title { font-weight: 600; font-size: 13px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-2); white-space: nowrap; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.chip.running::before { background: var(--accent); }
+.chip.finished::before, .chip.done::before, .chip.ok::before, .chip.reused::before { background: var(--good); }
+.chip.failed::before { background: var(--bad); }
+.chip.stopped::before, .chip.waiting::before { background: var(--muted); }
+.bar { height: 6px; background: var(--bar-bg); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+.bar > div { height: 100%; background: var(--bar); border-radius: 3px; transition: width .4s; }
+.cases { display: grid; gap: 8px; }
+.case-row { display: grid; grid-template-columns: minmax(120px, 1.2fr) 90px minmax(120px, 2fr) 110px; gap: 10px; align-items: center; font-size: 13px; }
+.case-row .name { font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 640px) { .case-row { grid-template-columns: 1fr 80px; } .case-row .bar, .case-row .num { grid-column: span 2; } }
+.num { font-variant-numeric: tabular-nums; color: var(--text-2); text-align: right; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.table-wrap { overflow-x: auto; }
+th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; white-space: nowrap; }
+th { color: var(--text-2); font-weight: 600; font-size: 12px; }
+th:first-child, td:first-child { text-align: left; }
+tr.link { cursor: pointer; }
+tr.link:hover td { background: var(--panel-2); }
+tr.best td { font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.stat { background: var(--panel-2); border-radius: 6px; padding: 10px 12px; }
+.stat .label { font-size: 12px; color: var(--text-2); }
+.stat .value { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .unit { font-size: 12px; color: var(--muted); margin-left: 3px; font-weight: 400; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.gallery img, img.wide { width: 100%; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: zoom-in; display: block; }
+.gallery figure { margin: 0; }
+.gallery figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: flex; align-items: center; justify-content: center; z-index: 20; padding: 20px; cursor: zoom-out; }
+.lightbox img { max-width: 100%; max-height: 100%; background: #fff; border-radius: 6px; }
+.empty { color: var(--muted); padding: 14px 0; }
+.back { margin-bottom: 12px; }
+.kv { font-family: var(--mono); font-size: 12px; color: var(--text-2); word-break: break-all; }
+.list-entry { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-bottom: 1px solid var(--line); cursor: pointer; }
+.list-entry:hover { background: var(--panel-2); }
+.slider { width: 100%; }
+</style>
+</head>
+<body>
+<header>
+  <h1>PyRocket</h1>
+  <nav>
+    <button data-view="run" class="active">Run</button>
+    <button data-view="sweep">Sweep</button>
+    <button data-view="optimize">Optimize</button>
+    <button data-view="results">Results</button>
+  </nav>
+  <span class="meta" id="meta"></span>
+</header>
+
+<div class="layout">
+  <main id="main"></main>
+  <aside>
+    <div class="panel">
+      <div class="row spread"><h2 style="margin:0">Activity</h2><span class="hint" id="jobcount"></span></div>
+      <div id="jobs" style="margin-top:12px"></div>
+    </div>
+  </aside>
+</div>
+
+<script>
+const S = { configs: [], cpus: 1, unit: 'K', view: 'run', selected: new Set(), jobId: null, jobTimer: null, preview: null, resultsOut: 'results' };
+const $ = (sel, el = document) => el.querySelector(sel);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (v, d = 1) => (v === null || v === undefined || isNaN(v)) ? '–' : Number(v).toFixed(d);
+const dur = s => s < 60 ? `${s.toFixed(0)} s` : `${Math.floor(s / 60)} min ${String(Math.round(s % 60)).padStart(2, '0')} s`;
+const file = p => `/file?path=${encodeURIComponent(p)}&t=${Date.now()}`;
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+
+function route(hash) {
+  // keep the current view in the address, so a refresh or bookmark returns to it
+  if (location.hash !== hash) history.replaceState(null, '', hash);
+}
+
+function show(view) {
+  S.view = view;
+  route('#' + view);
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  if (view !== 'job') { clearTimeout(S.jobTimer); S.jobId = null; }
+  ({ run: renderRun, sweep: renderSweep, optimize: renderOptimize, results: renderResults })[view]?.();
+  renderJobs();
+}
+
+// ---------------------------------------------------------------- run
+function renderRun() {
+  const main = $('#main');
+  const n = S.selected.size;
+  main.innerHTML = `
+  <div class="panel">
+    <div class="row spread"><h2 style="margin:0">Run configs</h2><span class="mode" id="mode"></span></div>
+    <p class="hint">Tick one config for a single run or several for a batch. Each case is written to &lt;output&gt;/&lt;config name&gt;/, a batch also gets a summary chart comparing all cases.</p>
+    <div class="row spread" style="margin:10px 0 6px"><span class="hint">${S.configs.length} configs</span>
+      <span class="row"><button class="btn small" id="all">Select all</button><button class="btn small" id="none">Clear</button></span></div>
+    <div class="configs" id="cfglist">${S.configs.map(c => `
+      <div class="item"><input type="checkbox" data-cfg="${esc(c)}" ${S.selected.has(c) ? 'checked' : ''} aria-label="select ${esc(c)}">
+      <span class="name">${esc(c)}</span><button class="btn small" data-view-cfg="${esc(c)}">View</button></div>`).join('') || '<div class="empty" style="padding:10px">No configs found in configs/</div>'}</div>
+    <h3>Options</h3>
+    <div class="grid">
+      <label class="field">Parallel jobs<input type="number" id="jobsn" min="1" max="${S.cpus}" value="${Math.max(1, Math.min(n || 1, S.cpus))}"></label>
+      <label class="field">Output folder<input type="text" id="out" value="${esc(S.resultsOut)}"></label>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <label class="check"><input type="checkbox" id="secimg"> Keep per-section images <span class="hint">(slower, about 70 ms per section)</span></label>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <label class="check"><input type="checkbox" id="sumonly"> Only rebuild the summary from existing results</label>
+    </div>
+    <div class="row" style="margin-top:16px"><button class="btn primary" id="start">Start</button><span class="hint" id="cmdhint"></span></div>
+    <div class="error" id="err"></div>
+  </div>
+  <div class="panel" id="preview" ${S.preview ? '' : 'hidden'}></div>`;
+  const update = () => {
+    const k = S.selected.size;
+    $('#mode').textContent = k === 0 ? 'Nothing selected' : k === 1 ? 'Single run' : `Batch of ${k}`;
+    $('#start').disabled = k === 0;
+    if (k > 1) $('#secimg').closest('label').title = 'Section images are off for batches unless ticked';
+  };
+  main.querySelectorAll('[data-cfg]').forEach(cb => cb.onchange = () => {
+    cb.checked ? S.selected.add(cb.dataset.cfg) : S.selected.delete(cb.dataset.cfg);
+    $('#jobsn').value = Math.max(1, Math.min(S.selected.size || 1, S.cpus)); update();
+  });
+  main.querySelectorAll('[data-view-cfg]').forEach(b => b.onclick = () => previewConfig(b.dataset.viewCfg));
+  $('#all').onclick = () => { S.configs.forEach(c => S.selected.add(c)); renderRun(); };
+  $('#none').onclick = () => { S.selected.clear(); renderRun(); };
+  $('#start').onclick = async () => {
+    $('#err').textContent = '';
+    S.resultsOut = $('#out').value || 'results';
+    try {
+      const r = await api('/api/run', { configs: [...S.selected], jobs: +$('#jobsn').value, out: S.resultsOut,
+        section_images: $('#secimg').checked, summary_only: $('#sumonly').checked });
+      openJob(r.id);
+    } catch (e) { $('#err').textContent = e.message; }
+  };
+  update();
+  if (S.preview) previewConfig(S.preview);
+}
+
+async function previewConfig(path) {
+  S.preview = path;
+  const box = $('#preview'); if (!box) return;
+  box.hidden = false;
+  box.innerHTML = `<div class="row spread"><h2 style="margin:0">${esc(path)}</h2><button class="btn small" id="closeprev">Close</button></div><p class="hint">Read only. Edit the file in your editor, runs always use the saved file.</p><pre class="code">Loading…</pre>`;
+  $('#closeprev').onclick = () => { S.preview = null; box.hidden = true; };
+  try { const r = await api('/api/config?path=' + encodeURIComponent(path)); $('pre', box).textContent = r.source; }
+  catch (e) { $('pre', box).textContent = e.message; }
+}
+
+// ---------------------------------------------------------------- sweep
+function renderSweep() {
+  const main = $('#main');
+  const saved = S.sweepForm || {};
+  const val = (k, d) => esc(saved[k] ?? d);
+  main.innerHTML = `
+  <div class="panel">
+    <h2>Helix sweep</h2>
+    <p class="hint">Finds the helix pitch or angle with the lowest maximum inner wall temperature, within the maximum pitch/angle, the maximum coolant pressure drop, an optional maximum coolant-side wall temperature (e.g. RP-1 coking) and the minimum channel and rib widths (normal to the flow). Channel count and fill factor of the config are kept. Finished points are reused when a sweep is repeated with an unchanged config.</p>
+    <div class="grid" style="margin-top:12px">
+      <label class="field">Config<select id="scfg">${S.configs.map(c => `<option ${saved.config === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
+      <label class="field">Parameter<select id="sparam"><option value="pitch" ${saved.param === 'angle' ? '' : 'selected'}>Pitch [deg/mm]</option><option value="angle" ${saved.param === 'angle' ? 'selected' : ''}>Angle from meridian [deg]</option></select></label>
+      <label class="field">Maximum pitch / angle<input type="number" step="any" id="smax" value="${val('max', 30)}"></label>
+      <label class="field">Max pressure drop [bar]<input type="number" step="any" id="sdp" value="${val('max_dp', 10)}"></label>
+      <label class="field">Max coolant-side wall [K]<input type="number" step="any" id="scwall" value="${val('max_coolant_wall_temp', '')}" placeholder="not limited"></label>
+      <label class="field">Min channel width [mm]<input type="number" step="any" id="sch" value="${val('min_channel', 0)}"></label>
+      <label class="field">Min rib width [mm]<input type="number" step="any" id="srib" value="${val('min_rib', 0)}"></label>
+      <label class="field">Grid points<input type="number" id="spts" min="2" value="${val('points', 7)}"></label>
+      <label class="field">Refinement rounds<input type="number" id="sref" min="0" value="${val('refine', 3)}"></label>
+      <label class="field">Parallel jobs<input type="number" id="sjobs" min="1" max="${S.cpus}" value="${val('jobs', Math.min(8, S.cpus))}"></label>
+      <label class="field">Output folder<input type="text" id="sout" value="${val('out', S.resultsOut)}"></label>
+    </div>
+    <div class="row" style="margin-top:12px"><label class="check"><input type="checkbox" id="sfresh" ${saved.fresh ? 'checked' : ''}> Run all points again (ignore finished points)</label></div>
+    <div class="row" style="margin-top:16px"><button class="btn primary" id="sstart">Start sweep</button></div>
+    <div class="error" id="serr"></div>
+  </div>`;
+  $('#sstart').onclick = async () => {
+    $('#serr').textContent = '';
+    const body = { config: $('#scfg').value, param: $('#sparam').value, max: $('#smax').value, max_dp: $('#sdp').value,
+      max_coolant_wall_temp: $('#scwall').value, min_channel: $('#sch').value, min_rib: $('#srib').value, points: $('#spts').value, refine: $('#sref').value,
+      jobs: $('#sjobs').value, out: $('#sout').value || 'results', fresh: $('#sfresh').checked };
+    S.sweepForm = body;
+    try { const r = await api('/api/sweep', body); openJob(r.id); } catch (e) { $('#serr').textContent = e.message; }
+  };
+}
+
+// ---------------------------------------------------------------- optimize
+function renderOptimize() {
+  const main = $('#main');
+  const f = S.optForm || {};
+  const val = (k, d) => esc(f[k] ?? d);
+  const checks = (name, options, selected) => options.map(([v, l]) => `<label class="check"><input type="checkbox" name="${name}" value="${v}" ${(selected || options.map(o => o[0])).includes(v) ? 'checked' : ''}> ${l}</label>`).join('');
+  main.innerHTML = `
+  <div class="panel">
+    <h2>Cooling optimisation</h2>
+    <p class="hint">Sweeps the cooling channel geometry of a config with the fast model and verifies the best designs with the 2D solver. The chamber, propellants, mixture ratio, film cooling, coolant inlet and one/two-pass stay as in the config. Varied: material, channel count, channel width and height and a constant helix angle; the hot wall thickness is fixed. Objective: the largest minimum stress margin (RPE wall stress, yield / von Mises − 1) within the limits below and each material's maximum service temperature.</p>
+    <div class="grid" style="margin-top:12px">
+      <label class="field">Config<select id="ocfg">${S.configs.map(c => `<option ${f.config === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
+      <label class="field">Max pressure drop [bar]<input type="number" step="any" id="odp" value="${val('max_dp', 10)}"></label>
+      <label class="field">Max helix angle [deg]<input type="number" step="any" id="oang" value="${val('max_angle', 30)}"></label>
+      <label class="field">Min rib width [mm]<input type="number" step="any" id="orib" value="${val('min_rib', 0.8)}"></label>
+      <label class="field">Min channel width [mm]<input type="number" step="any" id="ocw" value="${val('min_channel_width', 1)}"></label>
+      <label class="field">Min channel height [mm]<input type="number" step="any" id="ochmin" value="${val('min_channel_height', 1)}"></label>
+      <label class="field">Max channel height [mm]<input type="number" step="any" id="ochmax" value="${val('max_channel_height', 3)}"></label>
+      <label class="field">Hot wall thickness [mm]<input type="number" step="any" id="owall" value="${val('wall', '')}" placeholder="config t_w_i"></label>
+      <label class="field">Max coolant-side wall [K]<input type="number" step="any" id="ocwall" value="${val('max_coolant_wall_temp', '')}" placeholder="not limited"></label>
+      <label class="field">Min margin to boiling [K]<input type="number" step="any" id="oboil" value="${val('min_boil_margin', '')}" placeholder="not limited"></label>
+    </div>
+    <h3>Materials and channels</h3>
+    <div class="row">${checks('mat', [['IN718', 'IN718'], ['AlSi10Mg', 'AlSi10Mg'], ['CuCr1Zr', 'CuCrZr']], f.materials)}</div>
+    <div class="row" style="margin-top:8px">${checks('mode', [['constant_width', 'Constant channel width'], ['constant_fill', 'Width growing with the radius']], f.modes)}</div>
+    <h3>Search</h3>
+    <div class="grid">
+      <label class="field">Grid density<select id="odens">${['coarse', 'normal', 'fine'].map(d => `<option ${(f.density || 'normal') === d ? 'selected' : ''}>${d}</option>`).join('')}</select></label>
+      <label class="field">Designs verified in 2D<input type="number" min="0" id="over" value="${val('verify', 3)}"></label>
+      <label class="field">Longitudinal stress ΔT<select id="olong"><option value="shell" ${f.longitudinal === 'wall' ? '' : 'selected'}>Hot wall to coolant-side wall (shell)</option><option value="wall" ${f.longitudinal === 'wall' ? 'selected' : ''}>Across the hot wall</option></select></label>
+      <label class="field">Fast section model<select id="osec"><option value="grid" ${f.section_model === 'network' ? '' : 'selected'}>Grid (accurate)</option><option value="network" ${f.section_model === 'network' ? 'selected' : ''}>Network (fastest)</option></select></label>
+      <label class="field">Parallel jobs<input type="number" min="1" max="${S.cpus}" id="ojobs" value="${val('jobs', Math.max(1, S.cpus - 1))}"></label>
+      <label class="field">Output folder<input type="text" id="oout" value="${val('out', S.resultsOut)}"></label>
+    </div>
+    <p class="hint" style="margin-top:10px">Material data are representative published values (MaterialLib.py); replace them with your supplier's data before relying on the margins.</p>
+    <div class="row" style="margin-top:12px"><button class="btn primary" id="ostart">Start optimisation</button></div>
+    <div class="error" id="oerr"></div>
+  </div>`;
+  $('#ostart').onclick = async () => {
+    $('#oerr').textContent = '';
+    const body = { config: $('#ocfg').value, max_dp: $('#odp').value, max_angle: $('#oang').value, min_rib: $('#orib').value, min_channel_width: $('#ocw').value,
+      min_channel_height: $('#ochmin').value, max_channel_height: $('#ochmax').value, wall: $('#owall').value, max_coolant_wall_temp: $('#ocwall').value,
+      min_boil_margin: $('#oboil').value, materials: [...main.querySelectorAll('input[name=mat]:checked')].map(i => i.value),
+      modes: [...main.querySelectorAll('input[name=mode]:checked')].map(i => i.value), density: $('#odens').value, verify: $('#over').value,
+      longitudinal: $('#olong').value, section_model: $('#osec').value, jobs: $('#ojobs').value, out: $('#oout').value || 'results' };
+    S.optForm = body;
+    try { const r = await api('/api/optimize', body); openJob(r.id); } catch (e) { $('#oerr').textContent = e.message; }
+  };
+}
+
+async function openOptimize(path) {
+  S.view = 'case';
+  route('#optresult=' + encodeURIComponent(path));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const main = $('#main');
+  main.innerHTML = `<div class="panel"><button class="btn small back" id="back">← Back</button><div class="kv">${esc(path)}</div></div><div id="result"></div>`;
+  $('#back').onclick = () => show('results');
+  try { renderResult(await api('/api/optimize?path=' + encodeURIComponent(path)), $('#result')); }
+  catch (e) { $('#result').innerHTML = `<div class="panel error">${esc(e.message)}</div>`; }
+}
+
+// ---------------------------------------------------------------- activity
+async function renderJobs() {
+  let data;
+  try { data = await api('/api/jobs'); } catch { return; }
+  const box = $('#jobs');
+  const running = data.jobs.filter(j => j.status === 'running').length;
+  $('#jobcount').textContent = running ? `${running} running` : '';
+  box.innerHTML = data.jobs.length ? data.jobs.map(j => `
+    <div class="job ${S.jobId === j.id ? 'active' : ''}" data-job="${j.id}">
+      <div class="row spread"><span class="title">${esc(j.title)}</span><span class="chip ${j.status}">${j.status}</span></div>
+      <div class="bar"><div style="width:${(j.progress.fraction * 100).toFixed(1)}%"></div></div>
+      <div class="row spread hint" style="margin-top:4px"><span>${dur(j.elapsed)}</span><span>${j.kind === 'run' ? `${j.progress.cases.filter(c => c.state === 'done' || c.state === 'failed').length} / ${j.progress.cases.length} cases` : j.kind === 'optimize' ? esc(j.progress.stage || '') : `${j.progress.done ?? 0} points`}</span></div>
+    </div>`).join('') : '<div class="empty">No runs yet. Start one from the Run or Sweep tab.</div>';
+  box.querySelectorAll('[data-job]').forEach(el => el.onclick = () => openJob(+el.dataset.job));
+}
+setInterval(renderJobs, 2000);
+
+// ---------------------------------------------------------------- job detail
+function openJob(id) {
+  S.jobId = id; S.view = 'job';
+  route('#job=' + id);
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  $('#main').innerHTML = '<div class="panel"><div class="empty">Loading…</div></div>';
+  pollJob(); renderJobs();
+}
+
+async function pollJob() {
+  clearTimeout(S.jobTimer);
+  if (S.view !== 'job' || !S.jobId) return;
+  let j;
+  try { j = await api('/api/job?id=' + S.jobId); } catch (e) { $('#main').innerHTML = `<div class="panel error">${esc(e.message)}</div>`; return; }
+  const logOpen = $('#logdet')?.open;
+  const main = $('#main');
+  const cases = j.progress.cases.map(c => `
+    <div class="case-row"><span class="name" title="${esc(c.name)}">${esc(c.name)}</span><span class="chip ${c.state}">${c.state}</span>
+      <div class="bar" style="margin:0"><div style="width:${(c.fraction * 100).toFixed(1)}%"></div></div>
+      <span class="num">${c.sections ? `section ${c.sections[0]} / ${c.sections[1]}` : (c.state === 'done' || c.state === 'reused') && c.T_wall_max ? `max ${fmt(toUnit(c.T_wall_max))} ${S.unit}` : c.state === 'failed' ? 'see log' : ''}</span></div>`).join('');
+  main.innerHTML = `
+  <div class="panel">
+    <div class="row spread"><h2 style="margin:0">${esc(j.title)}</h2>
+      <span class="row"><span class="chip ${j.status}">${j.status}</span>${j.status === 'running' ? '<button class="btn small" id="stop">Stop</button>' : ''}</span></div>
+    <div class="hint" style="margin-top:6px">${dur(j.elapsed)} · output ${esc(j.out)}</div>
+    <div class="bar"><div style="width:${(j.progress.fraction * 100).toFixed(1)}%"></div></div>
+    ${j.kind === 'optimize' ? `<h3>Stage</h3><div>${esc(j.progress.stage || '')}</div>${cases ? `<h3>2D verification</h3><div class="cases">${cases}</div>` : ''}` :
+      `<h3>${j.kind === 'run' ? 'Cases' : 'Sweep points'}</h3><div class="cases">${cases || '<div class="empty">Starting…</div>'}</div>`}
+    <details id="logdet" ${logOpen || j.status === 'failed' ? 'open' : ''} style="margin-top:14px"><summary class="hint" style="cursor:pointer">Output</summary>
+      <div class="kv" style="margin:8px 0">${esc(j.command)}</div><pre class="log">${esc(j.log || '')}</pre></details>
+  </div>
+  <div id="result"></div>`;
+  if ($('#stop')) $('#stop').onclick = async () => { await api('/api/stop', { id: j.id }); pollJob(); };
+  const pre = $('pre.log', main); if (pre) pre.scrollTop = pre.scrollHeight;
+  if (j.result) renderResult(j.result, $('#result'));
+  if (j.status === 'running') S.jobTimer = setTimeout(pollJob, 1500);
+}
+
+function toUnit(T) { return S.unit === '°C' ? T - 273.15 : T; }
+
+const MAIN_STATS = ['T_wall_max', 'T_wall_median', 'T_coolant_out', 'dp_coolant', 'boil_margin_wall', 'q_max', 'runtime_s'];
+function statTable(rows, nameKey, extraHead = '', extra = () => '', bestIndex = -1) {
+  const first = rows.find(r => r.stats.length);
+  if (!first) return '<div class="empty">No finished cases.</div>';
+  const cols = MAIN_STATS.map(k => first.stats.find(s => s.key === k)).filter(Boolean);
+  return `<div class="table-wrap"><table><thead><tr><th>${nameKey}</th>${extraHead}${cols.map(c => `<th>${esc(c.label)}<br><span class="hint">${esc(c.unit)}</span></th>`).join('')}</tr></thead><tbody>
+    ${rows.map((r, i) => `<tr class="link ${i === bestIndex ? 'best' : ''}" data-path="${esc(r.path)}"><td>${esc(r.case)}${r.status !== 'ok' ? ` <span class="chip failed">failed</span>` : ''}</td>${extra(r)}
+      ${cols.map(c => { const s = r.stats.find(x => x.key === c.key); return `<td>${s ? fmt(s.value, c.unit === 's' ? 0 : c.unit === 'bar' ? 2 : 1) : '–'}</td>`; }).join('')}</tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+function renderResult(r, box) {
+  if (r.type === 'optimize') {
+    const f2 = (v, d) => v == null ? '–' : fmt(v, d);
+    box.innerHTML = `<div class="panel"><h2>Optimisation results</h2>
+      ${r.best.length ? `<pre class="code" style="white-space:pre-wrap">${esc(r.best.join('\n'))}</pre>` : '<div class="empty">No verified design finished, see the output above.</div>'}
+      ${r.config_lines ? `<h3>Config lines for the best design</h3><pre class="code">${esc(r.config_lines)}</pre>` : ''}
+      <h3>Verified designs</h3>${r.verified.length ? `<div class="table-wrap"><table><thead><tr><th>Design</th><th>Stress margin<br><span class="hint">fast / 2D</span></th>
+        <th>Max hot wall<br><span class="hint">${S.unit}, fast / 2D</span></th><th>Pressure drop<br><span class="hint">bar, fast / 2D</span></th><th>2D status</th></tr></thead><tbody>
+        ${r.verified.map(v => `<tr class="link" data-path="${esc(v.path)}"><td>${esc(v.design)}</td><td>${f2(v.fast_margin, 3)} / ${f2(v.margin, 3)}</td>
+          <td>${f2(v.fast_T, 1)} / ${f2(v.T, 1)}</td><td>${f2(v.fast_dp, 2)} / ${f2(v.dp, 2)}</td><td>${esc(v.status)}${v.note ? ' (' + esc(v.note) + ')' : ''}</td></tr>`).join('')}
+        </tbody></table></div><p class="hint">Click a design for its 2D plots.</p>` : '<div class="empty">None</div>'}
+      <h3>Charts</h3><div class="gallery">${r.images.map(i => `<figure><img src="${file(i)}" alt="${esc(i)}"><figcaption>${esc(i.split('/').pop())}</figcaption></figure>`).join('')}</div>
+      <p class="hint" style="margin-top:10px">${r.data.map(d => `<a href="${file(d)}">${esc(d.split('/').pop())}</a>`).join(' · ')}</p></div>`;
+    box.querySelectorAll('tr.link').forEach(tr => tr.onclick = () => openCase(tr.dataset.path));
+    box.querySelectorAll('img').forEach(zoomable);
+    return;
+  }
+  if (r.type === 'run') {
+    box.innerHTML = `<div class="panel"><h2>Results</h2>
+      ${r.image ? `<img class="wide" src="${file(r.image)}" alt="summary chart of all cases">` : ''}
+      <h3>Cases</h3>${statTable(r.cases, 'Case')}<p class="hint">Click a case for its plots.</p></div>`;
+  } else {
+    const best = r.best_value == null ? -1 : r.points.reduce((b, p, i) => Math.abs(p.value - r.best_value) < Math.abs((r.points[b]?.value ?? Infinity) - r.best_value) ? i : b, -1);
+    box.innerHTML = `<div class="panel"><h2>Sweep results</h2>
+      ${(r.outcome || []).map((l, i) => `<p style="margin:0 0 6px" class="${i ? 'hint' : ''}">${esc(l)}</p>`).join('')}
+      <div class="gallery">${r.images.map(i => `<figure><img src="${file(i)}" alt="${esc(i)}"><figcaption>${esc(i.split('/').pop())}</figcaption></figure>`).join('')}</div>
+      <h3>Points</h3>${statTable(r.points, 'Point', '<th>Value</th>', p => `<td>${fmt(p.value, 3)}</td>`, best)}
+      <p class="hint">${best >= 0 ? 'The best point is in bold. ' : ''}Click a point for its plots.</p></div>`;
+  }
+  box.querySelectorAll('tr.link').forEach(tr => tr.onclick = () => openCase(tr.dataset.path));
+  box.querySelectorAll('img').forEach(zoomable);
+}
+
+// ---------------------------------------------------------------- results browser
+async function renderResults() {
+  const main = $('#main');
+  main.innerHTML = `<div class="panel"><h2>Results</h2>
+    <div class="row"><input type="text" id="rout" value="${esc(S.resultsOut)}" style="max-width:360px" aria-label="output folder"><button class="btn" id="rload">Open</button></div>
+    <div id="rlist" style="margin-top:14px"><div class="empty">Loading…</div></div></div>`;
+  const load = async () => {
+    S.resultsOut = $('#rout').value || 'results';
+    let r;
+    try { r = await api('/api/results?out=' + encodeURIComponent(S.resultsOut)); } catch (e) { $('#rlist').innerHTML = `<div class="error">${esc(e.message)}</div>`; return; }
+    if (!r.exists) { $('#rlist').innerHTML = '<div class="empty">Folder does not exist yet.</div>'; return; }
+    const when = t => new Date(t * 1000).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const summary = r.entries.filter(e => e.type === 'summary');
+    const sweeps = r.entries.filter(e => e.type === 'sweep');
+    const opts = r.entries.filter(e => e.type === 'optimize');
+    const cases = r.entries.filter(e => e.type === 'case');
+    $('#rlist').innerHTML = `
+      ${summary.map(e => `<div class="list-entry" data-summary="${esc(e.path)}"><span>Batch summary chart</span><span class="hint">${when(e.mtime)}</span></div>`).join('')}
+      <h3>Optimisations</h3>${opts.map(e => `<div class="list-entry" data-opt="${esc(e.path)}"><span class="kv">${esc(e.name)}</span><span class="hint">${when(e.mtime)}</span></div>`).join('') || '<div class="empty">None</div>'}
+      <h3>Sweeps</h3>${sweeps.map(e => `<div class="list-entry" data-sweep="${esc(e.path)}"><span class="kv">${esc(e.name)}</span><span class="hint">${when(e.mtime)}</span></div>`).join('') || '<div class="empty">None</div>'}
+      <h3>Cases</h3>${cases.length ? `<div class="table-wrap"><table><thead><tr><th>Case</th><th>Max wall temp<br><span class="hint">${S.unit}</span></th><th>Pressure drop<br><span class="hint">bar</span></th><th>Finished</th></tr></thead><tbody>
+        ${cases.map(e => `<tr class="link" data-path="${esc(e.path)}"><td>${esc(e.name)}${e.status !== 'ok' ? ' <span class="chip failed">failed</span>' : ''}</td><td>${fmt(e.T_wall_max)}</td><td>${fmt(e.dp, 2)}</td><td>${when(e.mtime)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty">None</div>'}`;
+    $('#rlist').querySelectorAll('tr.link').forEach(tr => tr.onclick = () => openCase(tr.dataset.path));
+    $('#rlist').querySelectorAll('[data-sweep]').forEach(el => el.onclick = () => openSweep(el.dataset.sweep));
+    $('#rlist').querySelectorAll('[data-opt]').forEach(el => el.onclick = () => openOptimize(el.dataset.opt));
+    $('#rlist').querySelectorAll('[data-summary]').forEach(el => el.onclick = () => lightbox(file(el.dataset.summary + '/summary.png')));
+  };
+  $('#rload').onclick = load;
+  $('#rout').onkeydown = e => { if (e.key === 'Enter') load(); };
+  load();
+}
+
+async function openCase(path) {
+  clearTimeout(S.jobTimer);
+  const prev = S.view;
+  route('#case=' + encodeURIComponent(path));
+  S.view = 'case';
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const main = $('#main');
+  main.innerHTML = '<div class="panel"><div class="empty">Loading…</div></div>';
+  let c;
+  try { c = await api('/api/case?path=' + encodeURIComponent(path)); } catch (e) { main.innerHTML = `<div class="panel error">${esc(e.message)}</div>`; return; }
+  main.innerHTML = `<div class="panel">
+    <button class="btn small back" id="back">← Back</button>
+    <div class="row spread"><h2 style="margin:0">${esc(c.name)}</h2><span class="chip ${c.status === 'ok' ? 'ok' : 'failed'}">${esc(c.status || 'unknown')}</span></div>
+    <div class="kv" style="margin:6px 0 14px">${esc(c.path)}</div>
+    ${c.error ? `<div class="error">${esc(c.error)}</div>` : ''}
+    <div class="stats">${c.stats.map(s => `<div class="stat"><div class="label">${esc(s.label)}</div><div class="value">${fmt(s.value, s.unit === 'bar' || s.unit === 'mm' ? 2 : s.unit === 's' ? 0 : 1)}<span class="unit">${esc(s.unit)}</span></div></div>`).join('')}</div>
+    <h3>Plots</h3><div class="gallery">${c.images.map(i => `<figure><img src="${file(i)}" alt="${esc(i)}"><figcaption>${esc(i.split('/').pop())}</figcaption></figure>`).join('') || '<div class="empty">No plots</div>'}</div>
+    ${c.section_images.length ? `<h3>Section temperature fields</h3><input type="range" class="slider" id="secsl" min="0" max="${c.section_images.length - 1}" value="0" aria-label="section">
+      <div class="hint" id="seclabel"></div><img class="wide" id="secimg" style="max-width:520px" alt="section temperature field">` : ''}
+    ${c.data ? `<p style="margin-top:14px"><a href="${file(c.data)}" download>sim_data.csv</a> <span class="hint">(opens as text, save with your browser)</span></p>` : ''}
+  </div>`;
+  $('#back').onclick = () => prev === 'job' && S.jobId ? openJob(S.jobId) : show('results');
+  main.querySelectorAll('.gallery img').forEach(zoomable);
+  if (c.section_images.length) {
+    const set = () => { const i = +$('#secsl').value; $('#secimg').src = file(c.section_images[i]); $('#seclabel').textContent = `section index ${c.section_images[i].split('/').pop().replace('.png', '')}`; };
+    $('#secsl').oninput = set; set(); zoomable($('#secimg'));
+  }
+}
+
+async function openSweep(path) {
+  S.view = 'case';
+  route('#sweepresult=' + encodeURIComponent(path));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const main = $('#main');
+  main.innerHTML = `<div class="panel"><button class="btn small back" id="back">← Back</button><div class="kv">${esc(path)}</div></div><div id="result"></div>`;
+  $('#back').onclick = () => show('results');
+  try { renderResult(await api('/api/sweep?path=' + encodeURIComponent(path)), $('#result')); }
+  catch (e) { $('#result').innerHTML = `<div class="panel error">${esc(e.message)}</div>`; }
+}
+
+// ---------------------------------------------------------------- images
+function lightbox(src) {
+  const el = document.createElement('div'); el.className = 'lightbox'; el.innerHTML = `<img src="${src}" alt="enlarged plot">`;
+  el.onclick = () => el.remove(); document.addEventListener('keydown', function k(e) { if (e.key === 'Escape') { el.remove(); document.removeEventListener('keydown', k); } });
+  document.body.appendChild(el);
+}
+function zoomable(img) { img.onclick = () => lightbox(img.src); }
+
+// ---------------------------------------------------------------- start
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => show(b.dataset.view));
+(async () => {
+  const st = await api('/api/state');
+  S.configs = st.configs; S.cpus = st.cpus; S.unit = st.temperature_unit;
+  $('#meta').textContent = `${st.cpus} CPUs · temperatures in ${st.temperature_unit}`;
+  const [key, value] = location.hash.slice(1).split('=');
+  if (key === 'job') openJob(+value);
+  else if (key === 'case') openCase(decodeURIComponent(value));
+  else if (key === 'sweepresult') openSweep(decodeURIComponent(value));
+  else if (key === 'optresult') openOptimize(decodeURIComponent(value));
+  else show(['run', 'sweep', 'optimize', 'results'].includes(key) ? key : 'run');
+})();
+</script>
+</body>
+</html>

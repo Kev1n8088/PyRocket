@@ -15,13 +15,17 @@ import thermo
 from matplotlib import pyplot as plt
 
 # functional imports
-import config
+from CaseSetup import load_config
+from PropLibrary import create_coolant
+import Units
 from Output import Settings2D
 from PlottingFunctions import multi_plot
 
 # import functions to be tested
 from IsentropicRelations import Isentropic
 from SectionThermalSim import HeatEquationSolver
+
+config = load_config('config.py')
 
 
 
@@ -40,27 +44,33 @@ def cooling_fluid_test():
 
     for i in range(len(T_arr)):
         # calculate coolant properties at every temperature 
-        coolant = thermo.Mixture(IDs=config.coolant.IDs, ws=config.coolant.ws, T=T_arr[i], P=config.coolant.P)
-        Cp[i] = coolant.Cp
-        rho[i] = coolant.rho
-        Pr[i] = coolant.Pr
-        k[i] = coolant.Cp * coolant.mu / coolant.Pr
+        coolant = create_coolant(config.coolant.IDs, ws=config.coolant.ws, T=T_arr[i], P=config.coolant.P)
+        if coolant.phase == 'l':
+            Cp[i]  = coolant.Cpl
+            rho[i] = coolant.rhol
+            Pr[i]  = coolant.Prl
+            k[i]   = coolant.Cpl * coolant.mul / coolant.Prl
+        else:
+            Cp[i]  = coolant.Cpg
+            rho[i] = coolant.rhog
+            Pr[i]  = coolant.Prg
+            k[i]   = coolant.Cpg * coolant.mug / coolant.Prg
 
     f, axes = plt.subplots(4, 1)
 
-    axes[0].plot(T_arr, Cp)
+    axes[0].plot(Units.temperature(T_arr), Cp)
     axes[0].set_ylabel('Cp [J/kg/K]')
 
-    axes[1].plot(T_arr, k)
+    axes[1].plot(Units.temperature(T_arr), k)
     axes[1].set_ylabel('k [W/m/K]')
 
-    axes[2].plot(T_arr, rho)
+    axes[2].plot(Units.temperature(T_arr), rho)
     axes[2].set_ylabel('rho [kg/m^3]')
 
-    axes[3].plot(T_arr, Pr)
+    axes[3].plot(Units.temperature(T_arr), Pr)
     axes[3].set_ylabel('Pr')
     
-    plt.xlabel('Temperature [K]')
+    plt.xlabel('Temperature [' + Units.temperature_unit() + ']')
     plt.show()
 
 
@@ -84,7 +94,7 @@ def isentropic_relations_test():
 	gas = Isentropic(config.Pc, config.cea.Tc, config.cea.gamma, config.cea.Pr, config.geometry[:,0], config.geometry[:,1])
 	gas.calculate()
 	
-	multi_plot(gas.M, gas.T_s, gas.p_s/1e5, gas.T_aw, 'M', 'T_s [K]', 'p_s [bar]', 'T_aw [K]')
+	multi_plot(config.geometry[:,0], gas.M, Units.temperature(gas.T_s), gas.p_s/1e5, Units.temperature(gas.T_aw), 'M', 'T_s [' + Units.temperature_unit() + ']', 'p_s [bar]', 'T_aw [' + Units.temperature_unit() + ']')
 
 
 def section_thermal_sim_test():
@@ -93,7 +103,7 @@ def section_thermal_sim_test():
     def halpha_func(T, idx):
         return 1600, 2400
 
-    def halpha_c_func(T, idx):
+    def halpha_c_func(T, idx, wall=None):
         return 1113
 
     q_rad = 0

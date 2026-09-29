@@ -12,7 +12,8 @@ from rocketcea.cea_obj import CEA_Obj
 
 class BipropCEA():
 	def __init__(self, fuel, oxidiser, chamber_pressure, ambient_pressure=1.0):
-		"""Calcualtes hot gas properties using CEA and converts to SI units. If errors occur with FORTRAN, resart and try again!
+		"""Hot gas properties from NASA CEA (Gordon & McBride 1994) through RocketCEA, converted to SI. Transport properties frozen.
+		If errors occur with FORTRAN, restart and try again!
 
 		Args:
 			fuel (str): fuel already present in RocketCEA or from PropLibrary.py
@@ -67,7 +68,8 @@ class BipropCEA():
 
 class MonopropCEA():
 	def __init__(self, propellant, chamber_pressure, ambient_pressure=1.0):
-		"""Calcualtes hot gas properties using CEA and converts to SI units. If errors occur with FORTRAN, resart and try again!
+		"""Hot gas properties from NASA CEA (Gordon & McBride 1994) through RocketCEA, converted to SI. Transport properties frozen.
+		If errors occur with FORTRAN, restart and try again!
 
 		Args:
 			propellant (str): propellant already present in RocketCEA or from PropLibrary.py

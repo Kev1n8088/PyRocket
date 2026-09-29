@@ -1,0 +1,123 @@
+PyRocket cooling channel geometry: parameter definitions
+=========================================================
+
+How the config parameters define the cooling channels, so a design can be rebuilt in CAD or another tool.
+All lengths in metres in the config. Angles in degrees.
+
+
+1. Reference surface and coordinates
+------------------------------------
+x          Axial coordinate along the engine axis. x = 0 is the injector face, increasing towards the nozzle exit.
+r_gas(x)   Radius of the hot-gas surface (the chamber contour). It comes from the chamber inputs (D_c, D_t, D_e, L_cyl, r_2, r_1,
+           r_n, phi_conv, phi_div, phi_e, nozzle_type, L_e).
+Meridian   The contour line in the x-r plane, i.e. the line where a plane containing the engine axis cuts the wall. On the
+           cylindrical section it is parallel to the axis. On the cones it is inclined by the local wall angle beta.
+Stations   The contour is sampled every step_size (finer near the throat). Every parameter that is a function of x is evaluated
+           at these stations.
+
+Channels run the full contour length, from the injector face to the nozzle exit.
+
+
+2. Radial build-up (all offsets are RADIAL, not normal to the wall)
+------------------------------------------------------------------
+t_w_i      Hot wall thickness: from the hot-gas surface to the channel bottom.      r_i = r_gas + t_w_i
+h_c        Channel height: from the channel bottom to the channel top.              r_o = r_i + h_c
+t_w_o      Outer wall (closeout) thickness: from the channel top to the outside.    r_shell = r_o + t_w_o
+
+The offsets are taken in the radial direction (perpendicular to the axis), not perpendicular to the wall. On a cone with wall
+angle beta, the true thickness measured normal to the wall is t_w_i * cos(beta). For example, 0.8 mm radial on a 30 degree cone
+is 0.69 mm normal. To reproduce the model exactly, offset radially in CAD. For a wall that is t_w_i thick normal to the surface
+instead, divide by cos(beta).
+
+h_c, t_w_i and psi may be constants or functions of x. t_w_o is a constant.
+
+
+3. Channel count and circumferential split
+------------------------------------------
+n          Total number of channels around the circumference. For two-pass cooling this counts both passes (n/2 forward,
+           n/2 return) and must be even.
+psi        Fill factor: the fraction of the circumference taken up by channels. Measure it in a cut PERPENDICULAR TO THE ENGINE
+           AXIS (x = const), at the channel bottom radius r_i. The remaining 1 - psi is ribs (lands).
+
+           Angular pitch of one channel plus one rib:   2*pi / n
+           Angle of one channel:                        2*pi * psi / n
+           Angle of one rib:                            2*pi * (1 - psi) / n
+
+Channel and rib side walls are RADIAL: they lie on lines through the engine axis. Each channel is therefore an annular sector,
+slightly wider at the top (r_o) than at the bottom (r_i), and the same holds for the ribs.
+
+With a constant psi, channel and rib widths scale with the radius: narrowest at the throat, widest in the chamber.
+
+channel_width   Optional alternative to psi: the channel width at the channel bottom, measured NORMAL TO THE FLOW (see
+                section 4). It can be a constant or a function of x. When set, it overrides psi, and psi follows at each
+                station as
+                    psi = channel_width * n / (2*pi * r_i * cos(alpha))
+                A constant channel_width gives constant-width channels with ribs that grow with the radius. Leave it as None
+                to use psi.
+
+
+4. Helix
+--------
+helix_angle     Angle alpha between the channel and the local meridian (not the engine axis; on the cones these differ).
+                0 means straight axial channels. It can be a constant or a function of x.
+                    The angle is defined at the channel centreline radius  R_c = r_i + h_c/2.
+                    A constant alpha is a loxodrome (rhumb line) on the surface of revolution: it crosses every meridian at
+                    the same angle. The wrap angle around the axis grows as
+                        d(theta)/ds = tan(alpha) / R_c        (s = arc length along the meridian)
+                    so the channel wraps fastest where the radius is smallest (the throat).
+                    The model does not use handedness (left or right hand). All channels share the same helix and run
+                    parallel.
+
+helix_pitch_deg_per_mm
+                Alternative to helix_angle: a constant twist rate in degrees of rotation per mm of AXIAL distance. It
+                overrides helix_angle when set. The local angle then follows as
+                    tan(alpha) = R_c * pitch[rad/m] * cos(beta)
+                so alpha varies along the chamber. Set it to None to use helix_angle.
+
+Widths along the flow vs. across the flow:
+    The circumferential widths from section 3 are measured in a cut perpendicular to the axis. A channel crossing that cut at
+    angle alpha is narrower across its flow direction by cos(alpha):
+
+        Channel width normal to flow, bottom:   w_c = 2*pi * r_i * psi       * cos(alpha) / n
+        Channel width normal to flow, top:      2*pi * r_o * psi       * cos(alpha) / n
+        Rib width normal to flow, bottom:       w_r = 2*pi * r_i * (1 - psi) * cos(alpha) / n
+        Rib width normal to flow, top:          2*pi * r_o * (1 - psi) * cos(alpha) / n
+
+    Use the normal-to-flow values for the manufacturing limits (minimum channel and rib width). The optimiser reports these
+    values, and "channel_width" means this one (bottom, normal to flow).
+
+Channel path length = meridional length / cos(alpha)  (per station, integrated along the contour).
+
+
+5. Flow cross-section (derived, for checking a CAD model)
+--------------------------------------------------------
+All values are normal to the flow, per channel:
+    Flow area:              A = psi * pi * (r_o^2 - r_i^2) * cos(alpha) / n
+    Wetted perimeter:       U = (bottom width) + (top width) + 2*h_c
+    Hydraulic diameter:     D_h = 4*A / U
+
+The model uses sharp corners: no fillets or draft. Wall roughness comes from the material in MaterialLib.py.
+
+
+6. Two-pass cooling
+-------------------
+two_pass = True   Channels alternate around the circumference: forward, return, forward, return, and so on.
+                  n/2 channels carry each pass. Both passes have the same cross-section and helix.
+start_idx         The end where coolant enters the forward channels and leaves the return channels: 0 = injector end,
+                  -1 = nozzle exit end. The turnaround manifold is at the opposite end. For single-pass cooling it is
+                  simply the inlet end.
+turnaround_loss   Pressure loss of the turnaround manifold, as a multiple of the channel dynamic pressure 0.5*rho*v^2
+                  (default 1.5). The model does not include the manifold geometry itself.
+
+
+7. Minimum set of numbers to hand to someone rebuilding a design
+---------------------------------------------------------------
+    - Chamber contour r_gas(x). Either the contour inputs listed in section 1, or an x, r point list.
+    - n, and single- or two-pass (with the inlet end).
+    - h_c, t_w_i, t_w_o, each stated as RADIAL offsets.
+    - psi (constant or as a function of x), or channel_width normal to the flow at the channel bottom.
+    - helix_angle measured from the meridian at R_c = r_i + h_c/2, or helix_pitch_deg_per_mm.
+    - Radial side walls and sharp corners, unless you deliberately deviate from the model.
+
+Give psi and h_c to full precision rather than rounded values. The 2D solver meshes the exact geometry, and a rounding in the
+6th digit changes the mesh, which moves results by a fraction of a kelvin.

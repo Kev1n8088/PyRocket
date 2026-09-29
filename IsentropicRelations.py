@@ -14,9 +14,8 @@ import scipy.optimize
 
 class Isentropic():
 	"""[Summary]
-	Class to calculate isentropic expansion of the combustion gases, as well as the adiabatic wall temperature. 
-	((I know T_aw is not an isentropic process)) T_aw includes an assumed recovery factor depending on if the gas
-	is in the converging or diverging section. 
+	Quasi-1D isentropic flow of a calorically perfect gas along the contour (Anderson 2003, Ch. 5; Sutton & Biblarz 2017, Ch. 3),
+	plus the adiabatic wall temperature with a recovery factor.
 	"""
 	def __init__(self, p_t, T_t, gamma, Pr, x_coordiantes, y_coordiantes):
 		self.p_t = p_t                      # total pressure
@@ -41,11 +40,12 @@ class Isentropic():
 			if A_c == A_t:
 				initial_guess = 10
 
+			# area-Mach relation, subsonic root upstream of the throat, supersonic downstream
 			mach = lambda M:  1/(M*M) * (2/(self.gamma+1) * (1 + (self.gamma-1)/2*M*M))**((self.gamma+1)/(self.gamma-1)) - (A_c/A_t)**2
 			self.M[i] = scipy.optimize.fsolve(mach, initial_guess)[0]
 
 	def adiabatic_wall_temp(self):
-		# Assumes turbulent flow in the chamber and laminar flow after the throat
+		# recovery factor r = Pr^(1/3) turbulent (subsonic part), r = Pr^(1/2) laminar (supersonic part) (Kays et al. 2005)
 		
 		for i in range(len(self.T_aw)):
 			if self.M[i] >= 1:

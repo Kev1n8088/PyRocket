@@ -42,7 +42,7 @@ class FilmCooling():
 		# liquid mass flow per circumference 
 		self.gamma_c = self.m_dot_c / (np.pi * self.d_ch)
 		
-		# calcualte entrainment factor E
+		# entrained liquid fraction E, Sawant et al. (2008) correlation as used by Shine et al. (2012)
 		We = self.cea.rho * self.v_g**2 * self.d_ch / self.coolant.sigma * ((self.coolant.rho - self.cea.rho)/self.cea.rho)**0.25
 		a  = 2.31e-4 * self.Re_c**(-0.35)
 		
@@ -54,7 +54,7 @@ class FilmCooling():
 		self.gamma = self.gamma_c * (1 - E)
 	
 	def radiation(self):
-		# simple radiation model based on h2o and co2 emissions
+		# same empirical H2O/CO2 radiation as RegenCooling.radiation, at chamber conditions (no source given in the original PyRocket)
 
 		p_h2o = self.cea.mole_fractions[1]['H2O'][0] * self.cea.chamber_pressure
 		# radiative heat flux of water molecules 
@@ -69,26 +69,29 @@ class FilmCooling():
 		
 		
 	def stanton_number(self):
-		# darcy friction factor
-		func = lambda f: 1.93 * np.log(self.Re_g * np.sqrt(f)) - 0.537 - 1 / (np.sqrt(f))
-		fr = optimize.newton(func, 0.001)
+		# Darcy friction factor, McKeon et al. (2005) Eq. 3.1 (log10, fitted for 3e5 <= Re <= 1.8e7), and the Fanning factor f = lambda/4
+		# as in Shine (2013), Eq. 5.6
+		func = lambda lam: 1.930 * np.log10(self.Re_g * np.sqrt(lam)) - 0.537 - 1 / np.sqrt(lam)
+		self.lam = optimize.brentq(func, 1e-4, 1.0)                    # func increases monotonically with lambda
+		fr = self.lam / 4
 		
-		# Turbulence correction factor 
-		e_t = 0.1		# using highest value found for small GOx/H2 engines found in literature
+		# free-stream turbulence correction K_t = 1 + 4 e_t (Pletcher 1988, as used by Shine et al. 2012)
+		e_t = 0.1		# highest value reported for small GOx/H2 engines
 		K_t = 1 + 4 * e_t
 		
 		self.dH_fg_star = self.dH_evap + self.coolant.Cp * (self.T_sat - self.coolant.T)
 	
-		# Unmodified stanton number 
+		# Stanton number without film, Friend & Metzner (1958) analogy with the Fanning factor f (Shine 2013, Eq. 5.7)
 		self.St = 0.5 * fr * (1.2 + 11.8 * np.sqrt(0.5*fr) * (self.cea.Pr - 1) * (self.cea.Pr**(-1/3)))**(-1)
 		self.h_alpha = self.St * self.G_m * self.cea.Cp * K_t
 		self.F_St = self.cea.Cp / self.dH_fg_star * ((self.cea.Tc - self.T_sat) + self.q_rad / self.h_alpha)
 		
-		# Stanton number correction
+		# Stanton number reduction by transpiration of the vapour: Couette-flow solution St/St0 = ln(1 + B k_m)/(B k_m), B = F/St
+		# (Kays & Crawford 2005), molecular weight correction k_m = (M_g/M_c)^0.6 (Meinert & Huhn 2001) (Shine 2013, Eq. 5.10 to 5.12)
 		k_m = (self.cea.MW / self.coolant.MW)**0.6
 		self.St_St0 = np.log(1 + self.F_St * k_m) / (self.F_St * k_m)
 		
-		# coolant evaporation rate
+		# evaporation rate per unit area from the energy balance at the film surface
 		self.h_alpha_film = self.St * self.St_St0 * self.G_m * self.cea.Cp * K_t
 		self.m_v = (self.q_rad + self.h_alpha_film * (self.cea.Tc - self.T_sat)) / self.dH_fg_star
 		

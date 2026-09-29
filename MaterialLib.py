@@ -12,6 +12,8 @@ from scipy import interpolate
 import numpy as np
 from matplotlib import pyplot as plt
 
+import Units
+
 
 class Material():
 	def __init__(self, name, alpha, k, rho, Cp, v, E, a, eps, sig_u, roughness):
@@ -29,11 +31,21 @@ class Material():
 		
 	def thermal_conductivity(self, k_arr, T_arr):
 		self.k = interpolate.interp1d(T_arr, k_arr, kind='linear', fill_value='extrapolate')
+
+	def mechanical_properties(self, T_arr, E_arr, cte_arr, yield_arr, nu, T_max):
+		# temperature dependent properties for the stress estimate, T_arr [K]: Young's modulus [Pa], mean coefficient of thermal expansion [1/K]
+		# and 0.2 % yield strength [Pa]; constant beyond the ends of the table. T_max is the maximum service temperature of the wall [K]
+		table = lambda values: interpolate.interp1d(T_arr, values, kind='linear', bounds_error=False, fill_value=(values[0], values[-1]))
+		self.E_T     = table(np.asarray(E_arr, dtype=float))
+		self.cte_T   = table(np.asarray(cte_arr, dtype=float))
+		self.yield_T = table(np.asarray(yield_arr, dtype=float))
+		self.v       = nu
+		self.T_max   = T_max
 		
 	def plot(self, material_property, label):
 		T_range = np.linspace(288, 1000, 100)
-		plt.plot(T_range, material_property(T_range))
-		plt.xlabel('temperature [K]')
+		plt.plot(Units.temperature(T_range), material_property(T_range))
+		plt.xlabel('temperature [' + Units.temperature_unit() + ']')
 		plt.ylabel(label)
 		plt.title(self.name)
 		plt.show()
@@ -71,6 +83,12 @@ IN718 = Material('IN718', alpha, k, rho, Cp, v, E, a, eps, sig_u, roughness)
 
 # set vairable material properties for IN718
 IN718.thermal_conductivity(np.array([11.9, 13.7, 16.9, 21.7, 25.6, 22.9, 19.1, 17.7]), np.array([22, 233, 448, 657, 866, 1079, 1289, 1500])+273.15)
+# solution treated and aged, representative datasheet values (e.g. Special Metals SMC-045, AMS 5662 minimum yield at room temperature); replace with supplier data
+IN718.mechanical_properties(np.array([20, 100, 200, 300, 400, 500, 600, 650, 700, 760]) + 273.15,
+							np.array([200, 196, 190, 185, 179, 172, 166, 162, 159, 154]) * 1e9,
+							np.array([12.8, 13.0, 13.5, 13.9, 14.2, 14.4, 14.8, 15.1, 15.4, 15.9]) * 1e-6,
+							np.array([1030, 1000, 980, 965, 950, 935, 920, 900, 780, 650]) * 1e6,
+							nu=0.29, T_max=700 + 273.15)
 
 # CuCr1Zr 
 k = 310							# thermal conductivity [W/m/K] at 400 C
@@ -87,6 +105,12 @@ CuCr1Zr = Material('CuCr1Zr', alpha, k, rho, Cp, v, E, a, eps, sig_u, roughness)
 
 # set variable material properties for CuCr1Zr from 'Thermal Fatigue testing of CuCrZr allow for high temperature tooling applications' by Y. Birol
 CuCr1Zr.thermal_conductivity(np.array([290, 292, 300, 302, 305, 310, 315, 320, 330]), np.array([273, 373, 473, 573, 673, 773, 873, 973, 1073]))
+# precipitation hardened (aged), representative values for wrought and additively manufactured aged CuCrZr; strength drops with overaging above ~500 C
+CuCr1Zr.mechanical_properties(np.array([20, 100, 200, 300, 400, 500, 600]) + 273.15,
+							  np.array([128, 125, 120, 115, 110, 105, 98]) * 1e9,
+							  np.array([16.5, 16.8, 17.3, 17.7, 18.1, 18.5, 18.9]) * 1e-6,
+							  np.array([350, 335, 320, 300, 270, 210, 130]) * 1e6,
+							  nu=0.33, T_max=500 + 273.15)
 
 
 # SS 1.4404 
@@ -120,4 +144,10 @@ AlSi10Mg = Material('AlSi10Mg', alpha, k, rho, Cp, v, E, a, eps, sig_u, roughnes
 # variable material properties from https://backend.orbit.dtu.dk/ws/portalfiles/portal/222710402/Thermal_properties_JMEP_postprint.pdf
 # assuming heat treated and 99.5% theoretical density
 AlSi10Mg.thermal_conductivity(np.array([140, 144, 149]), np.array([25, 200, 400])+273.15)
+# laser powder bed fused, stress relieved, representative values; strength falls quickly above ~200 C
+AlSi10Mg.mechanical_properties(np.array([20, 100, 150, 200, 250, 300, 350]) + 273.15,
+							   np.array([70, 68, 66, 63, 59, 55, 50]) * 1e9,
+							   np.array([20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0]) * 1e-6,
+							   np.array([180, 170, 150, 125, 90, 60, 35]) * 1e6,
+							   nu=0.33, T_max=300 + 273.15)
 
