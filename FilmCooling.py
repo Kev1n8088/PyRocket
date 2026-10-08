@@ -22,8 +22,11 @@ class FilmCooling():
 		self.m_dot     = m_dot
 		self.m_dot_c   = m_dot_coolant
 		
-		# coolant flow Reynolds number
-		self.Re_c    = self.v_c * self.d_inj * self.coolant.rho / self.coolant.mu
+		# total liquid Reynolds number Re_f = rho_f <j_f> D / mu_f of Sawant et al. (2008), with the superficial liquid velocity <j_f>
+		# and the chamber diameter D, i.e. 4 Gamma / mu. Previously v_c * d_inj, the injector jet Reynolds number, which overpredicted
+		# the entrainment for fast injection. Shine (2013), App. B.4, uses v_c * D, which entrains nearly all liquid at rocket conditions.
+		# d_inj is no longer used by the model
+		self.Re_c    = 4 * self.m_dot_c / (np.pi * self.d_ch * self.coolant.mu)
 		
 		# mean combustion gas velocity, Reynolds number and mass flux
 		self.v_g     = self.m_dot / self.cea.rho / (np.pi * self.d_ch**2 / 4)
@@ -41,14 +44,18 @@ class FilmCooling():
 	def coolant_flow(self):
 		# liquid mass flow per circumference 
 		self.gamma_c = self.m_dot_c / (np.pi * self.d_ch)
+		if self.m_dot_c == 0.0:
+			self.gamma = 0.0
+			return
 		
 		# entrained liquid fraction E, Sawant et al. (2008) correlation as used by Shine et al. (2012)
 		We = self.cea.rho * self.v_g**2 * self.d_ch / self.coolant.sigma * ((self.coolant.rho - self.cea.rho)/self.cea.rho)**0.25
 		a  = 2.31e-4 * self.Re_c**(-0.35)
 		
 		Re_c_film = 250 * np.log(self.Re_c) - 1265
-		Em = 1 - Re_c_film / self.Re_c
-		E = Em * np.tanh(a * We**1.25)	
+		# Re_c_film < 0 for Re_c < ~158 would give Em > 1 and a negative film flow, clipped so that no film remains
+		Em = np.clip(1 - Re_c_film / self.Re_c, 0.0, 1.0)
+		E = Em * np.tanh(a * We**1.25)
 		
 		# liquid mass flow per circumference accounting for loss of entrained flwo
 		self.gamma = self.gamma_c * (1 - E)

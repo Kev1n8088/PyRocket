@@ -73,7 +73,8 @@ def case_stats(cfg, runtime, stress=None):
     s = np.concatenate(([0], np.cumsum(np.hypot(np.diff(x), np.diff(r)))))  # arc length along the contour
     cg = cfg.cooling_geom
     wall_margin = saturation_margin(cfg, out.T_wall_c, out.P_c)                # coolant wetted wall below boiling [K]
-    bulk_margin = saturation_margin(cfg, out.T_c, out.P_c)                     # coolant bulk below boiling [K]
+    # coolant bulk below boiling [K], at the local pressure and at chamber pressure, where it is injected and must not flash
+    bulk_margin = np.fmin(saturation_margin(cfg, out.T_c, out.P_c), saturation_margin(cfg, out.T_c, np.full(len(out.T_c), cfg.Pc)))
     T_c_out, P_c_out = out.T_c[outlet], out.P_c[outlet]
     v_max, Re_min, T_wall_c_max = np.max(out.v_coolant), np.min(out.Re), np.max(out.T_wall_c)
 
@@ -83,7 +84,7 @@ def case_stats(cfg, runtime, stress=None):
         outlet = 0 if cfg.start_idx == 0 else -1
         T_c_out, P_c_out = out.T_c2[outlet], out.P_c2[outlet]
         wall_margin = np.fmin(wall_margin, saturation_margin(cfg, out.T_wall_c2, out.P_c2))
-        bulk_margin = np.fmin(bulk_margin, saturation_margin(cfg, out.T_c2, out.P_c2))
+        bulk_margin = np.fmin(bulk_margin, np.fmin(saturation_margin(cfg, out.T_c2, out.P_c2), saturation_margin(cfg, out.T_c2, np.full(len(out.T_c2), cfg.Pc))))
         v_max, Re_min = max(v_max, np.max(out.v_coolant2)), min(Re_min, np.min(out.Re2))
         T_wall_c_max = max(T_wall_c_max, np.max(out.T_wall_c2))
 

@@ -93,8 +93,8 @@ stress_longitudinal = 'shell' (default) or 'wall' from the config.
 
 ### Helix sweep
 sweep.py finds the helix pitch (or angle) of one config with the lowest maximum inner wall temperature, with a maximum pitch/angle, a maximum coolant 
-pressure drop, an optional maximum coolant-side wall temperature ('--max-coolant-wall-temp' in K, e.g. to stay below the coking limit of RP-1) and 
-optional minimum channel and rib widths. The channel count and fill factor psi of the config are kept, so channels and ribs get narrower 
+pressure drop, an optional maximum coolant-side wall temperature ('--max-coolant-wall-temp' in K, e.g. to stay below the coking limit of RP-1), an 
+optional maximum coolant outlet temperature ('--max-coolant-outlet-temp' in K) and optional minimum channel and rib widths. The channel count and fill factor psi of the config are kept, so channels and ribs get narrower 
 normal to the flow as the helix angle increases (by cos(alpha)); the width limits act on these widths and cap the search range before anything is simulated. 
 The search runs an even grid from axial channels to the maximum and refines around the best point that meets the pressure drop limit. Results, a sweep 
 plot and a summary of all points are written to results/sweep_<config>_<param>/. Finished points are reused when the sweep is repeated with an unchanged 
@@ -111,8 +111,9 @@ mixture ratio, film cooling, coolant inlet (start_idx) and one or two passes. Th
 default the config's t_w_i. Varied: wall material (IN718, AlSi10Mg, CuCr1Zr), channel count, channel width normal to the flow (constant along the 
 chamber, or growing with the radius at a constant fill factor), channel height and a constant helix angle. Designs must respect the maximum helix angle, 
 the minimum rib and channel width and channel height, the maximum coolant pressure drop, the maximum service temperature of the material, and 
-optionally a maximum coolant-side wall temperature ('--max-coolant-wall-temp' in K, e.g. to stay below the coking limit of RP-1) and a minimum margin 
-of the coolant wall to boiling.
+optionally a maximum coolant-side wall temperature ('--max-coolant-wall-temp' in K, e.g. to stay below the coking limit of RP-1), a maximum coolant 
+outlet temperature ('--max-coolant-outlet-temp' in K, at the jacket outlet, i.e. the end of the return pass for two-pass cooling) and a minimum 
+margin of the coolant wall to boiling.
 
 The designs are evaluated with a fast model (FastCooling.py): the same cooling march as the 2D solver, but each section is solved on a small 
 structured finite volume grid (harmonic-mean face conductances [Patankar 1980]) instead of the FiPy/gmsh mesh, with coolant properties from a pre-computed table. It runs a chamber in about 0.2 s 
@@ -135,6 +136,29 @@ published values; replace them with your supplier's data.
 
 Results are written to results/optimize_<config>/: designs_fast.csv (every design), optimize.png, verified.csv, verified/<design>/ (2D results), 
 verified_summary.png and best_design.txt. The browser interface has an Optimize tab for the same.
+
+### Feasibility screen
+feasibility.py checks in seconds whether a cooling request can be met at all, before spending minutes in optimize.py. It takes the same limits, 
+plus a bulk boiling limit (on by default, '--allow-bulk-boiling' to drop it) and optional throttle points ('--throttle 0.7 0.5', the jacket 
+inlet pressure held or scaled with '--throttle-inlet').
+
+Stage 1 is an energy budget without any solver: the hot gas heat load with the hot wall at the maximum service temperature of the material is the 
+smallest heat load any design can have, and the coolant enthalpy turns it into the lowest possible bulk outlet temperature. Every channel wall 
+is hotter than the coolant in it, so if this outlet is already past bulk boiling at chamber pressure (the coolant must not flash when it is 
+injected; the jacket is always above chamber pressure, so this covers the channels too), the coolant-side wall limit or the coolant outlet limit, no channel geometry can help; the screen then says how much less heat load or how much 
+more coolant flow is needed. The floor heat load depends on the wall material's service temperature, so '--quick' (energy budget only) 
+runs it for AlSi10Mg, CuCr1Zr and IN718 at once unless '--material' is given. Stage 2 runs the fast model on the designs the optimiser ends up near when the limits are tight (minimum channel 
+width and height at the maximum helix angle, a range of channel counts) for one and two passes with the coolant inlet at the injector or the 
+nozzle, and reports how far the closest design is from the limits. Local limits such as coking can fail here even when the energy budget passes.
+The verdict is FEASIBLE, MARGINAL (closest design within '--marginal' K, default 15), UNLIKELY or NOT FEASIBLE.
+
+```bash
+    python3 feasibility.py configs/a.py --max-dp 10 --max-angle 30 --min-rib 0.8 --min-channel-width 1 --min-channel-height 1 --quick
+    python3 feasibility.py configs/rp1.py --max-dp 20 --max-angle 30 --min-rib 0.8 --min-channel-width 1 --min-channel-height 1 --max-coolant-wall-temp 590 --throttle 0.7
+```
+
+Results are printed and written to results/feasibility_<config>/feasibility.json. The browser interface has a Feasibility tab for the same; its 
+result page can copy the limits into the Optimize tab.
 
 ### Temperature units
 Plots, section images, the summary and terminal output show temperatures in K by default. Set TEMPERATURE_UNIT = 'C' in Units.py to switch all of them to °C. 

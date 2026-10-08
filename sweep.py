@@ -9,7 +9,8 @@
 #####################################################################
 
 # Helix sweep: finds the helix pitch (or angle) with the lowest maximum inner wall temperature, subject to a maximum
-# pitch/angle, a maximum coolant pressure drop, and optionally a maximum coolant-side wall temperature and minimum channel and rib widths.
+# pitch/angle, a maximum coolant pressure drop, and optionally a maximum coolant-side wall temperature, a maximum coolant outlet
+# temperature and minimum channel and rib widths.
 #
 # Usage:
 #   python3 sweep.py configs/rp1_lox.py --param pitch --max 3 --max-dp 10
@@ -74,12 +75,14 @@ def geometric_limit(config_path, param, v_max, min_channel, min_rib):
 
 
 class HelixSweep():
-    def __init__(self, config_path, param, v_max, max_dp, min_channel, min_rib, out, jobs, fresh, section_images=False, logs=False, max_coolant_wall=None):
+    def __init__(self, config_path, param, v_max, max_dp, min_channel, min_rib, out, jobs, fresh, section_images=False, logs=False, max_coolant_wall=None,
+                 max_coolant_out=None):
         self.config_path = config_path
         self.param       = param
         self.v_max       = v_max                          # maximum pitch [deg/mm] or angle [deg]
         self.max_dp      = max_dp                         # maximum coolant pressure drop [Pa]
         self.max_coolant_wall = max_coolant_wall          # maximum coolant-side wall temperature [K], None: not limited
+        self.max_coolant_out  = max_coolant_out           # maximum coolant outlet temperature [K], None: not limited
         self.min_channel = min_channel                    # minimum channel width normal to the flow [m]
         self.min_rib     = min_rib                        # minimum rib width normal to the flow [m]
         self.jobs        = jobs
@@ -96,13 +99,13 @@ class HelixSweep():
         return self.param + '_' + PARAMS[self.param]['fmt'] % value
 
     def feasible(self, case):
-        return case.get('status') == 'ok' and case['dp_coolant'] <= self.max_dp and (
-            self.max_coolant_wall is None or case['T_wall_coolant_max'] <= self.max_coolant_wall)
+        return case.get('status') == 'ok' and not self.violation(case)
 
     def violation(self, case):
         # the limits a finished point exceeds, for the table
         return ', '.join(n for n, v in (('dp > max', case['dp_coolant'] > self.max_dp),
-                                        ('coolant wall > max', self.max_coolant_wall is not None and case['T_wall_coolant_max'] > self.max_coolant_wall)) if v)
+                                        ('coolant wall > max', self.max_coolant_wall is not None and case['T_wall_coolant_max'] > self.max_coolant_wall),
+                                        ('outlet > max', self.max_coolant_out is not None and case['T_coolant_out'] > self.max_coolant_out)) if v)
 
     def evaluate(self, values):
         # run the simulations for the given parameter values in parallel, reusing finished points of an earlier sweep
@@ -220,7 +223,7 @@ def plot_sweep(sweep, v_hi, v_best, path):
             ax.axvline(v_hi, color=Summary.BASELINE, linewidth=1, linestyle=':')
         axes[2].text(v_hi, 0.98, ' width limit', transform=axes[2].get_xaxis_transform(), va='top', fontsize=8, color=Summary.TEXT_2)
 
-    fig.suptitle('Helix sweep, %s  (filled: feasible, open: pressure drop or coolant-side wall above limit)' % case_name(sweep.config_path),
+    fig.suptitle('Helix sweep, %s  (filled: feasible, open: outside a limit)' % case_name(sweep.config_path),
                  x=0.125, ha='left', fontsize=11, color=Summary.TEXT)
     fig.savefig(path, dpi=200, bbox_inches='tight', facecolor=Summary.SURFACE)
     plt.close(fig)
@@ -249,6 +252,8 @@ if __name__ == '__main__':
     parser.add_argument('--max-dp', type=float, required=True, help='maximum coolant pressure drop [bar]')
     parser.add_argument('--max-coolant-wall-temp', type=float, default=None,
                         help='maximum temperature of the coolant-side (wetted) wall [K], e.g. to limit RP-1 coking (default: not limited)')
+    parser.add_argument('--max-coolant-outlet-temp', type=float, default=None,
+                        help='maximum coolant temperature at the cooling jacket outlet [K] (default: not limited)')
     parser.add_argument('--min-channel-width', type=float, default=0.0, help='minimum channel width normal to the flow [mm] (default: none)')
     parser.add_argument('--min-rib-width', type=float, default=0.0, help='minimum rib width normal to the flow [mm] (default: none)')
     parser.add_argument('--points', type=int, default=7, help='points of the initial grid from 0 to max (default: 7)')
@@ -280,7 +285,7 @@ if __name__ == '__main__':
         print('Width limits cap the %s at %.4g (requested maximum %.4g)' % (args.param, v_hi, args.max))
 
     sweep = HelixSweep(args.config, args.param, args.max, args.max_dp * 1e5, min_channel, min_rib, args.out, args.jobs, args.fresh, args.section_images, args.logs,
-                       args.max_coolant_wall_temp)
+                       args.max_coolant_wall_temp, args.max_coolant_outlet_temp)
     v_best = sweep.run(args.points, args.refine, v_hi)
 
     os.makedirs(sweep.folder, exist_ok=True)
@@ -292,8 +297,12 @@ if __name__ == '__main__':
     print_table(sweep, v_best)
 
     if v_best is None:
-        print('No feasible point: every evaluated %s exceeds the pressure drop (%.3g bar)%s limit' % (
-            args.param, args.max_dp, ' or coolant-side wall temperature (%.1f K)' % args.max_coolant_wall_temp if args.max_coolant_wall_temp is not None else ''))
+        limits_text = ['pressure drop (%.3g bar)' % args.max_dp]
+        if args.max_coolant_wall_temp is not None:
+            limits_text.append('coolant-side wall temperature (%.1f K)' % args.max_coolant_wall_temp)
+        if args.max_coolant_outlet_temp is not None:
+            limits_text.append('coolant outlet temperature (%.1f K)' % args.max_coolant_outlet_temp)
+        print('No feasible point: every evaluated %s exceeds a limit: %s' % (args.param, ', '.join(limits_text)))
         sys.exit(1)
 
     c = sweep.points[v_best]
@@ -302,6 +311,8 @@ if __name__ == '__main__':
         active.append('pressure drop')
     if sweep.max_coolant_wall is not None and c['T_wall_coolant_max'] > sweep.max_coolant_wall - 5.0:
         active.append('coolant-side wall temperature')
+    if sweep.max_coolant_out is not None and c['T_coolant_out'] > sweep.max_coolant_out - 5.0:
+        active.append('coolant outlet temperature')
     if v_best >= 0.999 * v_hi:
         active.append('width limit' if v_hi < args.max else 'maximum %s' % args.param)
     print('Best %s: %.4g  (max helix angle %.1f deg), max inner wall temp %.1f %s, pressure drop %.2f bar%s' % (

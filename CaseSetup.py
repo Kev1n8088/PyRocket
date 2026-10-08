@@ -116,4 +116,4 @@ def build(cfg):
     # film cooling model
     cfg.film = FilmCooling(cfg.cea, cfg.coolant, cfg.injection_velocity, cfg.injector_diameter, cfg.D_c, cfg.m_dot - cfg.m_dot_film, cfg.m_dot_film)
     cfg.film.film_length()
-    cfg.film.cooled_idx = np.where(cfg.geometry[:,0] <= cfg.film.liquid_film_length)[0]
+    cfg.film.cooled_idx = np.where(cfg.geometry[:,0] < cfg.film.liquid_film_length)[0]

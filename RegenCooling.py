@@ -17,6 +17,15 @@ from SectionMesh import prefetch_section_meshes
 from PropLibrary import create_coolant
 
 
+def bulk_properties(coolant):
+    # density, viscosity, heat capacity and Prandtl number of the coolant phase. thermo labels supercritical states (above Tc and Pc)
+    # as liquid but leaves the liquid properties empty, the single-phase (gas-side EOS) values are used where a liquid value is missing
+    liquid = coolant.phase == 'l'
+    def pick(l, g):
+        value = getattr(coolant, l) if liquid else None
+        return value if value is not None else getattr(coolant, g)
+    return pick('rhol', 'rhog'), pick('mul', 'mug'), pick('Cpl', 'Cpg'), pick('Prl', 'Prg')
+
 
 class HeatTransfer():
     def __init__(self, cea, gas, geometry, material, coolant, cooling_geometry, m_dot, m_dot_coolant, T_amb, output, settings2D, model='standard-bartz', cool_model='gnielinski', eta_c_star=0.92, film=False, bartz_knockdown=1.0, turnaround_loss=1.5):
@@ -130,7 +139,7 @@ class HeatTransfer():
         if cache.get(coolant_pass, (None,))[0] != key:
             cache[coolant_pass] = (key, scipy.optimize.fsolve(lambda f: -2 * np.log10(surface_roughness / (3.7 * self.D_h[idx]) + 2.51 / (Re * np.sqrt(f))) -1 / np.sqrt(f), 0.001)[0])
         fd = cache[coolant_pass][1]
-        rho = coolant.rhol if coolant.phase == 'l' else coolant.rhog
+        rho = bulk_properties(coolant)[0]
 
         # helical path length: section length / cos(alpha)
         L_eff = self.section_length[idx] * self.cooling_geometry.L_factor[idx]
@@ -177,8 +186,7 @@ class HeatTransfer():
         coolant = self.coolant if coolant_pass == 1 else self.coolant2
         A_c = self.A_c[idx] if self.passes == 1 else self.A_c[idx] / 2
 
-        rho = coolant.rhol if coolant.phase == 'l' else coolant.rhog
-        mu = coolant.mul if coolant.phase == 'l' else coolant.mug
+        rho, mu, Cp, Pr = bulk_properties(coolant)
         v_coolant = self.m_dot_coolant / (rho * A_c)
         Re = rho * v_coolant * self.D_h[idx] / mu
         if coolant_pass == 1:
@@ -192,19 +200,15 @@ class HeatTransfer():
             fluid = self.make_coolant(coolant.IDs, ws=coolant.ws, T=T_avg, P=coolant.P)
             return fluid
 
-		# thermodynamic properties of the near wall fluid, Pr implementation of thermo does not work reliably for mixtures near their critical point. Uses gaseouse Pr if liquid Pr returns 'None'
-        if coolant.phase == 'l':
-            Pr = coolant.Prl
-            Cp = coolant.Cpl
-            mu = coolant.mul
-
-        elif coolant.phase == 'g':
+        # gas: properties of the near-wall fluid; liquid (and supercritical, see bulk_properties): bulk properties.
+        # thermo is unreliable near the critical point, especially for mixtures
+        if coolant.phase == 'g':
             near_wall_coolant = get_near_wall_fluid()
             Pr = near_wall_coolant.Prg
             Cp = near_wall_coolant.Cpg
             mu = near_wall_coolant.mug
 
-        else:
+        elif coolant.phase != 'l':
             raise ValueError('Coolant is neither gaseous, nor liquid. Thermo implementation not suitable for supercritical fluids')
         
         k  = Cp * mu / Pr
@@ -275,7 +279,7 @@ class HeatTransfer():
 
  
         # coolant energy balance, dT = Q / (m_dot Cp)
-        Cp_bulk        = self.coolant.Cpl if self.coolant.phase == 'l' else self.coolant.Cpg
+        Cp_bulk        = bulk_properties(self.coolant)[2]
         dT             = Q / (self.m_dot_coolant * Cp_bulk) 
         dp, _          = self.pressure_drop(idx)
         
@@ -335,8 +339,8 @@ class HeatTransfer():
         per_pass = self.section_length[idx] * self.cooling_geometry.L_factor[idx] * self.cooling_geometry.n_channels / 2
         Q1, Q2 = float(solver.Q_c) * per_pass, float(solver.Q_c2) * per_pass
 
-        Cp1 = self.coolant.Cpl if self.coolant.phase == 'l' else self.coolant.Cpg
-        Cp2 = self.coolant2.Cpl if self.coolant2.phase == 'l' else self.coolant2.Cpg
+        Cp1 = bulk_properties(self.coolant)[2]
+        Cp2 = bulk_properties(self.coolant2)[2]
         dp1, _ = self.pressure_drop(idx, 1)
         dp2, _ = self.pressure_drop(idx, 2)
 
@@ -380,6 +384,16 @@ class HeatTransfer():
         return Q
 
 
+    def saturation_temperature(self, P):
+        # saturation temperature [K] of the dominant coolant species at P [Pa] (thermo), the critical temperature above the critical
+        # pressure, inf where thermo has no data (e.g. custom coolants)
+        try:
+            chemical = thermo.Chemical(self.coolant.IDs[int(np.argmax(self.coolant.ws))])
+            return float(chemical.Tsat(P)) if P < chemical.Pc else float(chemical.Tc)
+        except Exception:
+            return np.inf
+
+
     def run_two_pass(self, tolerance_T=0.02, tolerance_P=50.0, max_iterations=15):
         """[Summary]
         Two-pass cooling with alternating channels: half of the channels carry the coolant from the inlet end (start_idx) to the other end, 
@@ -393,9 +407,11 @@ class HeatTransfer():
         inlet = self.coolant
         self.section_fields = {}
 
-        Cp_in = inlet.Cpl if inlet.phase == 'l' else inlet.Cpg
+        Cp_in = bulk_properties(inlet)[2]
         T2_out = inlet.T + self.estimated_heat_load() / (self.m_dot_coolant * Cp_in)
         P2_out = inlet.P - 1e5
+        # keep the first guess liquid: a vapour or supercritical return pass inflates the first pressure drop estimate about tenfold
+        T2_out = min(T2_out, self.saturation_temperature(P2_out) - 10.0)
         history = []
 
         for iteration in range(1, max_iterations + 1):
@@ -410,7 +426,7 @@ class HeatTransfer():
 
             # turnaround manifold: dp = K * rho v^2 / 2, K = turnaround_loss (default 1.5, of the order of sharp 180 degree
             # return bends in Idelchik 1994; the manifold geometry is not modelled)
-            rho1 = self.coolant.rhol if self.coolant.phase == 'l' else self.coolant.rhog
+            rho1 = bulk_properties(self.coolant)[0]
             self.dp_turnaround = self.turnaround_loss * 0.5 * rho1 * self.v_coolant**2
             r_T = self.coolant2.T - self.coolant.T
             r_P = self.coolant2.P - (self.coolant.P - self.dp_turnaround)

@@ -8,8 +8,8 @@
 # License:	GNU GENERAL PUBLIC LICENSE V3							#
 #####################################################################
 
-# Browser interface for single runs, batch runs and helix sweeps. Starts a local web server and runs run.py and sweep.py
-# in the background, so results are the same as from the command line.
+# Browser interface for single runs, batch runs, helix sweeps, feasibility screens and cooling optimisations. Starts a local web server
+# and runs run.py, sweep.py, feasibility.py and optimize.py in the background, so results are the same as from the command line.
 #
 # Usage:
 #   python3 gui.py                  then open http://localhost:8765 in a browser
@@ -40,6 +40,7 @@ STATIC  = os.path.join(REPO, 'webui')
 LOGS    = os.path.join(tempfile.gettempdir(), 'pyrocket_gui')
 SECTION = re.compile(r'SOLVING Section Number\s+(\d+)\s*/\s*(\d+)')
 STAGE   = re.compile(r'(Grid|Refinement (\d+)/(\d+)): designs evaluated (\d+) / (\d+)')
+FEAS    = re.compile(r'^\s+designs evaluated (\d+) / (\d+)', re.M)
 
 # key statistics shown for a case: summary key, label, unit, conversion from SI
 TEMP = Units.temperature_unit()
@@ -157,7 +158,7 @@ def case_progress(folder, started):
 class Job:
     def __init__(self, kind, title, cmd, out, cases=None, folder=None, params=None):
         self.id      = next(job_ids)
-        self.kind    = kind            # 'run' or 'sweep'
+        self.kind    = kind            # 'run', 'sweep', 'optimize' or 'feasibility'
         self.title   = title
         self.cmd     = cmd
         self.out     = out             # output folder of run.py / sweep.py
@@ -195,6 +196,8 @@ class Job:
     def progress(self):
         if self.kind == 'optimize':
             return optimize_progress(self)
+        if self.kind == 'feasibility':
+            return feasibility_progress(self)
         if self.kind == 'run':
             cases = [dict(name=c, **case_progress(os.path.join(self.out, c), self.started)) for c in self.cases]
             fraction = sum(c['fraction'] for c in cases) / max(len(cases), 1)
@@ -229,6 +232,11 @@ class Job:
             info['log'] = tail(self.log)
             if status != 'running' and self.kind == 'optimize':
                 info['result'] = optimize_result(self.folder, self.log)
+            elif status != 'running' and self.kind == 'feasibility':
+                # the json is only current if it was written by this job
+                path = os.path.join(self.folder, 'feasibility.json')
+                if os.path.isfile(path) and os.path.getmtime(path) >= self.started - 1:
+                    info['result'] = feasibility_result(self.folder)
             elif status != 'running':
                 info['result'] = (run_result(self.out, self.cases) if self.kind == 'run' else sweep_result(self.folder))
                 if self.kind == 'sweep':
@@ -318,6 +326,61 @@ def optimize_result(folder, log=None):
     return {'type': 'optimize', 'folder': rel(folder), 'verified': rows, 'best': best_lines, 'config_lines': config_lines, 'images': images, 'data': data}
 
 
+def feasibility_progress(job):
+    # stage of feasibility.py from its output: energy budget, fast model designs, throttle points
+    text = tail(job.log, 400)
+    stage, fraction = 'Setting up', 0.02
+    if 'Stage 1' in text:
+        stage, fraction = 'Energy budget', 0.1
+    found = FEAS.findall(text)
+    if 'Stage 2:' in text:
+        i, n = (int(found[-1][0]), max(int(found[-1][1]), 1)) if found else (0, 1)
+        stage, fraction = 'Best case designs: %d / %d' % (i, n) if found else 'Best case designs', 0.15 + 0.75 * i / n
+    if 'Same designs at' in text:
+        stage, fraction = 'Throttle points', 0.95
+    if 'Results in' in text:
+        stage, fraction = 'Done', 1.0
+    return {'cases': [], 'fraction': min(fraction, 0.99 if job.proc.poll() is None else 1.0), 'stage': stage}
+
+
+def feasibility_result(folder):
+    # outcome of feasibility.py from its json, temperatures in the display unit (margins and excess stay differences in K)
+    report = read_json(os.path.join(folder, 'feasibility.json'))
+    if report is None:
+        return {'type': 'feasibility', 'folder': rel(folder), 'verdict': 'No result written, see the output', 'budget': [], 'designs': []}
+    T = lambda v: Units.temperature(v) if isinstance(v, (int, float)) else None
+    budget = []
+    budgets = report.get('budgets') or {report.get('material'): report.get('budget', {})}     # per material, older reports have one
+    rows = [(material, throttle, b) for material, bt in budgets.items() for throttle, b in bt.items()]
+    for material, throttle, b in sorted(rows, key=lambda r: (-float(r[1]), r[0] or '')):
+        budget.append({'material': material, 'throttle': float(throttle), 'Pc': b['Pc'] / 1e5 if b.get('Pc') else None,
+                       'Q_floor': b['Q_floor'] / 1e3, 'Q_600': b['Q_600'] / 1e3, 'Q_per_kg': b['Q_per_kg'] / 1e3,
+                       'T_out_floor': T(b.get('T_out_floor')), 'T_out_600': T(b.get('T_out_600')), 'T_liquid_end': T(b.get('T_liquid_end')),
+                       'P_low': b['P_low'] / 1e5, 'supercritical': b.get('supercritical'), 'm_dot_coolant': b['m_dot_coolant'], 'ok': b.get('ok'),
+                       'checks': [{'limit': c['limit'], 'T_limit': T(c['T_limit']), 'margin': c.get('margin'), 'Q_allowed': c['Q_allowed'] / 1e3,
+                                   'ok': c['ok'], 'm_dot_needed': c.get('m_dot_needed'),
+                                   'cut': 100 * (1 - c['Q_allowed'] / b['Q_floor']) if b['Q_floor'] > 0 else None} for c in b.get('checks', [])]})
+    designs = []
+    for throttle, rows in sorted(report.get('designs', {}).items(), key=lambda kv: -float(kv[0])):
+        entries = []
+        for arrangement, r in rows.items():
+            if not r or r.get('status') != 'ok':
+                entries.append({'arrangement': arrangement, 'status': (r or {}).get('status', 'failed'), 'note': (r or {}).get('note', '')})
+                continue
+            entries.append({'arrangement': arrangement, 'status': 'ok', 'label': r['label'], 'design': r['design'], 'dp': r['dp'] / 1e5, 'dp_ok': r['dp_ok'],
+                            'T_wall_max': T(r['T_wall_max']), 'T_wall_coolant_max': T(r['T_wall_coolant_max']), 'x': r['x_T_wall_coolant_max'] * 1e3,
+                            'T_out': T(r['T_out']), 'excess': r['excess'], 'bulk_margin': r.get('bulk_margin'), 'Q': r.get('Q', 0) / 1e3})
+        designs.append({'throttle': float(throttle), 'rows': entries})
+    limits, args = report.get('limits', {}), report.get('args', {})
+    return {'type': 'feasibility', 'folder': rel(folder), 'config': rel(report.get('config', '')), 'material': report.get('material'),
+            'verdict': report.get('verdict', ''), 'budget': budget, 'designs': designs,
+            'limits': {'max_dp': (limits.get('max_dp') or 0) / 1e5, 'max_angle': limits.get('max_angle'), 'min_rib': (limits.get('min_rib') or 0) * 1e3,
+                       'min_channel_width': (limits.get('min_channel') or 0) * 1e3, 'min_channel_height': (limits.get('min_height') or 0) * 1e3,
+                       'wall': (limits.get('wall') or 0) * 1e3, 'max_coolant_wall_temp': limits.get('max_coolant_wall'),
+                       'max_coolant_outlet_temp': limits.get('max_coolant_out'), 'min_bulk_boil_margin': limits.get('min_bulk_boil_margin')},
+            'throttle_inlet': args.get('throttle_inlet'), 'data': [rel(os.path.join(folder, 'feasibility.json'))]}
+
+
 def browse(out):
     # result folders in an output folder: batch summary, cases and sweeps
     out = resolve(out)
@@ -331,6 +394,10 @@ def browse(out):
         name = os.path.basename(folder)
         if os.path.isfile(os.path.join(folder, 'designs_fast.csv')):
             entries.append({'type': 'optimize', 'name': name, 'path': rel(folder), 'mtime': os.path.getmtime(os.path.join(folder, 'designs_fast.csv'))})
+        elif os.path.isfile(os.path.join(folder, 'feasibility.json')):
+            verdict = (read_json(os.path.join(folder, 'feasibility.json')) or {}).get('verdict', '')
+            entries.append({'type': 'feasibility', 'name': name, 'path': rel(folder), 'mtime': os.path.getmtime(os.path.join(folder, 'feasibility.json')),
+                            'verdict': verdict.split(':')[0]})
         elif os.path.isfile(os.path.join(folder, 'sweep.csv')):
             entries.append({'type': 'sweep', 'name': name, 'path': rel(folder), 'mtime': os.path.getmtime(os.path.join(folder, 'sweep.csv'))})
         elif os.path.isfile(os.path.join(folder, 'summary.json')):
@@ -399,10 +466,15 @@ def start_optimize(body):
     for flag, key, required in (('--max-dp', 'max_dp', True), ('--max-angle', 'max_angle', False), ('--min-rib', 'min_rib', True),
                                 ('--min-channel-width', 'min_channel_width', True), ('--min-channel-height', 'min_channel_height', True),
                                 ('--max-channel-height', 'max_channel_height', False), ('--wall', 'wall', False),
-                                ('--max-coolant-wall-temp', 'max_coolant_wall_temp', False), ('--min-boil-margin', 'min_boil_margin', False)):
+                                ('--max-coolant-wall-temp', 'max_coolant_wall_temp', False), ('--max-coolant-outlet-temp', 'max_coolant_outlet_temp', False),
+                                ('--min-boil-margin', 'min_boil_margin', False)):
         value = num(key, required)
         if value is not None:
             cmd += [flag, repr(value)]
+    if body.get('allow_bulk_boiling'):
+        cmd.append('--allow-bulk-boiling')
+    elif num('min_bulk_boil_margin') is not None:
+        cmd += ['--min-bulk-boil-margin', repr(num('min_bulk_boil_margin'))]
     if body.get('density') in ('coarse', 'normal', 'fine'):
         cmd += ['--density', body['density']]
     if body.get('longitudinal') in ('shell', 'wall'):
@@ -412,6 +484,57 @@ def start_optimize(body):
     cmd += ['--verify', str(int(num('verify') or 3)), '--jobs', str(max(1, int(num('jobs') or 1))), '--out', out]
     folder = os.path.join(out, 'optimize_' + case_name(config))
     return Job('optimize', 'Optimize: %s' % case_name(config), cmd, out, folder=folder)
+
+
+def start_feasibility(body):
+    config = resolve(body.get('config', ''))
+    if not (os.path.isfile(config) and config.endswith('.py')):
+        raise ValueError('Select a config')
+
+    def num(key, required=False):
+        value = body.get(key)
+        if value in (None, ''):
+            if required:
+                raise ValueError('Enter ' + key.replace('_', ' '))
+            return None
+        return float(value)
+
+    out = resolve(body.get('out') or 'results')
+    cmd = [sys.executable, os.path.join(REPO, 'feasibility.py'), config]
+    for flag, key, required in (('--max-dp', 'max_dp', True), ('--max-angle', 'max_angle', False), ('--min-rib', 'min_rib', True),
+                                ('--min-channel-width', 'min_channel_width', True), ('--min-channel-height', 'min_channel_height', True),
+                                ('--wall', 'wall', False), ('--max-coolant-wall-temp', 'max_coolant_wall_temp', False),
+                                ('--max-coolant-outlet-temp', 'max_coolant_outlet_temp', False), ('--marginal', 'marginal', False)):
+        value = num(key, required)
+        if value is not None:
+            cmd += [flag, repr(value)]
+    if body.get('material') in ('IN718', 'AlSi10Mg', 'CuCr1Zr'):
+        cmd += ['--material', body['material']]
+    if body.get('allow_bulk_boiling'):
+        cmd.append('--allow-bulk-boiling')
+    elif num('min_bulk_boil_margin') is not None:
+        cmd += ['--min-bulk-boil-margin', repr(num('min_bulk_boil_margin'))]
+    arrangements = [a for a in body.get('arrangements', []) if a in ('1p-inj', '1p-noz', '2p-inj', '2p-noz', 'config')]
+    if not arrangements and not body.get('quick'):
+        raise ValueError('Select at least one flow arrangement')
+    if arrangements:
+        cmd += ['--arrangements'] + arrangements
+    throttle = []
+    for t in re.split(r'[\s,;]+', str(body.get('throttle') or '').strip()):
+        if t:
+            value = float(t)
+            if not 0 < value <= 1.5:
+                raise ValueError('Throttle points are fractions of the design mass flow, e.g. 0.7 0.5')
+            throttle.append(value)
+    if throttle:
+        cmd += ['--throttle'] + [repr(t) for t in throttle]
+    if body.get('throttle_inlet') in ('hold', 'scale'):
+        cmd += ['--throttle-inlet', body['throttle_inlet']]
+    if body.get('quick'):
+        cmd.append('--quick')
+    cmd += ['--jobs', str(max(1, int(num('jobs') or 1))), '--out', out]
+    folder = os.path.join(out, 'feasibility_' + case_name(config))
+    return Job('feasibility', 'Feasibility: %s' % case_name(config), cmd, out, folder=folder)
 
 
 def start_sweep(body):
@@ -430,8 +553,9 @@ def start_sweep(body):
     cmd = [sys.executable, os.path.join(REPO, 'sweep.py'), config, '--param', param, '--max', repr(v_max), '--max-dp', repr(max_dp),
            '--min-channel-width', repr(num('min_channel', 0.0)), '--min-rib-width', repr(num('min_rib', 0.0)),
            '--points', str(points), '--refine', str(refine), '--jobs', str(jobs_n), '--out', out, '--logs']
-    if num('max_coolant_wall_temp') is not None:
-        cmd += ['--max-coolant-wall-temp', repr(num('max_coolant_wall_temp'))]
+    for flag, key in (('--max-coolant-wall-temp', 'max_coolant_wall_temp'), ('--max-coolant-outlet-temp', 'max_coolant_outlet_temp')):
+        if num(key) is not None:
+            cmd += [flag, repr(num(key))]
     if body.get('fresh'):
         cmd.append('--fresh')
     folder = os.path.join(out, 'sweep_%s_%s' % (case_name(config), param))
@@ -482,6 +606,11 @@ class Handler(BaseHTTPRequestHandler):
                 if not allowed(folder):
                     return self.send(403, {'error': 'Not allowed'})
                 return self.send(200, optimize_result(folder))
+            if url.path == '/api/feasibility':
+                folder = resolve(q.get('path', ''))
+                if not allowed(folder):
+                    return self.send(403, {'error': 'Not allowed'})
+                return self.send(200, feasibility_result(folder))
             if url.path == '/api/sweep':
                 folder = resolve(q.get('path', ''))
                 if not allowed(folder):
@@ -508,8 +637,8 @@ class Handler(BaseHTTPRequestHandler):
         try:
             length = int(self.headers.get('Content-Length', 0))
             body = json.loads(self.rfile.read(length) or b'{}')
-            if url.path in ('/api/run', '/api/sweep', '/api/optimize'):
-                job = {'/api/run': start_run, '/api/sweep': start_sweep, '/api/optimize': start_optimize}[url.path](body)
+            if url.path in ('/api/run', '/api/sweep', '/api/optimize', '/api/feasibility'):
+                job = {'/api/run': start_run, '/api/sweep': start_sweep, '/api/optimize': start_optimize, '/api/feasibility': start_feasibility}[url.path](body)
                 with jobs_lock:
                     jobs[job.id] = job
                 return self.send(200, {'id': job.id})

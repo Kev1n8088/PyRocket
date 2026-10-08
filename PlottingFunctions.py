@@ -64,6 +64,8 @@ class Plotting1D():
     def heat_transfer_coeff_plot(self):
         plt.plot(self.geometry[:,0]*1e3, self.data[:,2], color='b', label='$h_{alpha}$ gas')
         plt.plot(self.geometry[:,0]*1e3, self.data[:,3], color='r', linestyle='--',  label='$h_{alpha}$ coolant')
+        if self.two_pass():
+            plt.plot(self.geometry[:,0]*1e3, self.data[:,17], color='r', linestyle=':',  label='$h_{alpha}$ coolant, return pass')
         plt.xlabel('x coordiante [mm]')
         plt.ylabel('Heat transfer coefficient [W/m^2/K]')
         plt.legend(loc='best')
@@ -93,6 +95,8 @@ class Plotting1D():
 
     def reynolds_plot(self):
         plt.plot(self.geometry[:,0]*1e3, self.data[:,9], color='b', label='Coolant Re')
+        if self.two_pass():
+            plt.plot(self.geometry[:,0]*1e3, self.data[:,15], color='b', linestyle=':', label='Coolant Re, return pass')
         plt.xlabel('x coordiante [mm]')
         plt.ylabel('Re')
         plt.legend(loc='best')

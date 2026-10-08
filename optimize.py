@@ -16,7 +16,9 @@
 # Varied: material, channel count, channel width (normal to the flow), channel height, a constant helix angle, and
 # whether the channel width is constant along the chamber or grows with the radius (constant fraction of the circumference).
 # Limits: maximum helix angle, minimum rib and channel width, minimum channel height, maximum coolant pressure drop, optionally a maximum
-# coolant-side wall temperature (e.g. RP-1 coking) and minimum boiling margin, and the maximum service temperature of each material.
+# coolant-side wall temperature (e.g. RP-1 coking), maximum coolant outlet temperature and minimum wall boiling margin, the bulk coolant below
+# its saturation temperature at chamber pressure (on by default: the coolant must not flash when injected; the jacket is above chamber
+# pressure, so this covers the channels too), and the maximum service temperature of each material.
 # Objective: the largest minimum stress margin along the chamber (RPE wall stress estimate, see Stress.wall_stress).
 #
 # Usage:
@@ -160,6 +162,9 @@ def evaluate(d, cfg=None, table=None, tsat=None, limits=None, longitudinal=None,
     result['T_wall_coolant_max'] = float(max(np.max(T) for T, _ in walls))
     if tsat is not None:
         result['boil_margin'] = float(min(np.min(np.interp(P, tsat[0], tsat[1]) - T) for T, P in walls))
+    if limits.get('tsat_pc') is not None:
+        T_bulk = max(np.max(out.T_c), np.max(out.T_c2)) if two else np.max(out.T_c)
+        result['bulk_boil_margin'] = float(limits['tsat_pc'] - T_bulk)
 
     violations = []
     if dp > limits['max_dp']:
@@ -169,12 +174,19 @@ def evaluate(d, cfg=None, table=None, tsat=None, limits=None, longitudinal=None,
     coolant_wall = limits.get('max_coolant_wall') is not None and result['T_wall_coolant_max'] > limits['max_coolant_wall']
     if coolant_wall:
         violations.append((result['T_wall_coolant_max'] - limits['max_coolant_wall']) / 100.0)
+    coolant_out = limits.get('max_coolant_out') is not None and T_out > limits['max_coolant_out']
+    if coolant_out:
+        violations.append((T_out - limits['max_coolant_out']) / 100.0)
     boiling = limits.get('min_boil_margin') is not None and result.get('boil_margin') is not None and result['boil_margin'] < limits['min_boil_margin']
     if boiling:
         violations.append((limits['min_boil_margin'] - result['boil_margin']) / 100.0)
+    flashing = limits.get('min_bulk_boil_margin') is not None and result.get('bulk_boil_margin') is not None and result['bulk_boil_margin'] < limits['min_bulk_boil_margin']
+    if flashing:
+        violations.append((limits['min_bulk_boil_margin'] - result['bulk_boil_margin']) / 100.0)
     result['status'] = 'ok' if not violations else 'limits'
     result['note'] = '' if not violations else ', '.join(n for n, v in (('pressure drop', dp > limits['max_dp']), ('wall temperature', T_max > material.T_max),
-                                                                          ('coolant wall temperature', coolant_wall), ('coolant boiling', boiling)) if v)
+                                                                          ('coolant wall temperature', coolant_wall), ('coolant outlet temperature', coolant_out),
+                                                                          ('coolant boiling', boiling), ('bulk boiling at chamber pressure', flashing)) if v)
     result['score'] = result['margin'] if not violations else -10.0 - sum(violations)
     return result
 
@@ -367,8 +379,13 @@ if __name__ == '__main__':
     parser.add_argument('--wall', type=float, default=None, help="hot wall thickness [mm], fixed for all designs (default: the config's t_w_i)")
     parser.add_argument('--max-coolant-wall-temp', type=float, default=None,
                         help='maximum temperature of the coolant-side (wetted) wall [K], e.g. to limit RP-1 coking (default: not limited)')
+    parser.add_argument('--max-coolant-outlet-temp', type=float, default=None,
+                        help='maximum coolant temperature at the cooling jacket outlet [K] (default: not limited)')
     parser.add_argument('--min-boil-margin', type=float, default=None,
-                        help='minimum margin of the coolant wetted wall below the coolant saturation temperature [K] (default: not limited; negative allows some boiling)')
+                        help='minimum margin of the coolant wetted wall below the coolant saturation temperature at the local channel pressure [K] (default: not limited; negative allows some wall boiling)')
+    parser.add_argument('--min-bulk-boil-margin', type=float, default=0.0,
+                        help='minimum margin of the bulk coolant below its saturation temperature at chamber pressure [K] (default 0: no flashing at injection). Ignored above the critical pressure')
+    parser.add_argument('--allow-bulk-boiling', action='store_true', help='do not limit bulk boiling at chamber pressure')
     parser.add_argument('--density', choices=sorted(DENSITY), default='normal', help='points per variable of the initial grid (default: normal)')
     parser.add_argument('--refine', type=int, default=6, help='pattern search rounds around the best designs (default 6)')
     parser.add_argument('--starts', type=int, default=6, help='number of best designs to refine (default 6)')
@@ -390,7 +407,8 @@ if __name__ == '__main__':
         args.wall = t_w_i / mm
     limits = {'max_dp': args.max_dp * 1e5, 'max_angle': args.max_angle, 'min_rib': args.min_rib * mm, 'min_channel': args.min_channel_width * mm,
               'min_height': args.min_channel_height * mm, 'max_height': (args.max_channel_height or 3 * args.min_channel_height) * mm,
-              'wall': args.wall * mm, 'max_coolant_wall': args.max_coolant_wall_temp, 'min_boil_margin': args.min_boil_margin}
+              'wall': args.wall * mm, 'max_coolant_wall': args.max_coolant_wall_temp, 'max_coolant_out': args.max_coolant_outlet_temp,
+              'min_boil_margin': args.min_boil_margin, 'min_bulk_boil_margin': None if args.allow_bulk_boiling else args.min_bulk_boil_margin}
     if limits['max_height'] < limits['min_height']:
         sys.exit('Maximum channel height must not be below the minimum')
     if limits['wall'] <= 0:
@@ -416,6 +434,8 @@ if __name__ == '__main__':
         chem = thermo.Chemical(cfg.coolant.IDs[int(np.argmax(cfg.coolant.ws))])
         P_s = np.linspace(P_lo, min(P_hi, chem.Pc * 0.999), 40)
         tsat = (P_s, np.array([chem.Tsat(p) for p in P_s]))
+        if cfg.Pc < chem.Pc:
+            limits['tsat_pc'] = float(chem.Tsat(cfg.Pc))     # bulk boiling at chamber pressure, where the coolant is injected
     except Exception:
         pass
 
@@ -530,7 +550,10 @@ if __name__ == '__main__':
         print('  max hot wall %.1f %s (limit %.1f %s), max coolant-side wall %.1f %s%s, pressure drop %.2f bar (limit %.2f), coolant outlet %.1f %s%s' % (
             Units.temperature(b['T_wall_max']), unit, Units.temperature(b['T_limit']), unit, Units.temperature(b['T_wall_coolant_max']), unit,
             (' (limit %.1f %s)' % (Units.temperature(limits['max_coolant_wall']), unit)) if limits['max_coolant_wall'] is not None else '', b['dp'] / 1e5, limits['max_dp'] / 1e5,
-            Units.temperature(b['T_coolant_out']), unit, (', coolant wall %.1f K %s boiling' % (abs(b['boil_margin']), 'below' if b['boil_margin'] >= 0 else 'above')) if b.get('boil_margin') is not None else ''))
+            Units.temperature(b['T_coolant_out']), unit + ((' (limit %.1f %s)' % (Units.temperature(limits['max_coolant_out']), unit)) if limits['max_coolant_out'] is not None else ''),
+            (', coolant wall %.1f K %s boiling' % (abs(b['boil_margin']), 'below' if b['boil_margin'] >= 0 else 'above')) if b.get('boil_margin') is not None else ''))
+        if b.get('bulk_boil_margin') is not None:
+            print('  bulk coolant %.1f K %s boiling at chamber pressure (%.1f bar)' % (abs(b['bulk_boil_margin']), 'below' if b['bulk_boil_margin'] >= 0 else 'above', cfg.Pc / 1e5))
         with open(os.path.join(folder, 'best_design.txt'), 'w') as f:
             f.write(config_lines(cfg, best_entry['1d'], name) + '\n')
         print('Config lines for this design: %s' % os.path.join(folder, 'best_design.txt'))

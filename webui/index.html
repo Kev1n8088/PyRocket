@@ -101,6 +101,9 @@ tr.best td { font-weight: 600; }
 .list-entry { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-bottom: 1px solid var(--line); cursor: pointer; }
 .list-entry:hover { background: var(--panel-2); }
 .slider { width: 100%; }
+.verdict { border-left: 4px solid var(--muted); background: var(--panel-2); border-radius: 6px; padding: 10px 14px; white-space: pre-wrap; }
+.verdict.good { border-left-color: var(--good); } .verdict.warn { border-left-color: var(--warn); } .verdict.bad { border-left-color: var(--bad); }
+td.good { color: var(--good); font-weight: 600; } td.bad { color: var(--bad); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -109,6 +112,7 @@ tr.best td { font-weight: 600; }
   <nav>
     <button data-view="run" class="active">Run</button>
     <button data-view="sweep">Sweep</button>
+    <button data-view="feasibility">Feasibility</button>
     <button data-view="optimize">Optimize</button>
     <button data-view="results">Results</button>
   </nav>
@@ -150,7 +154,7 @@ function show(view) {
   route('#' + view);
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
   if (view !== 'job') { clearTimeout(S.jobTimer); S.jobId = null; }
-  ({ run: renderRun, sweep: renderSweep, optimize: renderOptimize, results: renderResults })[view]?.();
+  ({ run: renderRun, sweep: renderSweep, feasibility: renderFeasibility, optimize: renderOptimize, results: renderResults })[view]?.();
   renderJobs();
 }
 
@@ -226,13 +230,14 @@ function renderSweep() {
   main.innerHTML = `
   <div class="panel">
     <h2>Helix sweep</h2>
-    <p class="hint">Finds the helix pitch or angle with the lowest maximum inner wall temperature, within the maximum pitch/angle, the maximum coolant pressure drop, an optional maximum coolant-side wall temperature (e.g. RP-1 coking) and the minimum channel and rib widths (normal to the flow). Channel count and fill factor of the config are kept. Finished points are reused when a sweep is repeated with an unchanged config.</p>
+    <p class="hint">Finds the helix pitch or angle with the lowest maximum inner wall temperature, within the maximum pitch/angle, the maximum coolant pressure drop, optional maximum coolant-side wall and coolant outlet temperatures (e.g. RP-1 coking) and the minimum channel and rib widths (normal to the flow). Channel count and fill factor of the config are kept. Finished points are reused when a sweep is repeated with an unchanged config.</p>
     <div class="grid" style="margin-top:12px">
       <label class="field">Config<select id="scfg">${S.configs.map(c => `<option ${saved.config === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
       <label class="field">Parameter<select id="sparam"><option value="pitch" ${saved.param === 'angle' ? '' : 'selected'}>Pitch [deg/mm]</option><option value="angle" ${saved.param === 'angle' ? 'selected' : ''}>Angle from meridian [deg]</option></select></label>
       <label class="field">Maximum pitch / angle<input type="number" step="any" id="smax" value="${val('max', 30)}"></label>
       <label class="field">Max pressure drop [bar]<input type="number" step="any" id="sdp" value="${val('max_dp', 10)}"></label>
       <label class="field">Max coolant-side wall [K]<input type="number" step="any" id="scwall" value="${val('max_coolant_wall_temp', '')}" placeholder="not limited"></label>
+      <label class="field">Max coolant outlet [K]<input type="number" step="any" id="scout" value="${val('max_coolant_outlet_temp', '')}" placeholder="not limited"></label>
       <label class="field">Min channel width [mm]<input type="number" step="any" id="sch" value="${val('min_channel', 0)}"></label>
       <label class="field">Min rib width [mm]<input type="number" step="any" id="srib" value="${val('min_rib', 0)}"></label>
       <label class="field">Grid points<input type="number" id="spts" min="2" value="${val('points', 7)}"></label>
@@ -247,10 +252,118 @@ function renderSweep() {
   $('#sstart').onclick = async () => {
     $('#serr').textContent = '';
     const body = { config: $('#scfg').value, param: $('#sparam').value, max: $('#smax').value, max_dp: $('#sdp').value,
-      max_coolant_wall_temp: $('#scwall').value, min_channel: $('#sch').value, min_rib: $('#srib').value, points: $('#spts').value, refine: $('#sref').value,
+      max_coolant_wall_temp: $('#scwall').value, max_coolant_outlet_temp: $('#scout').value, min_channel: $('#sch').value, min_rib: $('#srib').value, points: $('#spts').value, refine: $('#sref').value,
       jobs: $('#sjobs').value, out: $('#sout').value || 'results', fresh: $('#sfresh').checked };
     S.sweepForm = body;
     try { const r = await api('/api/sweep', body); openJob(r.id); } catch (e) { $('#serr').textContent = e.message; }
+  };
+}
+
+// ---------------------------------------------------------------- feasibility
+const ARRANGEMENTS = [['1p-inj', 'One pass, inlet at the injector'], ['1p-noz', 'One pass, inlet at the nozzle'], ['2p-inj', 'Two passes, inlet at the injector'], ['2p-noz', 'Two passes, inlet at the nozzle']];
+function renderFeasibility() {
+  const main = $('#main');
+  const f = S.feasForm || {};
+  const val = (k, d) => esc(f[k] ?? d);
+  const arr = f.arrangements || ARRANGEMENTS.map(a => a[0]);
+  main.innerHTML = `
+  <div class="panel">
+    <h2>Feasibility screen</h2>
+    <p class="hint">Checks in seconds whether a cooling request can be met at all, before running the optimiser. Stage 1 is an energy budget: the smallest heat load any design can have (hot wall at the material's service limit) against what the coolant can absorb before bulk boiling at chamber pressure (flashing at injection), the coolant-side wall limit or the outlet limit. If it fails, no channel geometry helps. Stage 2 runs the fast model on the designs the optimiser ends up near when the limits are tight (minimum channel size at the maximum helix angle) for each flow arrangement and shows how close they get.</p>
+    <div class="grid" style="margin-top:12px">
+      <label class="field">Config<select id="fcfg">${S.configs.map(c => `<option ${f.config === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
+      <label class="field">Wall material<select id="fmat">${[['', "Config's material"], ['CuCr1Zr', 'CuCrZr'], ['IN718', 'IN718'], ['AlSi10Mg', 'AlSi10Mg']].map(([v, l]) => `<option value="${v}" ${(f.material || '') === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+      <label class="field">Max pressure drop [bar]<input type="number" step="any" id="fdp" value="${val('max_dp', 10)}"></label>
+      <label class="field">Max helix angle [deg]<input type="number" step="any" id="fang" value="${val('max_angle', 30)}"></label>
+      <label class="field">Min rib width [mm]<input type="number" step="any" id="frib" value="${val('min_rib', 0.8)}"></label>
+      <label class="field">Min channel width [mm]<input type="number" step="any" id="fcw" value="${val('min_channel_width', 1)}"></label>
+      <label class="field">Min channel height [mm]<input type="number" step="any" id="fch" value="${val('min_channel_height', 1)}"></label>
+      <label class="field">Hot wall thickness [mm]<input type="number" step="any" id="fwall" value="${val('wall', '')}" placeholder="config t_w_i"></label>
+      <label class="field">Max coolant-side wall [K]<input type="number" step="any" id="fcwall" value="${val('max_coolant_wall_temp', '')}" placeholder="not limited (e.g. 560-590 RP-1)"></label>
+      <label class="field">Max coolant outlet [K]<input type="number" step="any" id="fcout" value="${val('max_coolant_outlet_temp', '')}" placeholder="not limited"></label>
+      <label class="field">Min bulk margin to boiling at Pc [K]<input type="number" step="any" id="fboil" value="${val('min_bulk_boil_margin', 0)}"></label>
+      <label class="field">Marginal band [K]<input type="number" step="any" id="fmarg" value="${val('marginal', 15)}"></label>
+    </div>
+    <div class="row" style="margin-top:10px"><label class="check"><input type="checkbox" id="fallow" ${f.allow_bulk_boiling ? 'checked' : ''}> Allow bulk boiling (no bulk boiling limit)</label></div>
+    <h3>Flow arrangements (stage 2)</h3>
+    <div class="row">${ARRANGEMENTS.map(([v, l]) => `<label class="check"><input type="checkbox" name="farr" value="${v}" ${arr.includes(v) ? 'checked' : ''}> ${l}</label>`).join('')}</div>
+    <h3>Throttle and run</h3>
+    <div class="grid">
+      <label class="field">Throttle points<input type="text" id="fthr" value="${val('throttle', '')}" placeholder="e.g. 0.7 0.5 (fractions of mass flow)"></label>
+      <label class="field">Jacket inlet when throttled<select id="finlet"><option value="hold" ${f.throttle_inlet === 'scale' ? '' : 'selected'}>Held (valve after the jacket)</option><option value="scale" ${f.throttle_inlet === 'scale' ? 'selected' : ''}>Scaled (valve before the jacket)</option></select></label>
+      <label class="field">Parallel jobs<input type="number" min="1" max="${S.cpus}" id="fjobs" value="${val('jobs', Math.max(1, S.cpus - 1))}"></label>
+      <label class="field">Output folder<input type="text" id="fout" value="${val('out', S.resultsOut)}"></label>
+    </div>
+    <div class="row" style="margin-top:10px"><label class="check"><input type="checkbox" id="fquick" ${f.quick ? 'checked' : ''}> Energy budget only <span class="hint">(no fast model runs, a few seconds; every wall material unless one is selected)</span></label></div>
+    <div class="row" style="margin-top:16px"><button class="btn primary" id="fstart">Check feasibility</button></div>
+    <div class="error" id="ferr"></div>
+  </div>`;
+  $('#fstart').onclick = async () => {
+    $('#ferr').textContent = '';
+    const body = { config: $('#fcfg').value, material: $('#fmat').value, max_dp: $('#fdp').value, max_angle: $('#fang').value, min_rib: $('#frib').value,
+      min_channel_width: $('#fcw').value, min_channel_height: $('#fch').value, wall: $('#fwall').value, max_coolant_wall_temp: $('#fcwall').value,
+      max_coolant_outlet_temp: $('#fcout').value, min_bulk_boil_margin: $('#fboil').value, marginal: $('#fmarg').value, allow_bulk_boiling: $('#fallow').checked,
+      arrangements: [...main.querySelectorAll('input[name=farr]:checked')].map(i => i.value), throttle: $('#fthr').value, throttle_inlet: $('#finlet').value,
+      quick: $('#fquick').checked, jobs: $('#fjobs').value, out: $('#fout').value || 'results' };
+    S.feasForm = body;
+    try { const r = await api('/api/feasibility', body); openJob(r.id); } catch (e) { $('#ferr').textContent = e.message; }
+  };
+}
+
+async function openFeasibility(path) {
+  S.view = 'case';
+  route('#feasresult=' + encodeURIComponent(path));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const main = $('#main');
+  main.innerHTML = `<div class="panel"><button class="btn small back" id="back">← Back</button><div class="kv">${esc(path)}</div></div><div id="result"></div>`;
+  $('#back').onclick = () => show('results');
+  try { renderResult(await api('/api/feasibility?path=' + encodeURIComponent(path)), $('#result')); }
+  catch (e) { $('#result').innerHTML = `<div class="panel error">${esc(e.message)}</div>`; }
+}
+
+function verdictClass(v) {
+  return v.startsWith('FEASIBLE') ? 'good' : (v.startsWith('MARGINAL') || v.startsWith('ENERGY BUDGET OK')) ? 'warn' : 'bad';
+}
+
+function renderFeasibilityResult(r, box) {
+  const thr = t => t === 1 ? 'Design point' : `${(t * 100).toFixed(0)}% throttle`;
+  const many = new Set(r.budget.map(b => b.material)).size > 1;
+  const budgets = r.budget.map(b => `
+    <h3>Energy budget · ${thr(b.throttle)}${many ? ' · ' + esc(b.material || '') : ''}</h3>
+    <div class="stats">
+      <div class="stat"><div class="label">Smallest heat load (hot wall at limit)</div><div class="value">${fmt(b.Q_floor, 0)}<span class="unit">kW</span></div></div>
+      <div class="stat"><div class="label">Per kg of coolant</div><div class="value">${fmt(b.Q_per_kg, 0)}<span class="unit">kJ/kg</span></div></div>
+      <div class="stat"><div class="label">Lowest possible bulk outlet</div><div class="value">${b.T_out_floor == null ? '&gt;' + fmt(b.T_liquid_end, 0) : fmt(b.T_out_floor, 0)}<span class="unit">${S.unit}</span></div></div>
+      <div class="stat"><div class="label">Coolant flow</div><div class="value">${fmt(b.m_dot_coolant, 3)}<span class="unit">kg/s</span></div></div>
+    </div>
+    <p class="hint">${b.Pc == null ? `Checked at the lowest jacket pressure the pressure drop limit allows, ${fmt(b.P_low, 1)} bar${b.supercritical ? ' (above the critical pressure, no bulk boiling)' : ''}.`
+      : `Bulk boiling checked at chamber pressure, ${fmt(b.Pc, 1)} bar, where the coolant is injected${b.supercritical ? ' (above the critical pressure, no bulk boiling)' : ''}; coolant properties at ${fmt(b.P_low, 1)} bar, the lowest jacket pressure.`} With a 600 K hot wall the heat load is ${fmt(b.Q_600, 0)} kW.</p>
+    <div class="table-wrap"><table><thead><tr><th>Limit</th><th>Value<br><span class="hint">${S.unit}</span></th><th>Margin<br><span class="hint">K</span></th><th>Heat load allowed<br><span class="hint">kW</span></th><th>Result</th></tr></thead><tbody>
+      ${b.checks.map(c => `<tr><td>${esc(c.limit)}</td><td>${fmt(c.T_limit, 0)}</td><td>${c.margin == null ? '–' : (c.margin > 0 ? '+' : '') + fmt(c.margin, 0)}</td><td>${fmt(c.Q_allowed, 0)}</td>
+        <td class="${c.ok ? 'good' : 'bad'}">${c.ok ? 'ok' : `fail: needs ${fmt(c.cut, 0)}% less heat load or ${fmt(c.m_dot_needed, 3)} kg/s coolant`}</td></tr>`).join('')}
+    </tbody></table></div>`).join('');
+  const designs = r.designs.map(d => `
+    <h3>Closest designs · ${thr(d.throttle)}</h3>
+    <div class="table-wrap"><table><thead><tr><th>Arrangement</th><th>Design</th><th>Pressure drop<br><span class="hint">bar</span></th><th>Hot wall<br><span class="hint">${S.unit}</span></th>
+      <th>Coolant-side wall<br><span class="hint">${S.unit} at x mm</span></th><th>Outlet<br><span class="hint">${S.unit}</span></th><th>Beyond limits<br><span class="hint">K</span></th></tr></thead><tbody>
+      ${d.rows.map(e => e.status !== 'ok' ? `<tr><td>${esc(e.arrangement)}</td><td colspan="6" class="bad">${esc(e.status)} ${esc(e.note || '')}</td></tr>` : `<tr>
+        <td>${esc(e.arrangement)}</td><td class="kv">${esc(e.label)}</td><td class="${e.dp_ok ? '' : 'bad'}">${fmt(e.dp, 1)}</td><td>${fmt(e.T_wall_max, 0)}</td>
+        <td>${fmt(e.T_wall_coolant_max, 0)} <span class="hint">at ${fmt(e.x, 0)}</span></td><td>${fmt(e.T_out, 0)}</td>
+        <td class="${e.excess <= 0 ? 'good' : 'bad'}">${e.excess > 0 ? '+' : ''}${fmt(e.excess, 0)}</td></tr>`).join('')}
+    </tbody></table></div>`).join('');
+  box.innerHTML = `<div class="panel"><h2>Feasibility · ${esc(r.config || '')}</h2>
+    <div class="verdict ${verdictClass(r.verdict)}">${esc(r.verdict)}</div>
+    ${budgets}${designs}
+    ${r.designs.length ? `<p class="hint">Beyond limits: how far the design is past its most violated temperature limit (hot wall, coolant-side wall, outlet, bulk boiling); negative means all are met. The optimiser keeps the config's one/two passes and coolant inlet (two_pass, start_idx), set these in the config for the arrangement you pick.</p>` : ''}
+    <div class="row" style="margin-top:12px"><button class="btn" id="toopt">Use these limits in Optimize</button>
+      <span class="hint">${r.data.map(p => `<a href="${file(p)}">${esc(p.split('/').pop())}</a>`).join(' · ')}</span></div></div>`;
+  $('#toopt', box).onclick = () => {
+    const L = r.limits;
+    S.optForm = Object.assign({}, S.optForm || {}, { config: r.config, max_dp: L.max_dp, max_angle: L.max_angle, min_rib: L.min_rib, min_channel_width: L.min_channel_width,
+      min_channel_height: L.min_channel_height, wall: L.wall, max_coolant_wall_temp: L.max_coolant_wall_temp ?? '', max_coolant_outlet_temp: L.max_coolant_outlet_temp ?? '',
+      min_bulk_boil_margin: L.min_bulk_boil_margin ?? 0, allow_bulk_boiling: L.min_bulk_boil_margin == null,
+      materials: r.material ? [r.material] : undefined });
+    show('optimize');
   };
 }
 
@@ -274,8 +387,11 @@ function renderOptimize() {
       <label class="field">Max channel height [mm]<input type="number" step="any" id="ochmax" value="${val('max_channel_height', 3)}"></label>
       <label class="field">Hot wall thickness [mm]<input type="number" step="any" id="owall" value="${val('wall', '')}" placeholder="config t_w_i"></label>
       <label class="field">Max coolant-side wall [K]<input type="number" step="any" id="ocwall" value="${val('max_coolant_wall_temp', '')}" placeholder="not limited"></label>
-      <label class="field">Min margin to boiling [K]<input type="number" step="any" id="oboil" value="${val('min_boil_margin', '')}" placeholder="not limited"></label>
+      <label class="field">Max coolant outlet [K]<input type="number" step="any" id="ocout" value="${val('max_coolant_outlet_temp', '')}" placeholder="not limited"></label>
+      <label class="field">Min coolant wall margin to boiling [K]<input type="number" step="any" id="oboil" value="${val('min_boil_margin', '')}" placeholder="not limited"></label>
+      <label class="field">Min bulk margin to boiling at Pc [K]<input type="number" step="any" id="obulk" value="${val('min_bulk_boil_margin', 0)}"></label>
     </div>
+    <div class="row" style="margin-top:10px"><label class="check"><input type="checkbox" id="oallow" ${f.allow_bulk_boiling ? 'checked' : ''}> Allow bulk boiling (no limit on flashing at injection)</label></div>
     <h3>Materials and channels</h3>
     <div class="row">${checks('mat', [['IN718', 'IN718'], ['AlSi10Mg', 'AlSi10Mg'], ['CuCr1Zr', 'CuCrZr']], f.materials)}</div>
     <div class="row" style="margin-top:8px">${checks('mode', [['constant_width', 'Constant channel width'], ['constant_fill', 'Width growing with the radius']], f.modes)}</div>
@@ -295,8 +411,8 @@ function renderOptimize() {
   $('#ostart').onclick = async () => {
     $('#oerr').textContent = '';
     const body = { config: $('#ocfg').value, max_dp: $('#odp').value, max_angle: $('#oang').value, min_rib: $('#orib').value, min_channel_width: $('#ocw').value,
-      min_channel_height: $('#ochmin').value, max_channel_height: $('#ochmax').value, wall: $('#owall').value, max_coolant_wall_temp: $('#ocwall').value,
-      min_boil_margin: $('#oboil').value, materials: [...main.querySelectorAll('input[name=mat]:checked')].map(i => i.value),
+      min_channel_height: $('#ochmin').value, max_channel_height: $('#ochmax').value, wall: $('#owall').value, max_coolant_wall_temp: $('#ocwall').value, max_coolant_outlet_temp: $('#ocout').value,
+      min_boil_margin: $('#oboil').value, min_bulk_boil_margin: $('#obulk').value, allow_bulk_boiling: $('#oallow').checked, materials: [...main.querySelectorAll('input[name=mat]:checked')].map(i => i.value),
       modes: [...main.querySelectorAll('input[name=mode]:checked')].map(i => i.value), density: $('#odens').value, verify: $('#over').value,
       longitudinal: $('#olong').value, section_model: $('#osec').value, jobs: $('#ojobs').value, out: $('#oout').value || 'results' };
     S.optForm = body;
@@ -326,7 +442,7 @@ async function renderJobs() {
     <div class="job ${S.jobId === j.id ? 'active' : ''}" data-job="${j.id}">
       <div class="row spread"><span class="title">${esc(j.title)}</span><span class="chip ${j.status}">${j.status}</span></div>
       <div class="bar"><div style="width:${(j.progress.fraction * 100).toFixed(1)}%"></div></div>
-      <div class="row spread hint" style="margin-top:4px"><span>${dur(j.elapsed)}</span><span>${j.kind === 'run' ? `${j.progress.cases.filter(c => c.state === 'done' || c.state === 'failed').length} / ${j.progress.cases.length} cases` : j.kind === 'optimize' ? esc(j.progress.stage || '') : `${j.progress.done ?? 0} points`}</span></div>
+      <div class="row spread hint" style="margin-top:4px"><span>${dur(j.elapsed)}</span><span>${j.kind === 'run' ? `${j.progress.cases.filter(c => c.state === 'done' || c.state === 'failed').length} / ${j.progress.cases.length} cases` : (j.kind === 'optimize' || j.kind === 'feasibility') ? esc(j.progress.stage || '') : `${j.progress.done ?? 0} points`}</span></div>
     </div>`).join('') : '<div class="empty">No runs yet. Start one from the Run or Sweep tab.</div>';
   box.querySelectorAll('[data-job]').forEach(el => el.onclick = () => openJob(+el.dataset.job));
 }
@@ -358,7 +474,8 @@ async function pollJob() {
       <span class="row"><span class="chip ${j.status}">${j.status}</span>${j.status === 'running' ? '<button class="btn small" id="stop">Stop</button>' : ''}</span></div>
     <div class="hint" style="margin-top:6px">${dur(j.elapsed)} · output ${esc(j.out)}</div>
     <div class="bar"><div style="width:${(j.progress.fraction * 100).toFixed(1)}%"></div></div>
-    ${j.kind === 'optimize' ? `<h3>Stage</h3><div>${esc(j.progress.stage || '')}</div>${cases ? `<h3>2D verification</h3><div class="cases">${cases}</div>` : ''}` :
+    ${j.kind === 'feasibility' ? `<h3>Stage</h3><div>${esc(j.progress.stage || '')}</div>` :
+      j.kind === 'optimize' ? `<h3>Stage</h3><div>${esc(j.progress.stage || '')}</div>${cases ? `<h3>2D verification</h3><div class="cases">${cases}</div>` : ''}` :
       `<h3>${j.kind === 'run' ? 'Cases' : 'Sweep points'}</h3><div class="cases">${cases || '<div class="empty">Starting…</div>'}</div>`}
     <details id="logdet" ${logOpen || j.status === 'failed' ? 'open' : ''} style="margin-top:14px"><summary class="hint" style="cursor:pointer">Output</summary>
       <div class="kv" style="margin:8px 0">${esc(j.command)}</div><pre class="log">${esc(j.log || '')}</pre></details>
@@ -384,6 +501,7 @@ function statTable(rows, nameKey, extraHead = '', extra = () => '', bestIndex = 
 }
 
 function renderResult(r, box) {
+  if (r.type === 'feasibility') return renderFeasibilityResult(r, box);
   if (r.type === 'optimize') {
     const f2 = (v, d) => v == null ? '–' : fmt(v, d);
     box.innerHTML = `<div class="panel"><h2>Optimisation results</h2>
@@ -431,9 +549,11 @@ async function renderResults() {
     const summary = r.entries.filter(e => e.type === 'summary');
     const sweeps = r.entries.filter(e => e.type === 'sweep');
     const opts = r.entries.filter(e => e.type === 'optimize');
+    const feas = r.entries.filter(e => e.type === 'feasibility');
     const cases = r.entries.filter(e => e.type === 'case');
     $('#rlist').innerHTML = `
       ${summary.map(e => `<div class="list-entry" data-summary="${esc(e.path)}"><span>Batch summary chart</span><span class="hint">${when(e.mtime)}</span></div>`).join('')}
+      <h3>Feasibility screens</h3>${feas.map(e => `<div class="list-entry" data-feas="${esc(e.path)}"><span class="kv">${esc(e.name)}</span><span class="row"><span class="chip ${verdictClass(e.verdict || '') === 'good' ? 'ok' : verdictClass(e.verdict || '') === 'warn' ? 'waiting' : 'failed'}">${esc(e.verdict || '?')}</span><span class="hint">${when(e.mtime)}</span></span></div>`).join('') || '<div class="empty">None</div>'}
       <h3>Optimisations</h3>${opts.map(e => `<div class="list-entry" data-opt="${esc(e.path)}"><span class="kv">${esc(e.name)}</span><span class="hint">${when(e.mtime)}</span></div>`).join('') || '<div class="empty">None</div>'}
       <h3>Sweeps</h3>${sweeps.map(e => `<div class="list-entry" data-sweep="${esc(e.path)}"><span class="kv">${esc(e.name)}</span><span class="hint">${when(e.mtime)}</span></div>`).join('') || '<div class="empty">None</div>'}
       <h3>Cases</h3>${cases.length ? `<div class="table-wrap"><table><thead><tr><th>Case</th><th>Max wall temp<br><span class="hint">${S.unit}</span></th><th>Pressure drop<br><span class="hint">bar</span></th><th>Finished</th></tr></thead><tbody>
@@ -441,6 +561,7 @@ async function renderResults() {
     $('#rlist').querySelectorAll('tr.link').forEach(tr => tr.onclick = () => openCase(tr.dataset.path));
     $('#rlist').querySelectorAll('[data-sweep]').forEach(el => el.onclick = () => openSweep(el.dataset.sweep));
     $('#rlist').querySelectorAll('[data-opt]').forEach(el => el.onclick = () => openOptimize(el.dataset.opt));
+    $('#rlist').querySelectorAll('[data-feas]').forEach(el => el.onclick = () => openFeasibility(el.dataset.feas));
     $('#rlist').querySelectorAll('[data-summary]').forEach(el => el.onclick = () => lightbox(file(el.dataset.summary + '/summary.png')));
   };
   $('#rload').onclick = load;
@@ -507,7 +628,8 @@ document.querySelectorAll('nav button').forEach(b => b.onclick = () => show(b.da
   else if (key === 'case') openCase(decodeURIComponent(value));
   else if (key === 'sweepresult') openSweep(decodeURIComponent(value));
   else if (key === 'optresult') openOptimize(decodeURIComponent(value));
-  else show(['run', 'sweep', 'optimize', 'results'].includes(key) ? key : 'run');
+  else if (key === 'feasresult') openFeasibility(decodeURIComponent(value));
+  else show(['run', 'sweep', 'feasibility', 'optimize', 'results'].includes(key) ? key : 'run');
 })();
 </script>
 </body>
