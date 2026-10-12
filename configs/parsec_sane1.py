@@ -23,29 +23,34 @@ ox              = 'O2'
 hot_gas_method  = 'standard-bartz'                         # use either 'cinjarev', 'standard-bartz' or 'modified-bartz'
 bartz_knockdown = 0.9                                # knockdown factor for bartz heat transfer. 0.9 typical for smooth hotwall + traditional impinging jet injector, can be as low as 0.5 with interesting recirculation zones. 1.0 for no knockdown
 
-# Operating point of combustion chamber 
+# Operating point of combustion chamber: core flow only, i.e. the propellant that actually burns. Film coolant (below) is
+# additional propellant assumed not to burn, so it is excluded from this O/F and mass flow, and from the hot gas heat
+# transfer calculations, which use the core flow only
 eta_c_star      = 1.0                               # c* efficiency
-MR              = 0.9
-m_dot           = 1.695                                # total mass flow [kg/s]
-m_dot_f         = m_dot / (MR + 1)
-m_dot_ox        = m_dot - m_dot_f
+MR_core         = 0.9                                # core (combustion) oxidiser/fuel mixture ratio
+m_dot_core      = 1.695                                # core mass flow [kg/s]: oxidiser + fuel that actually combusts
+m_dot_f         = m_dot_core / (MR_core + 1)
+m_dot_ox        = m_dot_core - m_dot_f
 Pc              = 17.3e5                               # Chamber pressure [Pa]
+
+# Film cooling settings for coolant originating at the injector face. Assumed not to burn, so excluded from the core O/F,
+# mass flow and heat transfer above
+m_dot_film = 0 * m_dot_f                       # set mass flow to 0.0 to deactivate film cooing. ~15% is the most 200 s allows at 85% c* efficiency
+injection_velocity = 10								  # [m/s]
+injector_diameter  = 0.4e-3							  # [m]
+
+m_dot           = m_dot_core + m_dot_film            # total propellant mass flow [kg/s] (core + film), for reference only
 
 # Coolant input
 cooling_fluid   = ['isopropanol']                     # needs to be list of str (thermo names); RP1 -> 'n-dodecane' (surrogate), IPA -> 'isopropanol'
 fluid_mass_frac = [1.0]    			                 # mass fractions of the cooling fluid (needs to add up to 1)
-m_dot_coolant   = m_dot_f                 		 	 # mass flow through the cooling channels
+m_dot_coolant   = m_dot_f + m_dot_film                  # mass flow through the cooling channels: core fuel + film, both routed through the jacket
 inlet_temp      = 288.0                     		 # inlet temperature [K]
 inlet_pressure  = 32.4e5                               # Cooling channel inlet pressure [Pa]. Fuel throttle valve upstream of the jacket, so the jacket
                                                        # outlet sits at the injector manifold: Pc + 10 bar injector dp = 30.1 bar, plus ~2.3 bar jacket dp
 
 cooling_method  = 'gnielinski'                       # use either 'gnielinski', 'dittus-boelter' or 'dittus-boelter-simple', pay attention to suitable Re number range
 ambient_temp    = 288.15							 # ambient temperature for radiation boundary condition [K] (must be type float)!!
-
-# Film cooling settings for coolant originating at the injector face
-m_dot_film = 0 * m_dot_coolant                       # set mass flow to 0.0 to deactivate film cooing. ~15% is the most 200 s allows at 85% c* efficiency
-injection_velocity = 10								  # [m/s]
-injector_diameter  = 0.4e-3							  # [m]
 
 # Chamber geometry, r_1 and r_2 follow RPA nomenclature
 D_c       = 98.43e-3                                   # chamber diamter [m]

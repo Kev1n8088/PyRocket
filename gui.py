@@ -39,12 +39,15 @@ REPO    = os.path.dirname(os.path.abspath(__file__))
 STATIC  = os.path.join(REPO, 'webui')
 LOGS    = os.path.join(tempfile.gettempdir(), 'pyrocket_gui')
 SECTION = re.compile(r'SOLVING Section Number\s+(\d+)\s*/\s*(\d+)')
+CASES   = re.compile(r'^Cases: (.+)$', re.M)
 STAGE   = re.compile(r'(Grid|Refinement (\d+)/(\d+)): designs evaluated (\d+) / (\d+)')
 FEAS    = re.compile(r'^\s+designs evaluated (\d+) / (\d+)', re.M)
 
 # key statistics shown for a case: summary key, label, unit, conversion from SI
 TEMP = Units.temperature_unit()
 STATS = [
+    ('throttle',          'Throttle',                   '%',     lambda v: v * 100),
+    ('MR_core',           'Core O/F',                   '-',     lambda v: v),
     ('T_wall_max',        'Max inner wall temp',        TEMP,    Units.temperature),
     ('T_wall_median',     'Median inner wall temp',     TEMP,    Units.temperature),
     ('T_wall_throat',     'Inner wall temp at throat',  TEMP,    Units.temperature),
@@ -162,7 +165,8 @@ class Job:
         self.title   = title
         self.cmd     = cmd
         self.out     = out             # output folder of run.py / sweep.py
-        self.cases   = cases or []     # case names of a run
+        self.cases   = cases or []     # case names of a run, before run.py reports the operating points of its configs
+        self.points  = []              # case names run.py reports, one per operating point (design and throttle points)
         self.folder  = folder          # sweep folder
         self.params  = params or {}
         self.started = time.time()
@@ -193,13 +197,26 @@ class Job:
             except ProcessLookupError:
                 pass
 
+    def run_cases(self):
+        # case names of a run: a config with throttle_points expands into one case per operating point, which run.py
+        # reports as "Cases: ..." when it starts. Until then the configs themselves are the best guess
+        if not self.points:
+            try:
+                with open(self.log) as f:
+                    found = CASES.search(f.read(8192))
+                if found:
+                    self.points = [n.strip() for n in found.group(1).split(',') if n.strip()]
+            except OSError:
+                pass
+        return self.points or self.cases
+
     def progress(self):
         if self.kind == 'optimize':
             return optimize_progress(self)
         if self.kind == 'feasibility':
             return feasibility_progress(self)
         if self.kind == 'run':
-            cases = [dict(name=c, **case_progress(os.path.join(self.out, c), self.started)) for c in self.cases]
+            cases = [dict(name=c, **case_progress(os.path.join(self.out, c), self.started)) for c in self.run_cases()]
             fraction = sum(c['fraction'] for c in cases) / max(len(cases), 1)
             return {'cases': cases, 'fraction': fraction}
         points = []
@@ -238,7 +255,7 @@ class Job:
                 if os.path.isfile(path) and os.path.getmtime(path) >= self.started - 1:
                     info['result'] = feasibility_result(self.folder)
             elif status != 'running':
-                info['result'] = (run_result(self.out, self.cases) if self.kind == 'run' else sweep_result(self.folder))
+                info['result'] = (run_result(self.out, self.run_cases()) if self.kind == 'run' else sweep_result(self.folder))
                 if self.kind == 'sweep':
                     # outcome lines printed by sweep.py, and the value of the best point
                     lines = [l for l in tail(self.log, 400).splitlines() if l.startswith(('Best ', 'Set ', 'Width limits', 'No feasible', 'Even axial'))]
@@ -477,8 +494,6 @@ def start_optimize(body):
         cmd += ['--min-bulk-boil-margin', repr(num('min_bulk_boil_margin'))]
     if body.get('density') in ('coarse', 'normal', 'fine'):
         cmd += ['--density', body['density']]
-    if body.get('longitudinal') in ('shell', 'wall'):
-        cmd += ['--longitudinal', body['longitudinal']]
     if body.get('section_model') in ('grid', 'network'):
         cmd += ['--section-model', body['section_model']]
     cmd += ['--verify', str(int(num('verify') or 3)), '--jobs', str(max(1, int(num('jobs') or 1))), '--out', out]

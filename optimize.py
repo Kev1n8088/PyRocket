@@ -77,13 +77,13 @@ def quiet_warnings():
     warnings.filterwarnings('ignore', message='The iteration is not making good progress')
 
 
-def init_worker(config_path, table, tsat, limits, longitudinal, section_model):
+def init_worker(config_path, table, tsat, limits, section_model):
     # build the fixed part of the case once per worker: contour, CEA, isentropic flow, film cooling
     os.environ.setdefault('OMP_NUM_THREADS', '1')
     quiet_warnings()
     with contextlib.redirect_stdout(io.StringIO()):
         cfg = load_config(config_path, tempfile.mkdtemp(prefix='pyrocket_optimize_'), base_overrides(config_path))
-    CASE.update(cfg=cfg, table=table, tsat=tsat, limits=limits, longitudinal=longitudinal, section_model=section_model)
+    CASE.update(cfg=cfg, table=table, tsat=tsat, limits=limits, section_model=section_model)
 
 
 def width_inputs(cfg, d):
@@ -106,13 +106,12 @@ def design_geometry(cfg, d):
     return cg, w
 
 
-def evaluate(d, cfg=None, table=None, tsat=None, limits=None, longitudinal=None, out=None, material=None):
+def evaluate(d, cfg=None, table=None, tsat=None, limits=None, out=None, material=None):
     """[Summary]
     Metrics of a design from the 1D model, or from a finished 2D run when out (an Output1D with results) is given.
     """
     cfg = cfg or CASE['cfg']
     limits = limits or CASE['limits']
-    longitudinal = longitudinal or CASE['longitudinal']
     table = table if table is not None else CASE.get('table')
     tsat = tsat if tsat is not None else CASE.get('tsat')
     result = dict(d)
@@ -133,7 +132,7 @@ def evaluate(d, cfg=None, table=None, tsat=None, limits=None, longitudinal=None,
     if out is None:
         out = QuietOutput(cfg.geometry, cfg.save_path)
         sim = FastHeatTransfer(cea=cfg.cea, gas=cfg.gas, geometry=cfg.geometry, material=material, coolant=cfg.coolant, cooling_geometry=cg,
-                               m_dot=cfg.m_dot, m_dot_coolant=cfg.m_dot_coolant, T_amb=cfg.ambient_temp, output=out, settings2D=cfg.settings,
+                               m_dot=cfg.m_dot_core, m_dot_coolant=cfg.m_dot_coolant, T_amb=cfg.ambient_temp, output=out, settings2D=cfg.settings,
                                model=cfg.hot_gas_method, cool_model=cfg.cooling_method, eta_c_star=cfg.eta_c_star, film=cfg.film,
                                bartz_knockdown=getattr(cfg, 'bartz_knockdown', 1.0), turnaround_loss=getattr(cfg, 'turnaround_loss', 1.5),
                                table=table, section_model=CASE.get('section_model', 'grid'))
@@ -147,7 +146,7 @@ def evaluate(d, cfg=None, table=None, tsat=None, limits=None, longitudinal=None,
     two = cg.passes == 2
     outlet = (0 if cfg.start_idx == 0 else -1) if two else (0 if cfg.start_idx == -1 else -1)
     T_out, P_out = (out.T_c2[outlet], out.P_c2[outlet]) if two else (out.T_c[outlet], out.P_c[outlet])
-    st = chamber_stress(material, out, cg, cfg.gas.p_s, longitudinal=longitudinal)
+    st = chamber_stress(material, out, cg, cfg.gas.p_s)
     i = int(np.argmin(st['margin']))
     x = cfg.geometry[:, 0]
 
@@ -390,8 +389,6 @@ if __name__ == '__main__':
     parser.add_argument('--refine', type=int, default=6, help='pattern search rounds around the best designs (default 6)')
     parser.add_argument('--starts', type=int, default=6, help='number of best designs to refine (default 6)')
     parser.add_argument('--verify', type=int, default=3, help='number of designs to verify with the 2D solver (default 3)')
-    parser.add_argument('--longitudinal', choices=('shell', 'wall'), default='shell',
-                        help="temperature difference of the longitudinal thermal stress: hot wall to coolant-side wall (shell, default) or across the hot wall (wall)")
     parser.add_argument('--section-model', choices=('grid', 'network'), default='grid',
                         help="fast section model: structured finite volume grid (default, within a few K of the 2D solver) or resistance network (faster, less accurate for wide ribs of low conductivity materials)")
     parser.add_argument('--jobs', type=int, default=max(1, (os.cpu_count() or 2) - 1), help='parallel processes (default: all CPUs but one)')
@@ -446,7 +443,7 @@ if __name__ == '__main__':
 
     ctx = multiprocessing.get_context('spawn')
     results = {}
-    with ctx.Pool(args.jobs, initializer=init_worker, initargs=(args.config, table, tsat, limits, args.longitudinal, args.section_model)) as pool:
+    with ctx.Pool(args.jobs, initializer=init_worker, initargs=(args.config, table, tsat, limits, args.section_model)) as pool:
 
         def run_batch(batch, stage):
             todo = [d for d in batch if key_of(d) not in results]
@@ -519,7 +516,7 @@ if __name__ == '__main__':
                 out = QuietOutput(cfg.geometry, job[1])
                 out.T_wall_i, out.q, out.T_c, out.P_c, out.v_coolant, out.T_wall_c = d[:, 6], d[:, 5], d[:, 7], d[:, 8], d[:, 10], d[:, 12]
                 out.T_c2, out.P_c2, out.T_wall_c2 = d[:, 13], d[:, 14], d[:, 18]
-                entry['2d'] = evaluate(job[2], cfg=cfg, table=table, tsat=tsat, limits=limits, longitudinal=args.longitudinal, out=out)
+                entry['2d'] = evaluate(job[2], cfg=cfg, table=table, tsat=tsat, limits=limits, out=out)
             verified.append(entry)
         Summary.plot_summary([dict(e['case'], case=e['name']) for e in verified if e['case'].get('status') == 'ok'],
                              os.path.join(folder, 'verified'), os.path.join(folder, 'verified_summary.png'), heading='2D verification, %s' % name)

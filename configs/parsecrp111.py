@@ -21,20 +21,30 @@ import PropLibrary as proplib
 fuel            = proplib.rp1               # choose existing fuel or oxidiser from rocketcea or create new fuel or oxidiser blend in PropLibrary
 ox              = 'O2'
 hot_gas_method  = 'standard-bartz'                         # use either 'cinjarev', 'standard-bartz' or 'modified-bartz'
-bartz_knockdown = 0.9                                # knockdown factor for bartz heat transfer. 0.9 typical for smooth hotwall + traditional impinging jet injector, can be as low as 0.5 with interesting recirculation zones. 1.0 for no knockdown
+bartz_knockdown = 1.0                                # knockdown factor for bartz heat transfer. 0.9 typical for smooth hotwall + traditional impinging jet injector, can be as low as 0.5 with interesting recirculation zones. 1.0 for no knockdown
 
-# Operating point of combustion chamber 
+# Operating point of combustion chamber: core flow only, i.e. the propellant that actually burns. Film coolant (below) is
+# additional propellant assumed not to burn, so it is excluded from this O/F and mass flow, and from the hot gas heat
+# transfer calculations, which use the core flow only
 eta_c_star      = 1.0                               # c* efficiency
-MR              = 1.3
-m_dot           = 1.557                                # total mass flow [kg/s]
-m_dot_f         = m_dot / (MR + 1)
-m_dot_ox        = m_dot - m_dot_f
+MR_core         = 1.43                                # core (combustion) oxidiser/fuel mixture ratio
+m_dot_core      = 1.77517                                # core mass flow [kg/s]: oxidiser + fuel that actually combusts
+m_dot_f         = m_dot_core / (MR_core + 1)
+m_dot_ox        = m_dot_core - m_dot_f
 Pc              = 17.4e5                               # Chamber pressure [Pa]
+
+# Film cooling settings for coolant originating at the injector face. Assumed not to burn, so excluded from the core O/F,
+# mass flow and heat transfer above
+m_dot_film = 0.1 * m_dot_f                       # set mass flow to 0.0 to deactivate film cooing. 
+injection_velocity = 10								  # [m/s]
+injector_diameter  = 0.4e-3							  # [m]
+
+m_dot           = m_dot_core + m_dot_film            # total propellant mass flow [kg/s] (core + film), for reference only
 
 # Coolant input
 cooling_fluid   = ['n-dodecane']                     # needs to be list of str (thermo names); RP1 -> 'n-dodecane' (surrogate), IPA -> 'isopropanol'
 fluid_mass_frac = [1.0]    			                 # mass fractions of the cooling fluid (needs to add up to 1)
-m_dot_coolant   = m_dot_f                 		 	 # mass flow through the cooling channels
+m_dot_coolant   = m_dot_f + m_dot_film                  # mass flow through the cooling channels: core fuel + film, both routed through the jacket
 inlet_temp      = 288.0                     		 # inlet temperature [K]
 inlet_pressure  = 34.5e5                               # Cooling channel inlet pressure [Pa]. Fuel throttle valve upstream of the jacket, so the jacket
                                                        # outlet sits at the injector manifold: Pc + 10 bar injector dp = 30.1 bar, plus ~2.3 bar jacket dp
@@ -42,24 +52,25 @@ inlet_pressure  = 34.5e5                               # Cooling channel inlet p
 cooling_method  = 'gnielinski'                       # use either 'gnielinski', 'dittus-boelter' or 'dittus-boelter-simple', pay attention to suitable Re number range
 ambient_temp    = 288.15							 # ambient temperature for radiation boundary condition [K] (must be type float)!!
 
-# Film cooling settings for coolant originating at the injector face
-m_dot_film = 0.15 * m_dot_coolant                       # set mass flow to 0.0 to deactivate film cooing. ~15% is the most 200 s allows at 85% c* efficiency
-injection_velocity = 10								  # [m/s]
-injector_diameter  = 0.4e-3							  # [m]
+# Throttle points, each run as its own case next to the design point (see config.py). The fixed area injector shifts the core
+# O/F when throttled, so each point sets its own MR_core. The film keeps its 10% of the fuel flow at every point
+throttle_points = [dict(throttle=0.75, MR_core=1.37),
+                   dict(throttle=0.5, MR_core=1.32)]
+throttle_inlet  = 'scale'                            # fuel throttle valve upstream of the jacket, so the inlet pressure follows the feed pressure drop
 
 # Chamber geometry, r_1 and r_2 follow RPA nomenclature
-D_c       = 100.93e-3                                   # chamber diamter [m]
-D_t       = 41.21e-3                                    # throat diameter [m]
-D_e       = 64.57e-3                                    # exit diamter [m]
-L_cyl     = 115.30e-3                                   # cylindrical chamber length [m]
-r_2       = 96.0e-3                                    # converging section inlet radius, R2 in RPA [m]
-r_1       = 30.90e-3                                  # throat converging section radius, R1 in RPA [m]
-r_n       = 7.87e-3                                  # throat diverging radius [m]
+D_c       = 103.77e-3                                   # chamber diamter [m]
+D_t       = 42.36e-3                                    # throat diameter [m]
+D_e       = 66.61e-3                                    # exit diamter [m]
+L_cyl     = 113.86e-3                                   # cylindrical chamber length [m]
+r_2       = 98.69e-3                                    # converging section inlet radius, R2 in RPA [m]
+r_1       = 31.77e-3                                  # throat converging section radius, R1 in RPA [m]
+r_n       = 8.09e-3                                  # throat diverging radius [m]
 phi_conv  = 30                                       # convergence angle [deg]
-phi_div   = 13.15                                       # divergence angle [deg]
+phi_div   = 13.04                                       # divergence angle [deg]
 phi_e     = 8.00                                       # exit angle [deg]
 nozzle_type = 'bezier'                               # use either 'parabola' (length follows from phi_div and phi_e) or 'bezier' (RPA style, uses L_e)
-L_e       = 64.57e-3                                 # nozzle length from throat to exit [m], only used for 'bezier'
+L_e       = 64.21e-3                                 # nozzle length from throat to exit [m], only used for 'bezier'
 step_size = 0.003                                    # step size along the chamber contour [m]
 material  = matlib.CuCr1Zr
 # cooling channel geometry; h_c, psi, channel_width, t_w_i and helix_angle can be functions of x
@@ -69,7 +80,7 @@ material  = matlib.CuCr1Zr
 # >= 0.8 mm, coolant pressure drop <= 10 bar. Fast model at eta_c_star = 1.0: 745 K max hot wall, +7 K bulk boiling margin at full
 # thrust; throttling needs O/F ~1.15 at 60% and ~1.10 at 50% (fixed-area injector, valve upstream of the jacket)
 n         = 56                                       # number of cooling channels [int], of both passes together
-t_w_i     = 0.75e-3                                   # inner chamber wall thickness [m] CAN BE FLOAT OR FUNCTION
+t_w_i     = 0.8e-3                                   # inner chamber wall thickness [m] CAN BE FLOAT OR FUNCTION
 t_w_o     = 1e-3                                     # outer chamber wall thickness [m]
 psi       = n * 1.2e-3 / (2 * np.pi * (D_t / 2 + t_w_i))   # fill factor of the cooling channels (0 - 1) CAN BE FLOAT OR FUNCTION, gives 1.2 mm channels at the throat
 #approx 0.38490446889786584

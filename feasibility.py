@@ -52,7 +52,7 @@ from optimize import design_geometry, label, levels, quiet_warnings
 
 # flow arrangements: (two passes, start_idx)
 ARRANGEMENTS = {'1p-inj': (False, 0), '1p-noz': (False, -1), '2p-inj': (True, 0), '2p-noz': (True, -1)}
-MASS_FLOWS   = ('m_dot', 'm_dot_f', 'm_dot_ox', 'm_dot_coolant', 'm_dot_film')
+MASS_FLOWS   = ('m_dot', 'm_dot_core', 'm_dot_f', 'm_dot_ox', 'm_dot_coolant', 'm_dot_film')
 MATERIALS    = ('AlSi10Mg', 'CuCr1Zr', 'IN718')     # energy budget only (--quick) runs all of these unless --material is given
 
 
@@ -93,7 +93,7 @@ def build_case(config_path, overrides, material):
 
 def make_sim(cfg, cooling_geometry, material, table, out=None):
     return FastHeatTransfer(cea=cfg.cea, gas=cfg.gas, geometry=cfg.geometry, material=material, coolant=cfg.coolant, cooling_geometry=cooling_geometry,
-                            m_dot=cfg.m_dot, m_dot_coolant=cfg.m_dot_coolant, T_amb=cfg.ambient_temp, output=out or QuietOutput(cfg.geometry, cfg.save_path),
+                            m_dot=cfg.m_dot_core, m_dot_coolant=cfg.m_dot_coolant, T_amb=cfg.ambient_temp, output=out or QuietOutput(cfg.geometry, cfg.save_path),
                             settings2D=cfg.settings, model=cfg.hot_gas_method, cool_model=cfg.cooling_method, eta_c_star=cfg.eta_c_star, film=cfg.film,
                             bartz_knockdown=getattr(cfg, 'bartz_knockdown', 1.0), turnaround_loss=getattr(cfg, 'turnaround_loss', 1.5), table=table)
 

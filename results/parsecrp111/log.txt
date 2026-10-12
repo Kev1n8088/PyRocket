@@ -1,0 +1,1754 @@
+#############################################
+     Starting Cooling Channel Simulation     
+#############################################
+
+Section mesh resolution:          0.00012  [m]
+Transient simulation time step:   0.0002  [s]
+
+Folder Path: 	 /mnt/d/devops/PyRocket/results/parsecrp111
+
+TWO-PASS iteration 1: return pass outlet guess 480.92 K, 33.5000 bar
+SOLVING Section Number	 1  /  91
+iteration:  1 	T max:  584.221  [K] 	change: 2.96e+02 K, heat balance error 4.10e-13
+iteration:  2 	T max:  574.271  [K] 	change: 9.95e+00 K, heat balance error 2.75e-13
+iteration:  3 	T max:  574.547  [K] 	change: 2.76e-01 K, heat balance error 3.73e-13
+iteration:  4 	T max:  574.539  [K] 	change: 7.69e-03 K, heat balance error 2.77e-13
+iteration:  5 	T max:  574.539  [K] 	change: 0.00e+00 K, heat balance error 1.50e-06
+SOLVING Section Number	 2  /  91
+iteration:  1 	T max:  575.058  [K] 	change: 2.17e+01 K, heat balance error 4.83e-13
+iteration:  2 	T max:  574.525  [K] 	change: 5.33e-01 K, heat balance error 1.09e-14
+iteration:  3 	T max:  574.54  [K] 	change: 1.48e-02 K, heat balance error 9.98e-14
+iteration:  4 	T max:  574.54  [K] 	change: 0.00e+00 K, heat balance error 2.90e-06
+SOLVING Section Number	 3  /  91
+iteration:  1 	T max:  574.354  [K] 	change: 2.10e+01 K, heat balance error 1.30e-14
+iteration:  2 	T max:  573.841  [K] 	change: 5.13e-01 K, heat balance error 4.21e-13
+iteration:  3 	T max:  573.855  [K] 	change: 1.43e-02 K, heat balance error 4.38e-13
+iteration:  4 	T max:  573.855  [K] 	change: 0.00e+00 K, heat balance error 2.79e-06
+SOLVING Section Number	 4  /  91
+iteration:  1 	T max:  573.676  [K] 	change: 2.10e+01 K, heat balance error 1.79e-13
+iteration:  2 	T max:  573.163  [K] 	change: 5.13e-01 K, heat balance error 2.12e-13
+iteration:  3 	T max:  573.177  [K] 	change: 1.43e-02 K, heat balance error 2.12e-14
+iteration:  4 	T max:  573.177  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 5  /  91
+iteration:  1 	T max:  573.005  [K] 	change: 2.09e+01 K, heat balance error 1.63e-13
+iteration:  2 	T max:  572.491  [K] 	change: 5.13e-01 K, heat balance error 3.61e-13
+iteration:  3 	T max:  572.506  [K] 	change: 1.43e-02 K, heat balance error 3.19e-13
+iteration:  4 	T max:  572.506  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 6  /  91
+iteration:  1 	T max:  572.34  [K] 	change: 2.09e+01 K, heat balance error 6.33e-14
+iteration:  2 	T max:  571.827  [K] 	change: 5.13e-01 K, heat balance error 1.25e-13
+iteration:  3 	T max:  571.841  [K] 	change: 1.43e-02 K, heat balance error 2.67e-14
+iteration:  4 	T max:  571.841  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 7  /  91
+iteration:  1 	T max:  571.682  [K] 	change: 2.09e+01 K, heat balance error 3.91e-13
+iteration:  2 	T max:  571.169  [K] 	change: 5.14e-01 K, heat balance error 6.53e-13
+iteration:  3 	T max:  571.183  [K] 	change: 1.43e-02 K, heat balance error 2.52e-13
+iteration:  4 	T max:  571.183  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 8  /  91
+iteration:  1 	T max:  571.032  [K] 	change: 2.08e+01 K, heat balance error 6.39e-14
+iteration:  2 	T max:  570.518  [K] 	change: 5.14e-01 K, heat balance error 3.43e-14
+iteration:  3 	T max:  570.532  [K] 	change: 1.43e-02 K, heat balance error 4.90e-13
+iteration:  4 	T max:  570.532  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 9  /  91
+iteration:  1 	T max:  570.387  [K] 	change: 2.08e+01 K, heat balance error 2.77e-13
+iteration:  2 	T max:  569.874  [K] 	change: 5.14e-01 K, heat balance error 1.99e-13
+iteration:  3 	T max:  569.888  [K] 	change: 1.43e-02 K, heat balance error 4.62e-13
+iteration:  4 	T max:  569.888  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 10  /  91
+iteration:  1 	T max:  569.75  [K] 	change: 2.07e+01 K, heat balance error 2.40e-13
+iteration:  2 	T max:  569.236  [K] 	change: 5.14e-01 K, heat balance error 1.13e-13
+iteration:  3 	T max:  569.25  [K] 	change: 1.43e-02 K, heat balance error 2.22e-14
+iteration:  4 	T max:  569.25  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 11  /  91
+iteration:  1 	T max:  569.119  [K] 	change: 2.07e+01 K, heat balance error 2.84e-13
+iteration:  2 	T max:  568.605  [K] 	change: 5.14e-01 K, heat balance error 5.61e-13
+iteration:  3 	T max:  568.619  [K] 	change: 1.43e-02 K, heat balance error 2.36e-13
+iteration:  4 	T max:  568.619  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 12  /  91
+iteration:  1 	T max:  568.499  [K] 	change: 2.07e+01 K, heat balance error 5.74e-13
+iteration:  2 	T max:  568.036  [K] 	change: 5.14e-01 K, heat balance error 9.47e-14
+iteration:  3 	T max:  568.048  [K] 	change: 1.43e-02 K, heat balance error 4.10e-13
+iteration:  4 	T max:  568.048  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 13  /  91
+iteration:  1 	T max:  567.979  [K] 	change: 2.07e+01 K, heat balance error 4.11e-13
+iteration:  2 	T max:  567.515  [K] 	change: 5.14e-01 K, heat balance error 6.41e-14
+iteration:  3 	T max:  567.527  [K] 	change: 1.43e-02 K, heat balance error 9.77e-13
+iteration:  4 	T max:  567.527  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 14  /  91
+iteration:  1 	T max:  567.463  [K] 	change: 2.08e+01 K, heat balance error 3.43e-13
+iteration:  2 	T max:  566.998  [K] 	change: 5.14e-01 K, heat balance error 3.86e-13
+iteration:  3 	T max:  567.011  [K] 	change: 1.43e-02 K, heat balance error 3.89e-13
+iteration:  4 	T max:  567.011  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 15  /  91
+iteration:  1 	T max:  566.951  [K] 	change: 2.09e+01 K, heat balance error 3.81e-13
+iteration:  2 	T max:  566.486  [K] 	change: 5.14e-01 K, heat balance error 1.81e-14
+iteration:  3 	T max:  566.499  [K] 	change: 1.43e-02 K, heat balance error 6.22e-13
+iteration:  4 	T max:  566.499  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 16  /  91
+iteration:  1 	T max:  566.444  [K] 	change: 2.09e+01 K, heat balance error 2.62e-13
+iteration:  2 	T max:  565.979  [K] 	change: 5.14e-01 K, heat balance error 4.35e-13
+iteration:  3 	T max:  565.991  [K] 	change: 1.43e-02 K, heat balance error 6.13e-13
+iteration:  4 	T max:  565.991  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 17  /  91
+iteration:  1 	T max:  565.942  [K] 	change: 2.10e+01 K, heat balance error 1.59e-13
+iteration:  2 	T max:  565.475  [K] 	change: 5.14e-01 K, heat balance error 9.52e-15
+iteration:  3 	T max:  565.488  [K] 	change: 1.42e-02 K, heat balance error 7.58e-14
+iteration:  4 	T max:  565.488  [K] 	change: 0.00e+00 K, heat balance error 2.81e-06
+SOLVING Section Number	 18  /  91
+iteration:  1 	T max:  565.443  [K] 	change: 2.10e+01 K, heat balance error 2.23e-13
+iteration:  2 	T max:  564.976  [K] 	change: 5.15e-01 K, heat balance error 9.55e-15
+iteration:  3 	T max:  564.989  [K] 	change: 1.42e-02 K, heat balance error 2.09e-15
+iteration:  4 	T max:  564.989  [K] 	change: 0.00e+00 K, heat balance error 2.82e-06
+SOLVING Section Number	 19  /  91
+iteration:  1 	T max:  564.949  [K] 	change: 2.11e+01 K, heat balance error 3.85e-14
+iteration:  2 	T max:  564.482  [K] 	change: 5.15e-01 K, heat balance error 4.56e-13
+iteration:  3 	T max:  564.495  [K] 	change: 1.42e-02 K, heat balance error 2.02e-13
+iteration:  4 	T max:  564.495  [K] 	change: 0.00e+00 K, heat balance error 2.82e-06
+SOLVING Section Number	 20  /  91
+iteration:  1 	T max:  644.677  [K] 	change: 1.01e+02 K, heat balance error 1.02e-13
+iteration:  2 	T max:  640.365  [K] 	change: 4.31e+00 K, heat balance error 1.25e-13
+iteration:  3 	T max:  640.547  [K] 	change: 1.82e-01 K, heat balance error 1.07e-13
+iteration:  4 	T max:  640.539  [K] 	change: 7.72e-03 K, heat balance error 1.83e-13
+iteration:  5 	T max:  640.539  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 21  /  91
+iteration:  1 	T max:  640.851  [K] 	change: 3.54e+01 K, heat balance error 8.42e-15
+iteration:  2 	T max:  639.628  [K] 	change: 1.22e+00 K, heat balance error 1.79e-13
+iteration:  3 	T max:  639.679  [K] 	change: 5.15e-02 K, heat balance error 3.85e-14
+iteration:  4 	T max:  639.679  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 22  /  91
+iteration:  1 	T max:  639.997  [K] 	change: 3.53e+01 K, heat balance error 8.24e-14
+iteration:  2 	T max:  638.773  [K] 	change: 1.22e+00 K, heat balance error 1.07e-13
+iteration:  3 	T max:  638.825  [K] 	change: 5.16e-02 K, heat balance error 1.02e-13
+iteration:  4 	T max:  638.825  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 23  /  91
+iteration:  1 	T max:  639.151  [K] 	change: 3.53e+01 K, heat balance error 1.86e-13
+iteration:  2 	T max:  637.926  [K] 	change: 1.22e+00 K, heat balance error 1.96e-13
+iteration:  3 	T max:  637.978  [K] 	change: 5.16e-02 K, heat balance error 6.70e-13
+iteration:  4 	T max:  637.978  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 24  /  91
+iteration:  1 	T max:  638.313  [K] 	change: 3.52e+01 K, heat balance error 4.12e-13
+iteration:  2 	T max:  637.088  [K] 	change: 1.23e+00 K, heat balance error 3.27e-13
+iteration:  3 	T max:  637.139  [K] 	change: 5.17e-02 K, heat balance error 9.88e-14
+iteration:  4 	T max:  637.139  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 25  /  91
+iteration:  1 	T max:  637.484  [K] 	change: 3.52e+01 K, heat balance error 1.80e-13
+iteration:  2 	T max:  636.257  [K] 	change: 1.23e+00 K, heat balance error 2.52e-13
+iteration:  3 	T max:  636.309  [K] 	change: 5.17e-02 K, heat balance error 2.06e-13
+iteration:  4 	T max:  636.309  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 26  /  91
+iteration:  1 	T max:  636.662  [K] 	change: 3.51e+01 K, heat balance error 8.48e-14
+iteration:  2 	T max:  635.435  [K] 	change: 1.23e+00 K, heat balance error 3.28e-13
+iteration:  3 	T max:  635.487  [K] 	change: 5.18e-02 K, heat balance error 2.70e-13
+iteration:  4 	T max:  635.487  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 27  /  91
+iteration:  1 	T max:  635.849  [K] 	change: 3.51e+01 K, heat balance error 2.22e-13
+iteration:  2 	T max:  634.621  [K] 	change: 1.23e+00 K, heat balance error 3.61e-13
+iteration:  3 	T max:  634.673  [K] 	change: 5.18e-02 K, heat balance error 7.10e-13
+iteration:  4 	T max:  634.673  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 28  /  91
+iteration:  1 	T max:  635.044  [K] 	change: 3.50e+01 K, heat balance error 2.31e-13
+iteration:  2 	T max:  633.815  [K] 	change: 1.23e+00 K, heat balance error 7.47e-15
+iteration:  3 	T max:  633.867  [K] 	change: 5.19e-02 K, heat balance error 4.80e-13
+iteration:  4 	T max:  633.867  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 29  /  91
+iteration:  1 	T max:  634.248  [K] 	change: 3.50e+01 K, heat balance error 3.99e-13
+iteration:  2 	T max:  633.018  [K] 	change: 1.23e+00 K, heat balance error 3.76e-13
+iteration:  3 	T max:  633.07  [K] 	change: 5.19e-02 K, heat balance error 1.24e-13
+iteration:  4 	T max:  633.07  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 30  /  91
+iteration:  1 	T max:  633.46  [K] 	change: 3.49e+01 K, heat balance error 2.92e-13
+iteration:  2 	T max:  632.23  [K] 	change: 1.23e+00 K, heat balance error 2.09e-13
+iteration:  3 	T max:  632.282  [K] 	change: 5.19e-02 K, heat balance error 6.72e-15
+iteration:  4 	T max:  632.282  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 31  /  91
+iteration:  1 	T max:  632.682  [K] 	change: 3.49e+01 K, heat balance error 6.71e-13
+iteration:  2 	T max:  631.451  [K] 	change: 1.23e+00 K, heat balance error 1.35e-13
+iteration:  3 	T max:  631.503  [K] 	change: 5.20e-02 K, heat balance error 2.15e-13
+iteration:  4 	T max:  631.503  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 32  /  91
+iteration:  1 	T max:  631.913  [K] 	change: 3.48e+01 K, heat balance error 1.44e-13
+iteration:  2 	T max:  630.681  [K] 	change: 1.23e+00 K, heat balance error 3.67e-13
+iteration:  3 	T max:  630.733  [K] 	change: 5.20e-02 K, heat balance error 2.02e-13
+iteration:  4 	T max:  630.733  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 33  /  91
+iteration:  1 	T max:  631.153  [K] 	change: 3.48e+01 K, heat balance error 4.93e-13
+iteration:  2 	T max:  629.921  [K] 	change: 1.23e+00 K, heat balance error 3.07e-13
+iteration:  3 	T max:  629.973  [K] 	change: 5.21e-02 K, heat balance error 2.38e-13
+iteration:  4 	T max:  629.973  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 34  /  91
+iteration:  1 	T max:  630.403  [K] 	change: 3.47e+01 K, heat balance error 2.42e-13
+iteration:  2 	T max:  629.17  [K] 	change: 1.23e+00 K, heat balance error 2.97e-13
+iteration:  3 	T max:  629.222  [K] 	change: 5.21e-02 K, heat balance error 1.87e-13
+iteration:  4 	T max:  629.222  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 35  /  91
+iteration:  1 	T max:  629.663  [K] 	change: 3.47e+01 K, heat balance error 1.08e-13
+iteration:  2 	T max:  628.429  [K] 	change: 1.23e+00 K, heat balance error 1.14e-13
+iteration:  3 	T max:  628.481  [K] 	change: 5.21e-02 K, heat balance error 6.02e-14
+iteration:  4 	T max:  628.481  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 36  /  91
+iteration:  1 	T max:  628.933  [K] 	change: 3.47e+01 K, heat balance error 6.07e-13
+iteration:  2 	T max:  627.698  [K] 	change: 1.23e+00 K, heat balance error 8.03e-14
+iteration:  3 	T max:  627.751  [K] 	change: 5.22e-02 K, heat balance error 9.94e-14
+iteration:  4 	T max:  627.751  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 37  /  91
+iteration:  1 	T max:  628.213  [K] 	change: 3.46e+01 K, heat balance error 4.35e-13
+iteration:  2 	T max:  626.978  [K] 	change: 1.23e+00 K, heat balance error 5.76e-14
+iteration:  3 	T max:  627.03  [K] 	change: 5.22e-02 K, heat balance error 1.17e-13
+iteration:  4 	T max:  627.03  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 38  /  91
+iteration:  1 	T max:  627.504  [K] 	change: 3.46e+01 K, heat balance error 7.13e-14
+iteration:  2 	T max:  626.269  [K] 	change: 1.24e+00 K, heat balance error 2.96e-14
+iteration:  3 	T max:  626.321  [K] 	change: 5.22e-02 K, heat balance error 4.78e-13
+iteration:  4 	T max:  626.321  [K] 	change: 0.00e+00 K, heat balance error 1.06e-05
+SOLVING Section Number	 39  /  91
+iteration:  1 	T max:  626.806  [K] 	change: 3.46e+01 K, heat balance error 1.49e-13
+iteration:  2 	T max:  625.569  [K] 	change: 1.24e+00 K, heat balance error 8.01e-14
+iteration:  3 	T max:  625.622  [K] 	change: 5.22e-02 K, heat balance error 2.48e-13
+iteration:  4 	T max:  625.622  [K] 	change: 0.00e+00 K, heat balance error 1.06e-05
+SOLVING Section Number	 40  /  91
+iteration:  1 	T max:  626.225  [K] 	change: 3.46e+01 K, heat balance error 5.69e-13
+iteration:  2 	T max:  624.982  [K] 	change: 1.24e+00 K, heat balance error 1.60e-14
+iteration:  3 	T max:  625.035  [K] 	change: 5.26e-02 K, heat balance error 2.09e-13
+iteration:  4 	T max:  625.035  [K] 	change: 0.00e+00 K, heat balance error 1.06e-05
+SOLVING Section Number	 41  /  91
+iteration:  1 	T max:  625.759  [K] 	change: 3.48e+01 K, heat balance error 3.96e-14
+iteration:  2 	T max:  624.507  [K] 	change: 1.25e+00 K, heat balance error 8.07e-14
+iteration:  3 	T max:  624.56  [K] 	change: 5.30e-02 K, heat balance error 2.70e-13
+iteration:  4 	T max:  624.56  [K] 	change: 0.00e+00 K, heat balance error 1.08e-05
+SOLVING Section Number	 42  /  91
+iteration:  1 	T max:  625.262  [K] 	change: 3.49e+01 K, heat balance error 3.20e-13
+iteration:  2 	T max:  623.996  [K] 	change: 1.27e+00 K, heat balance error 2.54e-15
+iteration:  3 	T max:  624.05  [K] 	change: 5.37e-02 K, heat balance error 3.11e-13
+iteration:  4 	T max:  624.05  [K] 	change: 0.00e+00 K, heat balance error 1.09e-05
+SOLVING Section Number	 43  /  91
+iteration:  1 	T max:  624.853  [K] 	change: 3.52e+01 K, heat balance error 1.40e-13
+iteration:  2 	T max:  623.571  [K] 	change: 1.28e+00 K, heat balance error 1.69e-13
+iteration:  3 	T max:  623.626  [K] 	change: 5.45e-02 K, heat balance error 3.09e-14
+iteration:  4 	T max:  623.626  [K] 	change: 0.00e+00 K, heat balance error 1.11e-05
+SOLVING Section Number	 44  /  91
+iteration:  1 	T max:  624.795  [K] 	change: 3.56e+01 K, heat balance error 1.63e-13
+iteration:  2 	T max:  623.491  [K] 	change: 1.30e+00 K, heat balance error 6.09e-13
+iteration:  3 	T max:  623.547  [K] 	change: 5.56e-02 K, heat balance error 3.46e-14
+iteration:  4 	T max:  623.547  [K] 	change: 0.00e+00 K, heat balance error 1.13e-05
+SOLVING Section Number	 45  /  91
+iteration:  1 	T max:  625.153  [K] 	change: 3.64e+01 K, heat balance error 7.84e-14
+iteration:  2 	T max:  623.815  [K] 	change: 1.34e+00 K, heat balance error 2.10e-13
+iteration:  3 	T max:  623.872  [K] 	change: 5.74e-02 K, heat balance error 2.73e-13
+iteration:  4 	T max:  623.872  [K] 	change: 0.00e+00 K, heat balance error 1.17e-05
+SOLVING Section Number	 46  /  91
+iteration:  1 	T max:  625.434  [K] 	change: 3.73e+01 K, heat balance error 3.07e-14
+iteration:  2 	T max:  624.052  [K] 	change: 1.38e+00 K, heat balance error 4.59e-13
+iteration:  3 	T max:  624.111  [K] 	change: 5.96e-02 K, heat balance error 6.95e-14
+iteration:  4 	T max:  624.111  [K] 	change: 0.00e+00 K, heat balance error 1.22e-05
+SOLVING Section Number	 47  /  91
+iteration:  1 	T max:  625.361  [K] 	change: 3.73e+01 K, heat balance error 1.76e-13
+iteration:  2 	T max:  623.963  [K] 	change: 1.40e+00 K, heat balance error 4.93e-14
+iteration:  3 	T max:  624.023  [K] 	change: 6.06e-02 K, heat balance error 3.70e-13
+iteration:  4 	T max:  624.023  [K] 	change: 0.00e+00 K, heat balance error 1.24e-05
+SOLVING Section Number	 48  /  91
+iteration:  1 	T max:  625.786  [K] 	change: 3.80e+01 K, heat balance error 2.01e-13
+iteration:  2 	T max:  624.334  [K] 	change: 1.45e+00 K, heat balance error 3.06e-13
+iteration:  3 	T max:  624.397  [K] 	change: 6.34e-02 K, heat balance error 3.97e-13
+iteration:  4 	T max:  624.397  [K] 	change: 0.00e+00 K, heat balance error 1.31e-05
+SOLVING Section Number	 49  /  91
+iteration:  1 	T max:  626.014  [K] 	change: 3.87e+01 K, heat balance error 2.94e-13
+iteration:  2 	T max:  624.511  [K] 	change: 1.50e+00 K, heat balance error 2.71e-14
+iteration:  3 	T max:  624.578  [K] 	change: 6.60e-02 K, heat balance error 6.64e-14
+iteration:  4 	T max:  624.578  [K] 	change: 0.00e+00 K, heat balance error 1.37e-05
+SOLVING Section Number	 50  /  91
+iteration:  1 	T max:  627.506  [K] 	change: 4.09e+01 K, heat balance error 4.88e-14
+iteration:  2 	T max:  625.908  [K] 	change: 1.60e+00 K, heat balance error 1.12e-13
+iteration:  3 	T max:  625.979  [K] 	change: 7.09e-02 K, heat balance error 4.20e-14
+iteration:  4 	T max:  625.979  [K] 	change: 0.00e+00 K, heat balance error 1.47e-05
+SOLVING Section Number	 51  /  91
+iteration:  1 	T max:  628.336  [K] 	change: 4.20e+01 K, heat balance error 2.01e-13
+iteration:  2 	T max:  626.653  [K] 	change: 1.68e+00 K, heat balance error 1.28e-13
+iteration:  3 	T max:  626.729  [K] 	change: 7.54e-02 K, heat balance error 7.65e-14
+iteration:  4 	T max:  626.725  [K] 	change: 3.39e-03 K, heat balance error 1.97e-13
+iteration:  5 	T max:  626.725  [K] 	change: 0.00e+00 K, heat balance error 7.05e-07
+SOLVING Section Number	 52  /  91
+iteration:  1 	T max:  629.627  [K] 	change: 4.32e+01 K, heat balance error 7.48e-14
+iteration:  2 	T max:  627.876  [K] 	change: 1.75e+00 K, heat balance error 1.68e-13
+iteration:  3 	T max:  627.956  [K] 	change: 7.93e-02 K, heat balance error 2.03e-13
+iteration:  4 	T max:  627.952  [K] 	change: 3.60e-03 K, heat balance error 2.59e-14
+iteration:  5 	T max:  627.952  [K] 	change: 0.00e+00 K, heat balance error 7.52e-07
+SOLVING Section Number	 53  /  91
+iteration:  1 	T max:  631.234  [K] 	change: 4.52e+01 K, heat balance error 8.51e-14
+iteration:  2 	T max:  629.359  [K] 	change: 1.87e+00 K, heat balance error 9.58e-15
+iteration:  3 	T max:  629.445  [K] 	change: 8.60e-02 K, heat balance error 2.16e-13
+iteration:  4 	T max:  629.441  [K] 	change: 3.95e-03 K, heat balance error 2.45e-13
+iteration:  5 	T max:  629.441  [K] 	change: 0.00e+00 K, heat balance error 8.29e-07
+SOLVING Section Number	 54  /  91
+iteration:  1 	T max:  633.585  [K] 	change: 4.79e+01 K, heat balance error 2.41e-13
+iteration:  2 	T max:  631.562  [K] 	change: 2.02e+00 K, heat balance error 1.26e-13
+iteration:  3 	T max:  631.656  [K] 	change: 9.41e-02 K, heat balance error 1.87e-13
+iteration:  4 	T max:  631.652  [K] 	change: 4.39e-03 K, heat balance error 3.07e-14
+iteration:  5 	T max:  631.652  [K] 	change: 0.00e+00 K, heat balance error 9.24e-07
+SOLVING Section Number	 55  /  91
+iteration:  1 	T max:  635.722  [K] 	change: 4.97e+01 K, heat balance error 3.60e-13
+iteration:  2 	T max:  633.581  [K] 	change: 2.14e+00 K, heat balance error 1.42e-13
+iteration:  3 	T max:  633.682  [K] 	change: 1.01e-01 K, heat balance error 1.67e-13
+iteration:  4 	T max:  633.677  [K] 	change: 4.78e-03 K, heat balance error 9.38e-14
+iteration:  5 	T max:  633.677  [K] 	change: 0.00e+00 K, heat balance error 1.01e-06
+SOLVING Section Number	 56  /  91
+iteration:  1 	T max:  638.801  [K] 	change: 5.33e+01 K, heat balance error 3.99e-14
+iteration:  2 	T max:  636.445  [K] 	change: 2.36e+00 K, heat balance error 1.70e-13
+iteration:  3 	T max:  636.558  [K] 	change: 1.13e-01 K, heat balance error 8.51e-14
+iteration:  4 	T max:  636.553  [K] 	change: 5.45e-03 K, heat balance error 2.62e-13
+iteration:  5 	T max:  636.553  [K] 	change: 0.00e+00 K, heat balance error 1.16e-06
+SOLVING Section Number	 57  /  91
+iteration:  1 	T max:  641.652  [K] 	change: 5.65e+01 K, heat balance error 2.24e-14
+iteration:  2 	T max:  639.076  [K] 	change: 2.58e+00 K, heat balance error 4.28e-14
+iteration:  3 	T max:  639.203  [K] 	change: 1.26e-01 K, heat balance error 1.70e-13
+iteration:  4 	T max:  639.197  [K] 	change: 6.19e-03 K, heat balance error 1.28e-13
+iteration:  5 	T max:  639.197  [K] 	change: 0.00e+00 K, heat balance error 1.32e-06
+SOLVING Section Number	 58  /  91
+iteration:  1 	T max:  645.671  [K] 	change: 6.02e+01 K, heat balance error 1.01e-13
+iteration:  2 	T max:  642.859  [K] 	change: 2.81e+00 K, heat balance error 4.47e-15
+iteration:  3 	T max:  643.0  [K] 	change: 1.41e-01 K, heat balance error 2.45e-13
+iteration:  4 	T max:  642.993  [K] 	change: 7.06e-03 K, heat balance error 1.23e-13
+iteration:  5 	T max:  642.993  [K] 	change: 0.00e+00 K, heat balance error 1.51e-06
+SOLVING Section Number	 59  /  91
+iteration:  1 	T max:  648.782  [K] 	change: 6.39e+01 K, heat balance error 6.99e-14
+iteration:  2 	T max:  645.68  [K] 	change: 3.10e+00 K, heat balance error 2.62e-13
+iteration:  3 	T max:  645.839  [K] 	change: 1.59e-01 K, heat balance error 8.49e-14
+iteration:  4 	T max:  645.831  [K] 	change: 8.13e-03 K, heat balance error 2.23e-13
+iteration:  5 	T max:  645.831  [K] 	change: 0.00e+00 K, heat balance error 1.76e-06
+SOLVING Section Number	 60  /  91
+iteration:  1 	T max:  654.22  [K] 	change: 6.94e+01 K, heat balance error 5.58e-14
+iteration:  2 	T max:  650.783  [K] 	change: 3.44e+00 K, heat balance error 1.12e-13
+iteration:  3 	T max:  650.963  [K] 	change: 1.80e-01 K, heat balance error 5.22e-14
+iteration:  4 	T max:  650.954  [K] 	change: 9.45e-03 K, heat balance error 1.08e-13
+iteration:  5 	T max:  650.954  [K] 	change: 0.00e+00 K, heat balance error 2.05e-06
+SOLVING Section Number	 61  /  91
+iteration:  1 	T max:  658.282  [K] 	change: 7.42e+01 K, heat balance error 1.51e-14
+iteration:  2 	T max:  654.451  [K] 	change: 3.83e+00 K, heat balance error 1.31e-14
+iteration:  3 	T max:  654.657  [K] 	change: 2.06e-01 K, heat balance error 5.87e-14
+iteration:  4 	T max:  654.646  [K] 	change: 1.11e-02 K, heat balance error 2.86e-13
+iteration:  5 	T max:  654.646  [K] 	change: 0.00e+00 K, heat balance error 2.43e-06
+SOLVING Section Number	 62  /  91
+iteration:  1 	T max:  664.816  [K] 	change: 8.15e+01 K, heat balance error 3.35e-14
+iteration:  2 	T max:  660.488  [K] 	change: 4.33e+00 K, heat balance error 2.15e-14
+iteration:  3 	T max:  660.727  [K] 	change: 2.39e-01 K, heat balance error 2.80e-13
+iteration:  4 	T max:  660.714  [K] 	change: 1.33e-02 K, heat balance error 1.12e-13
+iteration:  5 	T max:  660.714  [K] 	change: 0.00e+00 K, heat balance error 2.92e-06
+SOLVING Section Number	 63  /  91
+iteration:  1 	T max:  668.456  [K] 	change: 8.53e+01 K, heat balance error 7.08e-14
+iteration:  2 	T max:  663.796  [K] 	change: 4.66e+00 K, heat balance error 1.51e-14
+iteration:  3 	T max:  664.059  [K] 	change: 2.63e-01 K, heat balance error 2.64e-15
+iteration:  4 	T max:  664.044  [K] 	change: 1.49e-02 K, heat balance error 5.80e-14
+iteration:  5 	T max:  664.044  [K] 	change: 0.00e+00 K, heat balance error 3.31e-06
+SOLVING Section Number	 64  /  91
+iteration:  1 	T max:  673.508  [K] 	change: 9.33e+01 K, heat balance error 3.45e-14
+iteration:  2 	T max:  668.235  [K] 	change: 5.27e+00 K, heat balance error 3.32e-14
+iteration:  3 	T max:  668.541  [K] 	change: 3.06e-01 K, heat balance error 2.68e-13
+iteration:  4 	T max:  668.524  [K] 	change: 1.78e-02 K, heat balance error 6.67e-14
+iteration:  5 	T max:  668.524  [K] 	change: 0.00e+00 K, heat balance error 3.98e-06
+SOLVING Section Number	 65  /  91
+iteration:  1 	T max:  677.837  [K] 	change: 9.81e+01 K, heat balance error 6.73e-14
+iteration:  2 	T max:  672.158  [K] 	change: 5.68e+00 K, heat balance error 6.14e-14
+iteration:  3 	T max:  672.496  [K] 	change: 3.38e-01 K, heat balance error 6.03e-14
+iteration:  4 	T max:  672.476  [K] 	change: 2.01e-02 K, heat balance error 1.34e-13
+iteration:  5 	T max:  672.476  [K] 	change: 0.00e+00 K, heat balance error 4.54e-06
+SOLVING Section Number	 66  /  91
+iteration:  1 	T max:  679.024  [K] 	change: 9.93e+01 K, heat balance error 9.88e-14
+iteration:  2 	T max:  673.125  [K] 	change: 5.90e+00 K, heat balance error 8.26e-14
+iteration:  3 	T max:  673.483  [K] 	change: 3.59e-01 K, heat balance error 4.93e-14
+iteration:  4 	T max:  673.462  [K] 	change: 2.17e-02 K, heat balance error 4.14e-14
+iteration:  5 	T max:  673.462  [K] 	change: 0.00e+00 K, heat balance error 5.00e-06
+SOLVING Section Number	 67  /  91
+iteration:  1 	T max:  680.213  [K] 	change: 1.03e+02 K, heat balance error 2.61e-13
+iteration:  2 	T max:  673.972  [K] 	change: 6.24e+00 K, heat balance error 1.16e-13
+iteration:  3 	T max:  674.359  [K] 	change: 3.87e-01 K, heat balance error 6.40e-14
+iteration:  4 	T max:  674.335  [K] 	change: 2.39e-02 K, heat balance error 8.76e-14
+iteration:  5 	T max:  674.335  [K] 	change: 0.00e+00 K, heat balance error 5.58e-06
+SOLVING Section Number	 68  /  91
+iteration:  1 	T max:  679.179  [K] 	change: 1.03e+02 K, heat balance error 5.77e-14
+iteration:  2 	T max:  672.817  [K] 	change: 6.36e+00 K, heat balance error 1.27e-13
+iteration:  3 	T max:  673.216  [K] 	change: 3.99e-01 K, heat balance error 3.60e-14
+iteration:  4 	T max:  673.191  [K] 	change: 2.50e-02 K, heat balance error 2.27e-14
+iteration:  5 	T max:  673.191  [K] 	change: 0.00e+00 K, heat balance error 5.95e-06
+SOLVING Section Number	 69  /  91
+iteration:  1 	T max:  674.209  [K] 	change: 1.01e+02 K, heat balance error 1.56e-13
+iteration:  2 	T max:  667.98  [K] 	change: 6.23e+00 K, heat balance error 4.81e-15
+iteration:  3 	T max:  668.371  [K] 	change: 3.91e-01 K, heat balance error 3.46e-14
+iteration:  4 	T max:  668.346  [K] 	change: 2.46e-02 K, heat balance error 6.19e-14
+iteration:  5 	T max:  668.346  [K] 	change: 0.00e+00 K, heat balance error 5.98e-06
+SOLVING Section Number	 70  /  91
+iteration:  1 	T max:  670.501  [K] 	change: 1.03e+02 K, heat balance error 1.01e-13
+iteration:  2 	T max:  664.067  [K] 	change: 6.43e+00 K, heat balance error 6.99e-14
+iteration:  3 	T max:  664.473  [K] 	change: 4.06e-01 K, heat balance error 3.23e-14
+iteration:  4 	T max:  664.448  [K] 	change: 2.56e-02 K, heat balance error 3.82e-15
+iteration:  5 	T max:  664.448  [K] 	change: 0.00e+00 K, heat balance error 6.36e-06
+SOLVING Section Number	 71  /  91
+iteration:  1 	T max:  666.486  [K] 	change: 1.02e+02 K, heat balance error 2.83e-14
+iteration:  2 	T max:  660.175  [K] 	change: 6.31e+00 K, heat balance error 1.00e-13
+iteration:  3 	T max:  660.573  [K] 	change: 3.98e-01 K, heat balance error 9.79e-14
+iteration:  4 	T max:  660.548  [K] 	change: 2.51e-02 K, heat balance error 6.88e-14
+iteration:  5 	T max:  660.548  [K] 	change: 0.00e+00 K, heat balance error 6.31e-06
+SOLVING Section Number	 72  /  91
+iteration:  1 	T max:  652.567  [K] 	change: 8.81e+01 K, heat balance error 1.59e-13
+iteration:  2 	T max:  647.158  [K] 	change: 5.41e+00 K, heat balance error 9.14e-14
+iteration:  3 	T max:  647.498  [K] 	change: 3.39e-01 K, heat balance error 1.20e-13
+iteration:  4 	T max:  647.476  [K] 	change: 2.13e-02 K, heat balance error 7.84e-14
+iteration:  5 	T max:  647.476  [K] 	change: 0.00e+00 K, heat balance error 5.61e-06
+SOLVING Section Number	 73  /  91
+iteration:  1 	T max:  642.798  [K] 	change: 8.34e+01 K, heat balance error 2.83e-14
+iteration:  2 	T max:  637.693  [K] 	change: 5.11e+00 K, heat balance error 1.59e-13
+iteration:  3 	T max:  638.012  [K] 	change: 3.19e-01 K, heat balance error 1.98e-13
+iteration:  4 	T max:  637.992  [K] 	change: 1.99e-02 K, heat balance error 8.76e-14
+iteration:  5 	T max:  637.992  [K] 	change: 0.00e+00 K, heat balance error 5.42e-06
+SOLVING Section Number	 74  /  91
+iteration:  1 	T max:  634.029  [K] 	change: 7.79e+01 K, heat balance error 3.58e-14
+iteration:  2 	T max:  629.296  [K] 	change: 4.73e+00 K, heat balance error 4.16e-14
+iteration:  3 	T max:  629.59  [K] 	change: 2.93e-01 K, heat balance error 1.24e-13
+iteration:  4 	T max:  629.572  [K] 	change: 1.82e-02 K, heat balance error 6.43e-14
+iteration:  5 	T max:  629.572  [K] 	change: 0.00e+00 K, heat balance error 5.09e-06
+SOLVING Section Number	 75  /  91
+iteration:  1 	T max:  627.899  [K] 	change: 7.66e+01 K, heat balance error 6.22e-14
+iteration:  2 	T max:  623.275  [K] 	change: 4.62e+00 K, heat balance error 1.22e-13
+iteration:  3 	T max:  623.56  [K] 	change: 2.86e-01 K, heat balance error 9.41e-15
+iteration:  4 	T max:  623.543  [K] 	change: 1.76e-02 K, heat balance error 6.51e-14
+iteration:  5 	T max:  623.543  [K] 	change: 0.00e+00 K, heat balance error 5.03e-06
+SOLVING Section Number	 76  /  91
+iteration:  1 	T max:  621.466  [K] 	change: 7.28e+01 K, heat balance error 1.59e-13
+iteration:  2 	T max:  617.171  [K] 	change: 4.34e+00 K, heat balance error 1.71e-13
+iteration:  3 	T max:  617.434  [K] 	change: 2.66e-01 K, heat balance error 8.65e-14
+iteration:  4 	T max:  617.418  [K] 	change: 1.63e-02 K, heat balance error 4.93e-14
+iteration:  5 	T max:  617.418  [K] 	change: 0.00e+00 K, heat balance error 4.76e-06
+SOLVING Section Number	 77  /  91
+iteration:  1 	T max:  615.524  [K] 	change: 6.96e+01 K, heat balance error 1.00e-13
+iteration:  2 	T max:  611.441  [K] 	change: 4.12e+00 K, heat balance error 1.29e-13
+iteration:  3 	T max:  611.69  [K] 	change: 2.51e-01 K, heat balance error 1.35e-13
+iteration:  4 	T max:  611.674  [K] 	change: 1.53e-02 K, heat balance error 1.33e-13
+iteration:  5 	T max:  611.674  [K] 	change: 0.00e+00 K, heat balance error 4.56e-06
+SOLVING Section Number	 78  /  91
+iteration:  1 	T max:  610.071  [K] 	change: 6.49e+01 K, heat balance error 8.20e-14
+iteration:  2 	T max:  606.269  [K] 	change: 3.80e+00 K, heat balance error 1.84e-13
+iteration:  3 	T max:  606.499  [K] 	change: 2.30e-01 K, heat balance error 8.49e-14
+iteration:  4 	T max:  606.485  [K] 	change: 1.39e-02 K, heat balance error 1.56e-13
+iteration:  5 	T max:  606.485  [K] 	change: 0.00e+00 K, heat balance error 4.18e-06
+SOLVING Section Number	 79  /  91
+iteration:  1 	T max:  605.58  [K] 	change: 6.26e+01 K, heat balance error 2.01e-15
+iteration:  2 	T max:  601.931  [K] 	change: 3.65e+00 K, heat balance error 9.99e-14
+iteration:  3 	T max:  602.151  [K] 	change: 2.19e-01 K, heat balance error 3.26e-13
+iteration:  4 	T max:  602.138  [K] 	change: 1.32e-02 K, heat balance error 1.21e-13
+iteration:  5 	T max:  602.138  [K] 	change: 0.00e+00 K, heat balance error 4.03e-06
+SOLVING Section Number	 80  /  91
+iteration:  1 	T max:  600.993  [K] 	change: 5.98e+01 K, heat balance error 1.41e-13
+iteration:  2 	T max:  597.533  [K] 	change: 3.46e+00 K, heat balance error 1.21e-13
+iteration:  3 	T max:  597.74  [K] 	change: 2.07e-01 K, heat balance error 1.34e-13
+iteration:  4 	T max:  597.728  [K] 	change: 1.24e-02 K, heat balance error 1.54e-13
+iteration:  5 	T max:  597.728  [K] 	change: 0.00e+00 K, heat balance error 3.83e-06
+SOLVING Section Number	 81  /  91
+iteration:  1 	T max:  597.312  [K] 	change: 5.87e+01 K, heat balance error 1.30e-13
+iteration:  2 	T max:  593.95  [K] 	change: 3.36e+00 K, heat balance error 1.36e-14
+iteration:  3 	T max:  594.15  [K] 	change: 2.00e-01 K, heat balance error 1.16e-13
+iteration:  4 	T max:  594.138  [K] 	change: 1.19e-02 K, heat balance error 5.22e-13
+iteration:  5 	T max:  594.138  [K] 	change: 0.00e+00 K, heat balance error 3.72e-06
+SOLVING Section Number	 82  /  91
+iteration:  1 	T max:  593.503  [K] 	change: 5.64e+01 K, heat balance error 1.15e-14
+iteration:  2 	T max:  590.33  [K] 	change: 3.21e+00 K, heat balance error 8.42e-14
+iteration:  3 	T max:  590.517  [K] 	change: 1.90e-01 K, heat balance error 1.57e-13
+iteration:  4 	T max:  590.506  [K] 	change: 1.12e-02 K, heat balance error 1.70e-13
+iteration:  5 	T max:  590.506  [K] 	change: 0.00e+00 K, heat balance error 3.57e-06
+SOLVING Section Number	 83  /  91
+iteration:  1 	T max:  590.446  [K] 	change: 5.48e+01 K, heat balance error 4.57e-14
+iteration:  2 	T max:  587.33  [K] 	change: 3.12e+00 K, heat balance error 5.76e-14
+iteration:  3 	T max:  587.514  [K] 	change: 1.84e-01 K, heat balance error 8.28e-15
+iteration:  4 	T max:  587.503  [K] 	change: 1.08e-02 K, heat balance error 1.17e-13
+iteration:  5 	T max:  587.503  [K] 	change: 0.00e+00 K, heat balance error 3.48e-06
+SOLVING Section Number	 84  /  91
+iteration:  1 	T max:  587.027  [K] 	change: 5.29e+01 K, heat balance error 7.11e-14
+iteration:  2 	T max:  584.069  [K] 	change: 2.99e+00 K, heat balance error 1.43e-13
+iteration:  3 	T max:  584.242  [K] 	change: 1.75e-01 K, heat balance error 2.71e-13
+iteration:  4 	T max:  584.232  [K] 	change: 1.03e-02 K, heat balance error 2.56e-13
+iteration:  5 	T max:  584.232  [K] 	change: 0.00e+00 K, heat balance error 3.35e-06
+SOLVING Section Number	 85  /  91
+iteration:  1 	T max:  584.138  [K] 	change: 5.02e+01 K, heat balance error 4.98e-14
+iteration:  2 	T max:  581.353  [K] 	change: 2.81e+00 K, heat balance error 8.60e-15
+iteration:  3 	T max:  581.515  [K] 	change: 1.64e-01 K, heat balance error 8.65e-14
+iteration:  4 	T max:  581.506  [K] 	change: 9.58e-03 K, heat balance error 1.86e-13
+iteration:  5 	T max:  581.506  [K] 	change: 0.00e+00 K, heat balance error 3.15e-06
+SOLVING Section Number	 86  /  91
+iteration:  1 	T max:  582.073  [K] 	change: 4.97e+01 K, heat balance error 1.87e-13
+iteration:  2 	T max:  579.334  [K] 	change: 2.76e+00 K, heat balance error 1.09e-13
+iteration:  3 	T max:  579.494  [K] 	change: 1.61e-01 K, heat balance error 3.46e-13
+iteration:  4 	T max:  579.484  [K] 	change: 9.34e-03 K, heat balance error 1.25e-14
+iteration:  5 	T max:  579.484  [K] 	change: 0.00e+00 K, heat balance error 3.10e-06
+SOLVING Section Number	 87  /  91
+iteration:  1 	T max:  579.576  [K] 	change: 4.83e+01 K, heat balance error 1.87e-13
+iteration:  2 	T max:  576.928  [K] 	change: 2.67e+00 K, heat balance error 2.55e-13
+iteration:  3 	T max:  577.081  [K] 	change: 1.55e-01 K, heat balance error 6.51e-14
+iteration:  4 	T max:  577.072  [K] 	change: 8.94e-03 K, heat balance error 6.74e-14
+iteration:  5 	T max:  577.072  [K] 	change: 0.00e+00 K, heat balance error 3.00e-06
+SOLVING Section Number	 88  /  91
+iteration:  1 	T max:  576.779  [K] 	change: 4.67e+01 K, heat balance error 3.73e-13
+iteration:  2 	T max:  574.197  [K] 	change: 2.58e+00 K, heat balance error 4.60e-14
+iteration:  3 	T max:  574.346  [K] 	change: 1.49e-01 K, heat balance error 6.54e-14
+iteration:  4 	T max:  574.337  [K] 	change: 8.56e-03 K, heat balance error 6.45e-14
+iteration:  5 	T max:  574.337  [K] 	change: 0.00e+00 K, heat balance error 2.89e-06
+SOLVING Section Number	 89  /  91
+iteration:  1 	T max:  575.03  [K] 	change: 4.65e+01 K, heat balance error 2.23e-13
+iteration:  2 	T max:  572.476  [K] 	change: 2.55e+00 K, heat balance error 2.11e-14
+iteration:  3 	T max:  572.622  [K] 	change: 1.47e-01 K, heat balance error 1.06e-13
+iteration:  4 	T max:  572.614  [K] 	change: 8.42e-03 K, heat balance error 2.44e-13
+iteration:  5 	T max:  572.614  [K] 	change: 0.00e+00 K, heat balance error 2.86e-06
+SOLVING Section Number	 90  /  91
+iteration:  1 	T max:  573.469  [K] 	change: 4.59e+01 K, heat balance error 1.97e-13
+iteration:  2 	T max:  570.951  [K] 	change: 2.52e+00 K, heat balance error 2.71e-13
+iteration:  3 	T max:  571.096  [K] 	change: 1.44e-01 K, heat balance error 8.64e-14
+iteration:  4 	T max:  571.087  [K] 	change: 8.28e-03 K, heat balance error 9.96e-14
+iteration:  5 	T max:  571.087  [K] 	change: 0.00e+00 K, heat balance error 2.84e-06
+SOLVING Section Number	 91  /  91
+iteration:  1 	T max:  571.471  [K] 	change: 4.48e+01 K, heat balance error 2.86e-13
+iteration:  2 	T max:  569.014  [K] 	change: 2.46e+00 K, heat balance error 1.97e-13
+iteration:  3 	T max:  569.154  [K] 	change: 1.40e-01 K, heat balance error 1.44e-14
+iteration:  4 	T max:  569.146  [K] 	change: 8.05e-03 K, heat balance error 6.96e-14
+iteration:  5 	T max:  569.146  [K] 	change: 0.00e+00 K, heat balance error 2.78e-06
+TWO-PASS iteration 1: return pass at the turnaround off by 22.338 K and 185373.0 Pa
+TWO-PASS iteration 2: return pass outlet guess 458.58 K, 31.6463 bar
+SOLVING Section Number	 1  /  91
+iteration:  1 	T max:  564.317  [K] 	change: 1.19e+01 K, heat balance error 4.63e-14
+iteration:  2 	T max:  564.656  [K] 	change: 3.39e-01 K, heat balance error 2.77e-13
+iteration:  3 	T max:  564.646  [K] 	change: 1.01e-02 K, heat balance error 3.28e-13
+iteration:  4 	T max:  564.646  [K] 	change: 0.00e+00 K, heat balance error 1.99e-06
+SOLVING Section Number	 2  /  91
+iteration:  1 	T max:  564.317  [K] 	change: 1.19e+01 K, heat balance error 6.00e-13
+iteration:  2 	T max:  564.656  [K] 	change: 3.39e-01 K, heat balance error 4.26e-13
+iteration:  3 	T max:  564.646  [K] 	change: 1.01e-02 K, heat balance error 3.35e-13
+iteration:  4 	T max:  564.646  [K] 	change: 0.00e+00 K, heat balance error 1.99e-06
+SOLVING Section Number	 3  /  91
+iteration:  1 	T max:  563.659  [K] 	change: 1.19e+01 K, heat balance error 2.87e-13
+iteration:  2 	T max:  563.997  [K] 	change: 3.38e-01 K, heat balance error 6.93e-14
+iteration:  3 	T max:  563.987  [K] 	change: 1.00e-02 K, heat balance error 4.86e-13
+iteration:  4 	T max:  563.987  [K] 	change: 0.00e+00 K, heat balance error 1.99e-06
+SOLVING Section Number	 4  /  91
+iteration:  1 	T max:  563.007  [K] 	change: 1.19e+01 K, heat balance error 3.98e-13
+iteration:  2 	T max:  563.344  [K] 	change: 3.37e-01 K, heat balance error 2.45e-13
+iteration:  3 	T max:  563.334  [K] 	change: 1.00e-02 K, heat balance error 9.13e-14
+iteration:  4 	T max:  563.334  [K] 	change: 0.00e+00 K, heat balance error 1.98e-06
+SOLVING Section Number	 5  /  91
+iteration:  1 	T max:  562.362  [K] 	change: 1.19e+01 K, heat balance error 5.97e-13
+iteration:  2 	T max:  562.699  [K] 	change: 3.36e-01 K, heat balance error 2.66e-13
+iteration:  3 	T max:  562.689  [K] 	change: 9.99e-03 K, heat balance error 2.23e-13
+iteration:  4 	T max:  562.689  [K] 	change: 0.00e+00 K, heat balance error 1.98e-06
+SOLVING Section Number	 6  /  91
+iteration:  1 	T max:  561.724  [K] 	change: 1.18e+01 K, heat balance error 1.00e-13
+iteration:  2 	T max:  562.06  [K] 	change: 3.35e-01 K, heat balance error 2.29e-13
+iteration:  3 	T max:  562.05  [K] 	change: 9.97e-03 K, heat balance error 2.63e-14
+iteration:  4 	T max:  562.05  [K] 	change: 0.00e+00 K, heat balance error 1.97e-06
+SOLVING Section Number	 7  /  91
+iteration:  1 	T max:  561.093  [K] 	change: 1.18e+01 K, heat balance error 1.02e-12
+iteration:  2 	T max:  561.427  [K] 	change: 3.35e-01 K, heat balance error 1.85e-13
+iteration:  3 	T max:  561.418  [K] 	change: 9.94e-03 K, heat balance error 1.55e-13
+iteration:  4 	T max:  561.418  [K] 	change: 0.00e+00 K, heat balance error 1.97e-06
+SOLVING Section Number	 8  /  91
+iteration:  1 	T max:  560.468  [K] 	change: 1.18e+01 K, heat balance error 4.06e-13
+iteration:  2 	T max:  560.802  [K] 	change: 3.34e-01 K, heat balance error 3.05e-13
+iteration:  3 	T max:  560.792  [K] 	change: 9.92e-03 K, heat balance error 4.60e-13
+iteration:  4 	T max:  560.792  [K] 	change: 0.00e+00 K, heat balance error 1.97e-06
+SOLVING Section Number	 9  /  91
+iteration:  1 	T max:  559.85  [K] 	change: 1.18e+01 K, heat balance error 1.69e-13
+iteration:  2 	T max:  560.183  [K] 	change: 3.33e-01 K, heat balance error 3.23e-13
+iteration:  3 	T max:  560.173  [K] 	change: 9.89e-03 K, heat balance error 1.06e-13
+iteration:  4 	T max:  560.173  [K] 	change: 0.00e+00 K, heat balance error 1.96e-06
+SOLVING Section Number	 10  /  91
+iteration:  1 	T max:  559.239  [K] 	change: 1.18e+01 K, heat balance error 1.28e-13
+iteration:  2 	T max:  559.571  [K] 	change: 3.32e-01 K, heat balance error 2.34e-14
+iteration:  3 	T max:  559.561  [K] 	change: 9.86e-03 K, heat balance error 7.67e-14
+iteration:  4 	T max:  559.561  [K] 	change: 0.00e+00 K, heat balance error 1.96e-06
+SOLVING Section Number	 11  /  91
+iteration:  1 	T max:  558.634  [K] 	change: 1.18e+01 K, heat balance error 3.58e-13
+iteration:  2 	T max:  558.966  [K] 	change: 3.31e-01 K, heat balance error 7.94e-13
+iteration:  3 	T max:  558.956  [K] 	change: 9.84e-03 K, heat balance error 8.37e-13
+iteration:  4 	T max:  558.956  [K] 	change: 0.00e+00 K, heat balance error 1.95e-06
+SOLVING Section Number	 12  /  91
+iteration:  1 	T max:  558.036  [K] 	change: 1.18e+01 K, heat balance error 4.29e-13
+iteration:  2 	T max:  558.367  [K] 	change: 3.30e-01 K, heat balance error 7.88e-13
+iteration:  3 	T max:  558.357  [K] 	change: 9.81e-03 K, heat balance error 4.00e-14
+iteration:  4 	T max:  558.357  [K] 	change: 0.00e+00 K, heat balance error 1.95e-06
+SOLVING Section Number	 13  /  91
+iteration:  1 	T max:  557.445  [K] 	change: 1.18e+01 K, heat balance error 3.38e-13
+iteration:  2 	T max:  557.774  [K] 	change: 3.30e-01 K, heat balance error 3.31e-13
+iteration:  3 	T max:  557.764  [K] 	change: 9.78e-03 K, heat balance error 3.97e-13
+iteration:  4 	T max:  557.764  [K] 	change: 0.00e+00 K, heat balance error 1.94e-06
+SOLVING Section Number	 14  /  91
+iteration:  1 	T max:  556.859  [K] 	change: 1.17e+01 K, heat balance error 1.33e-13
+iteration:  2 	T max:  557.188  [K] 	change: 3.29e-01 K, heat balance error 1.09e-13
+iteration:  3 	T max:  557.178  [K] 	change: 9.76e-03 K, heat balance error 2.62e-13
+iteration:  4 	T max:  557.178  [K] 	change: 0.00e+00 K, heat balance error 1.94e-06
+SOLVING Section Number	 15  /  91
+iteration:  1 	T max:  556.28  [K] 	change: 1.17e+01 K, heat balance error 7.59e-13
+iteration:  2 	T max:  556.608  [K] 	change: 3.28e-01 K, heat balance error 5.58e-13
+iteration:  3 	T max:  556.598  [K] 	change: 9.73e-03 K, heat balance error 4.65e-14
+iteration:  4 	T max:  556.598  [K] 	change: 0.00e+00 K, heat balance error 1.94e-06
+SOLVING Section Number	 16  /  91
+iteration:  1 	T max:  555.707  [K] 	change: 1.17e+01 K, heat balance error 6.05e-13
+iteration:  2 	T max:  556.034  [K] 	change: 3.27e-01 K, heat balance error 1.26e-13
+iteration:  3 	T max:  556.024  [K] 	change: 9.70e-03 K, heat balance error 2.61e-13
+iteration:  4 	T max:  556.024  [K] 	change: 0.00e+00 K, heat balance error 1.93e-06
+SOLVING Section Number	 17  /  91
+iteration:  1 	T max:  555.14  [K] 	change: 1.17e+01 K, heat balance error 4.93e-13
+iteration:  2 	T max:  555.466  [K] 	change: 3.26e-01 K, heat balance error 1.14e-13
+iteration:  3 	T max:  555.456  [K] 	change: 9.67e-03 K, heat balance error 4.45e-13
+iteration:  4 	T max:  555.456  [K] 	change: 0.00e+00 K, heat balance error 1.93e-06
+SOLVING Section Number	 18  /  91
+iteration:  1 	T max:  554.579  [K] 	change: 1.17e+01 K, heat balance error 5.33e-13
+iteration:  2 	T max:  554.904  [K] 	change: 3.25e-01 K, heat balance error 4.04e-13
+iteration:  3 	T max:  554.894  [K] 	change: 9.65e-03 K, heat balance error 7.35e-14
+iteration:  4 	T max:  554.894  [K] 	change: 0.00e+00 K, heat balance error 1.92e-06
+SOLVING Section Number	 19  /  91
+iteration:  1 	T max:  554.023  [K] 	change: 1.17e+01 K, heat balance error 9.82e-14
+iteration:  2 	T max:  554.348  [K] 	change: 3.24e-01 K, heat balance error 2.39e-13
+iteration:  3 	T max:  554.338  [K] 	change: 9.62e-03 K, heat balance error 3.51e-13
+iteration:  4 	T max:  554.338  [K] 	change: 0.00e+00 K, heat balance error 1.92e-06
+SOLVING Section Number	 20  /  91
+iteration:  1 	T max:  634.916  [K] 	change: 7.18e+00 K, heat balance error 5.78e-13
+iteration:  2 	T max:  635.193  [K] 	change: 2.77e-01 K, heat balance error 1.50e-13
+iteration:  3 	T max:  635.181  [K] 	change: 1.24e-02 K, heat balance error 3.92e-14
+iteration:  4 	T max:  635.181  [K] 	change: 0.00e+00 K, heat balance error 2.50e-06
+SOLVING Section Number	 21  /  91
+iteration:  1 	T max:  634.1  [K] 	change: 7.14e+00 K, heat balance error 3.04e-13
+iteration:  2 	T max:  634.375  [K] 	change: 2.75e-01 K, heat balance error 4.14e-14
+iteration:  3 	T max:  634.362  [K] 	change: 1.24e-02 K, heat balance error 2.41e-13
+iteration:  4 	T max:  634.362  [K] 	change: 0.00e+00 K, heat balance error 2.49e-06
+SOLVING Section Number	 22  /  91
+iteration:  1 	T max:  633.292  [K] 	change: 7.09e+00 K, heat balance error 3.34e-13
+iteration:  2 	T max:  633.565  [K] 	change: 2.73e-01 K, heat balance error 3.96e-13
+iteration:  3 	T max:  633.553  [K] 	change: 1.23e-02 K, heat balance error 5.45e-13
+iteration:  4 	T max:  633.553  [K] 	change: 0.00e+00 K, heat balance error 2.47e-06
+SOLVING Section Number	 23  /  91
+iteration:  1 	T max:  632.494  [K] 	change: 7.05e+00 K, heat balance error 1.66e-13
+iteration:  2 	T max:  632.764  [K] 	change: 2.70e-01 K, heat balance error 4.89e-14
+iteration:  3 	T max:  632.752  [K] 	change: 1.22e-02 K, heat balance error 1.31e-13
+iteration:  4 	T max:  632.752  [K] 	change: 0.00e+00 K, heat balance error 2.45e-06
+SOLVING Section Number	 24  /  91
+iteration:  1 	T max:  631.704  [K] 	change: 7.00e+00 K, heat balance error 2.76e-13
+iteration:  2 	T max:  631.972  [K] 	change: 2.68e-01 K, heat balance error 6.64e-14
+iteration:  3 	T max:  631.96  [K] 	change: 1.20e-02 K, heat balance error 3.59e-13
+iteration:  4 	T max:  631.96  [K] 	change: 0.00e+00 K, heat balance error 2.43e-06
+SOLVING Section Number	 25  /  91
+iteration:  1 	T max:  630.923  [K] 	change: 6.96e+00 K, heat balance error 2.66e-13
+iteration:  2 	T max:  631.188  [K] 	change: 2.65e-01 K, heat balance error 1.74e-13
+iteration:  3 	T max:  631.177  [K] 	change: 1.19e-02 K, heat balance error 2.23e-13
+iteration:  4 	T max:  631.177  [K] 	change: 0.00e+00 K, heat balance error 2.41e-06
+SOLVING Section Number	 26  /  91
+iteration:  1 	T max:  630.15  [K] 	change: 6.91e+00 K, heat balance error 4.82e-13
+iteration:  2 	T max:  630.414  [K] 	change: 2.63e-01 K, heat balance error 3.18e-14
+iteration:  3 	T max:  630.402  [K] 	change: 1.18e-02 K, heat balance error 9.42e-14
+iteration:  4 	T max:  630.402  [K] 	change: 0.00e+00 K, heat balance error 2.39e-06
+SOLVING Section Number	 27  /  91
+iteration:  1 	T max:  629.387  [K] 	change: 6.86e+00 K, heat balance error 2.03e-13
+iteration:  2 	T max:  629.647  [K] 	change: 2.61e-01 K, heat balance error 1.94e-13
+iteration:  3 	T max:  629.635  [K] 	change: 1.17e-02 K, heat balance error 1.70e-14
+iteration:  4 	T max:  629.635  [K] 	change: 0.00e+00 K, heat balance error 2.37e-06
+SOLVING Section Number	 28  /  91
+iteration:  1 	T max:  628.632  [K] 	change: 6.82e+00 K, heat balance error 8.90e-16
+iteration:  2 	T max:  628.89  [K] 	change: 2.58e-01 K, heat balance error 2.48e-13
+iteration:  3 	T max:  628.878  [K] 	change: 1.16e-02 K, heat balance error 1.52e-13
+iteration:  4 	T max:  628.878  [K] 	change: 0.00e+00 K, heat balance error 2.35e-06
+SOLVING Section Number	 29  /  91
+iteration:  1 	T max:  627.885  [K] 	change: 6.77e+00 K, heat balance error 6.04e-14
+iteration:  2 	T max:  628.141  [K] 	change: 2.55e-01 K, heat balance error 1.96e-14
+iteration:  3 	T max:  628.129  [K] 	change: 1.15e-02 K, heat balance error 3.04e-13
+iteration:  4 	T max:  628.129  [K] 	change: 0.00e+00 K, heat balance error 2.33e-06
+SOLVING Section Number	 30  /  91
+iteration:  1 	T max:  627.148  [K] 	change: 6.72e+00 K, heat balance error 1.91e-13
+iteration:  2 	T max:  627.401  [K] 	change: 2.53e-01 K, heat balance error 4.32e-13
+iteration:  3 	T max:  627.389  [K] 	change: 1.14e-02 K, heat balance error 6.00e-14
+iteration:  4 	T max:  627.389  [K] 	change: 0.00e+00 K, heat balance error 2.31e-06
+SOLVING Section Number	 31  /  91
+iteration:  1 	T max:  626.419  [K] 	change: 6.67e+00 K, heat balance error 2.59e-13
+iteration:  2 	T max:  626.67  [K] 	change: 2.50e-01 K, heat balance error 2.36e-13
+iteration:  3 	T max:  626.659  [K] 	change: 1.13e-02 K, heat balance error 6.04e-14
+iteration:  4 	T max:  626.659  [K] 	change: 0.00e+00 K, heat balance error 2.29e-06
+SOLVING Section Number	 32  /  91
+iteration:  1 	T max:  625.7  [K] 	change: 6.62e+00 K, heat balance error 1.74e-13
+iteration:  2 	T max:  625.948  [K] 	change: 2.48e-01 K, heat balance error 2.73e-13
+iteration:  3 	T max:  625.937  [K] 	change: 1.12e-02 K, heat balance error 5.87e-13
+iteration:  4 	T max:  625.937  [K] 	change: 0.00e+00 K, heat balance error 2.27e-06
+SOLVING Section Number	 33  /  91
+iteration:  1 	T max:  624.99  [K] 	change: 6.57e+00 K, heat balance error 5.05e-14
+iteration:  2 	T max:  625.235  [K] 	change: 2.45e-01 K, heat balance error 2.26e-13
+iteration:  3 	T max:  625.224  [K] 	change: 1.10e-02 K, heat balance error 1.79e-14
+iteration:  4 	T max:  625.224  [K] 	change: 0.00e+00 K, heat balance error 2.24e-06
+SOLVING Section Number	 34  /  91
+iteration:  1 	T max:  624.29  [K] 	change: 6.52e+00 K, heat balance error 3.86e-13
+iteration:  2 	T max:  624.532  [K] 	change: 2.43e-01 K, heat balance error 6.71e-16
+iteration:  3 	T max:  624.522  [K] 	change: 1.09e-02 K, heat balance error 2.53e-13
+iteration:  4 	T max:  624.522  [K] 	change: 0.00e+00 K, heat balance error 2.22e-06
+SOLVING Section Number	 35  /  91
+iteration:  1 	T max:  623.599  [K] 	change: 6.47e+00 K, heat balance error 4.53e-13
+iteration:  2 	T max:  623.839  [K] 	change: 2.40e-01 K, heat balance error 2.34e-13
+iteration:  3 	T max:  623.828  [K] 	change: 1.08e-02 K, heat balance error 2.22e-13
+iteration:  4 	T max:  623.828  [K] 	change: 0.00e+00 K, heat balance error 2.20e-06
+SOLVING Section Number	 36  /  91
+iteration:  1 	T max:  622.918  [K] 	change: 6.42e+00 K, heat balance error 8.54e-14
+iteration:  2 	T max:  623.156  [K] 	change: 2.38e-01 K, heat balance error 3.76e-13
+iteration:  3 	T max:  623.145  [K] 	change: 1.07e-02 K, heat balance error 5.76e-13
+iteration:  4 	T max:  623.145  [K] 	change: 0.00e+00 K, heat balance error 2.18e-06
+SOLVING Section Number	 37  /  91
+iteration:  1 	T max:  622.247  [K] 	change: 6.37e+00 K, heat balance error 2.02e-13
+iteration:  2 	T max:  622.482  [K] 	change: 2.35e-01 K, heat balance error 4.49e-13
+iteration:  3 	T max:  622.472  [K] 	change: 1.06e-02 K, heat balance error 3.81e-13
+iteration:  4 	T max:  622.472  [K] 	change: 0.00e+00 K, heat balance error 2.16e-06
+SOLVING Section Number	 38  /  91
+iteration:  1 	T max:  621.586  [K] 	change: 6.32e+00 K, heat balance error 2.03e-13
+iteration:  2 	T max:  621.819  [K] 	change: 2.33e-01 K, heat balance error 8.32e-14
+iteration:  3 	T max:  621.808  [K] 	change: 1.05e-02 K, heat balance error 5.54e-13
+iteration:  4 	T max:  621.808  [K] 	change: 0.00e+00 K, heat balance error 2.14e-06
+SOLVING Section Number	 39  /  91
+iteration:  1 	T max:  620.936  [K] 	change: 6.27e+00 K, heat balance error 4.47e-14
+iteration:  2 	T max:  621.166  [K] 	change: 2.30e-01 K, heat balance error 2.62e-13
+iteration:  3 	T max:  621.155  [K] 	change: 1.04e-02 K, heat balance error 2.49e-13
+iteration:  4 	T max:  621.155  [K] 	change: 0.00e+00 K, heat balance error 2.12e-06
+SOLVING Section Number	 40  /  91
+iteration:  1 	T max:  620.396  [K] 	change: 6.22e+00 K, heat balance error 3.25e-14
+iteration:  2 	T max:  620.624  [K] 	change: 2.28e-01 K, heat balance error 8.12e-13
+iteration:  3 	T max:  620.614  [K] 	change: 1.03e-02 K, heat balance error 5.44e-14
+iteration:  4 	T max:  620.614  [K] 	change: 0.00e+00 K, heat balance error 2.10e-06
+SOLVING Section Number	 41  /  91
+iteration:  1 	T max:  619.974  [K] 	change: 6.16e+00 K, heat balance error 4.01e-13
+iteration:  2 	T max:  620.199  [K] 	change: 2.25e-01 K, heat balance error 1.27e-13
+iteration:  3 	T max:  620.189  [K] 	change: 1.02e-02 K, heat balance error 2.84e-13
+iteration:  4 	T max:  620.189  [K] 	change: 0.00e+00 K, heat balance error 2.08e-06
+SOLVING Section Number	 42  /  91
+iteration:  1 	T max:  619.521  [K] 	change: 6.10e+00 K, heat balance error 3.23e-13
+iteration:  2 	T max:  619.744  [K] 	change: 2.22e-01 K, heat balance error 9.26e-14
+iteration:  3 	T max:  619.734  [K] 	change: 1.01e-02 K, heat balance error 2.31e-13
+iteration:  4 	T max:  619.734  [K] 	change: 0.00e+00 K, heat balance error 2.06e-06
+SOLVING Section Number	 43  /  91
+iteration:  1 	T max:  619.156  [K] 	change: 6.03e+00 K, heat balance error 9.92e-14
+iteration:  2 	T max:  619.375  [K] 	change: 2.19e-01 K, heat balance error 1.97e-13
+iteration:  3 	T max:  619.365  [K] 	change: 9.92e-03 K, heat balance error 1.57e-13
+iteration:  4 	T max:  619.365  [K] 	change: 0.00e+00 K, heat balance error 2.03e-06
+SOLVING Section Number	 44  /  91
+iteration:  1 	T max:  619.14  [K] 	change: 5.97e+00 K, heat balance error 3.21e-13
+iteration:  2 	T max:  619.356  [K] 	change: 2.16e-01 K, heat balance error 7.04e-15
+iteration:  3 	T max:  619.346  [K] 	change: 9.82e-03 K, heat balance error 3.76e-13
+iteration:  4 	T max:  619.346  [K] 	change: 0.00e+00 K, heat balance error 2.02e-06
+SOLVING Section Number	 45  /  91
+iteration:  1 	T max:  619.526  [K] 	change: 5.91e+00 K, heat balance error 3.12e-13
+iteration:  2 	T max:  619.74  [K] 	change: 2.13e-01 K, heat balance error 2.95e-14
+iteration:  3 	T max:  619.73  [K] 	change: 9.75e-03 K, heat balance error 7.51e-14
+iteration:  4 	T max:  619.73  [K] 	change: 0.00e+00 K, heat balance error 2.00e-06
+SOLVING Section Number	 46  /  91
+iteration:  1 	T max:  619.834  [K] 	change: 5.82e+00 K, heat balance error 2.31e-13
+iteration:  2 	T max:  620.044  [K] 	change: 2.10e-01 K, heat balance error 1.13e-13
+iteration:  3 	T max:  620.034  [K] 	change: 9.64e-03 K, heat balance error 1.39e-13
+iteration:  4 	T max:  620.034  [K] 	change: 0.00e+00 K, heat balance error 1.99e-06
+SOLVING Section Number	 47  /  91
+iteration:  1 	T max:  619.815  [K] 	change: 5.76e+00 K, heat balance error 2.35e-13
+iteration:  2 	T max:  620.02  [K] 	change: 2.06e-01 K, heat balance error 5.35e-15
+iteration:  3 	T max:  620.011  [K] 	change: 9.50e-03 K, heat balance error 2.07e-14
+iteration:  4 	T max:  620.011  [K] 	change: 0.00e+00 K, heat balance error 1.96e-06
+SOLVING Section Number	 48  /  91
+iteration:  1 	T max:  620.259  [K] 	change: 5.67e+00 K, heat balance error 5.28e-13
+iteration:  2 	T max:  620.461  [K] 	change: 2.03e-01 K, heat balance error 7.71e-13
+iteration:  3 	T max:  620.452  [K] 	change: 9.42e-03 K, heat balance error 2.24e-13
+iteration:  4 	T max:  620.452  [K] 	change: 0.00e+00 K, heat balance error 1.96e-06
+SOLVING Section Number	 49  /  91
+iteration:  1 	T max:  620.521  [K] 	change: 5.58e+00 K, heat balance error 2.97e-13
+iteration:  2 	T max:  620.719  [K] 	change: 1.98e-01 K, heat balance error 2.40e-14
+iteration:  3 	T max:  620.71  [K] 	change: 9.27e-03 K, heat balance error 1.06e-13
+iteration:  4 	T max:  620.71  [K] 	change: 0.00e+00 K, heat balance error 1.93e-06
+SOLVING Section Number	 50  /  91
+iteration:  1 	T max:  621.998  [K] 	change: 5.50e+00 K, heat balance error 2.37e-13
+iteration:  2 	T max:  622.193  [K] 	change: 1.95e-01 K, heat balance error 8.07e-14
+iteration:  3 	T max:  622.184  [K] 	change: 9.19e-03 K, heat balance error 9.28e-14
+iteration:  4 	T max:  622.184  [K] 	change: 0.00e+00 K, heat balance error 1.92e-06
+SOLVING Section Number	 51  /  91
+iteration:  1 	T max:  622.831  [K] 	change: 5.41e+00 K, heat balance error 5.66e-14
+iteration:  2 	T max:  623.021  [K] 	change: 1.90e-01 K, heat balance error 1.53e-13
+iteration:  3 	T max:  623.012  [K] 	change: 9.07e-03 K, heat balance error 1.04e-14
+iteration:  4 	T max:  623.012  [K] 	change: 0.00e+00 K, heat balance error 1.90e-06
+SOLVING Section Number	 52  /  91
+iteration:  1 	T max:  624.149  [K] 	change: 5.32e+00 K, heat balance error 3.39e-13
+iteration:  2 	T max:  624.335  [K] 	change: 1.86e-01 K, heat balance error 6.38e-14
+iteration:  3 	T max:  624.326  [K] 	change: 8.95e-03 K, heat balance error 1.06e-13
+iteration:  4 	T max:  624.326  [K] 	change: 0.00e+00 K, heat balance error 1.88e-06
+SOLVING Section Number	 53  /  91
+iteration:  1 	T max:  625.733  [K] 	change: 5.23e+00 K, heat balance error 6.02e-14
+iteration:  2 	T max:  625.913  [K] 	change: 1.80e-01 K, heat balance error 5.42e-13
+iteration:  3 	T max:  625.904  [K] 	change: 8.75e-03 K, heat balance error 2.33e-13
+iteration:  4 	T max:  625.904  [K] 	change: 0.00e+00 K, heat balance error 1.85e-06
+SOLVING Section Number	 54  /  91
+iteration:  1 	T max:  628.043  [K] 	change: 5.13e+00 K, heat balance error 3.38e-13
+iteration:  2 	T max:  628.217  [K] 	change: 1.75e-01 K, heat balance error 1.71e-13
+iteration:  3 	T max:  628.209  [K] 	change: 8.62e-03 K, heat balance error 2.14e-13
+iteration:  4 	T max:  628.209  [K] 	change: 0.00e+00 K, heat balance error 1.83e-06
+SOLVING Section Number	 55  /  91
+iteration:  1 	T max:  630.171  [K] 	change: 5.02e+00 K, heat balance error 2.36e-14
+iteration:  2 	T max:  630.341  [K] 	change: 1.70e-01 K, heat balance error 1.62e-13
+iteration:  3 	T max:  630.332  [K] 	change: 8.50e-03 K, heat balance error 6.60e-14
+iteration:  4 	T max:  630.332  [K] 	change: 0.00e+00 K, heat balance error 1.81e-06
+SOLVING Section Number	 56  /  91
+iteration:  1 	T max:  633.163  [K] 	change: 4.92e+00 K, heat balance error 2.20e-14
+iteration:  2 	T max:  633.324  [K] 	change: 1.61e-01 K, heat balance error 5.88e-16
+iteration:  3 	T max:  633.316  [K] 	change: 8.21e-03 K, heat balance error 2.53e-13
+iteration:  4 	T max:  633.316  [K] 	change: 0.00e+00 K, heat balance error 1.75e-06
+SOLVING Section Number	 57  /  91
+iteration:  1 	T max:  635.931  [K] 	change: 4.82e+00 K, heat balance error 3.48e-13
+iteration:  2 	T max:  636.084  [K] 	change: 1.53e-01 K, heat balance error 7.87e-14
+iteration:  3 	T max:  636.076  [K] 	change: 7.91e-03 K, heat balance error 3.26e-13
+iteration:  4 	T max:  636.076  [K] 	change: 0.00e+00 K, heat balance error 1.70e-06
+SOLVING Section Number	 58  /  91
+iteration:  1 	T max:  639.849  [K] 	change: 4.73e+00 K, heat balance error 2.58e-13
+iteration:  2 	T max:  639.995  [K] 	change: 1.46e-01 K, heat balance error 1.79e-13
+iteration:  3 	T max:  639.988  [K] 	change: 7.73e-03 K, heat balance error 1.07e-13
+iteration:  4 	T max:  639.988  [K] 	change: 0.00e+00 K, heat balance error 1.67e-06
+SOLVING Section Number	 59  /  91
+iteration:  1 	T max:  642.823  [K] 	change: 4.65e+00 K, heat balance error 1.08e-13
+iteration:  2 	T max:  642.958  [K] 	change: 1.35e-01 K, heat balance error 1.13e-13
+iteration:  3 	T max:  642.95  [K] 	change: 7.28e-03 K, heat balance error 2.81e-13
+iteration:  4 	T max:  642.95  [K] 	change: 0.00e+00 K, heat balance error 1.59e-06
+SOLVING Section Number	 60  /  91
+iteration:  1 	T max:  648.068  [K] 	change: 4.57e+00 K, heat balance error 2.16e-13
+iteration:  2 	T max:  648.196  [K] 	change: 1.28e-01 K, heat balance error 1.65e-13
+iteration:  3 	T max:  648.189  [K] 	change: 7.05e-03 K, heat balance error 1.80e-14
+iteration:  4 	T max:  648.189  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 61  /  91
+iteration:  1 	T max:  651.904  [K] 	change: 4.50e+00 K, heat balance error 3.65e-14
+iteration:  2 	T max:  652.018  [K] 	change: 1.14e-01 K, heat balance error 5.18e-14
+iteration:  3 	T max:  652.011  [K] 	change: 6.41e-03 K, heat balance error 5.51e-14
+iteration:  4 	T max:  652.011  [K] 	change: 0.00e+00 K, heat balance error 1.41e-06
+SOLVING Section Number	 62  /  91
+iteration:  1 	T max:  658.105  [K] 	change: 4.48e+00 K, heat balance error 5.97e-14
+iteration:  2 	T max:  658.207  [K] 	change: 1.02e-01 K, heat balance error 1.33e-13
+iteration:  3 	T max:  658.201  [K] 	change: 5.90e-03 K, heat balance error 1.04e-13
+iteration:  4 	T max:  658.201  [K] 	change: 0.00e+00 K, heat balance error 1.31e-06
+SOLVING Section Number	 63  /  91
+iteration:  1 	T max:  661.557  [K] 	change: 4.45e+00 K, heat balance error 6.35e-14
+iteration:  2 	T max:  661.649  [K] 	change: 9.20e-02 K, heat balance error 9.75e-14
+iteration:  3 	T max:  661.643  [K] 	change: 5.44e-03 K, heat balance error 1.11e-13
+iteration:  4 	T max:  661.643  [K] 	change: 0.00e+00 K, heat balance error 1.21e-06
+SOLVING Section Number	 64  /  91
+iteration:  1 	T max:  666.112  [K] 	change: 4.47e+00 K, heat balance error 2.15e-13
+iteration:  2 	T max:  666.195  [K] 	change: 8.28e-02 K, heat balance error 2.38e-14
+iteration:  3 	T max:  666.19  [K] 	change: 5.01e-03 K, heat balance error 9.77e-14
+iteration:  4 	T max:  666.19  [K] 	change: 0.00e+00 K, heat balance error 1.13e-06
+SOLVING Section Number	 65  /  91
+iteration:  1 	T max:  670.141  [K] 	change: 4.54e+00 K, heat balance error 7.04e-14
+iteration:  2 	T max:  670.212  [K] 	change: 7.05e-02 K, heat balance error 1.03e-13
+iteration:  3 	T max:  670.207  [K] 	change: 4.36e-03 K, heat balance error 9.99e-14
+iteration:  4 	T max:  670.207  [K] 	change: 0.00e+00 K, heat balance error 9.90e-07
+SOLVING Section Number	 66  /  91
+iteration:  1 	T max:  671.187  [K] 	change: 4.53e+00 K, heat balance error 6.72e-14
+iteration:  2 	T max:  671.25  [K] 	change: 6.31e-02 K, heat balance error 1.73e-14
+iteration:  3 	T max:  671.246  [K] 	change: 3.97e-03 K, heat balance error 1.81e-14
+iteration:  4 	T max:  671.246  [K] 	change: 0.00e+00 K, heat balance error 9.18e-07
+SOLVING Section Number	 67  /  91
+iteration:  1 	T max:  672.093  [K] 	change: 4.58e+00 K, heat balance error 2.74e-14
+iteration:  2 	T max:  672.155  [K] 	change: 6.20e-02 K, heat balance error 8.74e-14
+iteration:  3 	T max:  672.151  [K] 	change: 3.97e-03 K, heat balance error 1.18e-13
+iteration:  4 	T max:  672.151  [K] 	change: 0.00e+00 K, heat balance error 9.32e-07
+SOLVING Section Number	 68  /  91
+iteration:  1 	T max:  670.969  [K] 	change: 4.59e+00 K, heat balance error 2.19e-14
+iteration:  2 	T max:  671.025  [K] 	change: 5.66e-02 K, heat balance error 5.91e-14
+iteration:  3 	T max:  671.022  [K] 	change: 3.67e-03 K, heat balance error 4.29e-14
+iteration:  4 	T max:  671.022  [K] 	change: 0.00e+00 K, heat balance error 8.78e-07
+SOLVING Section Number	 69  /  91
+iteration:  1 	T max:  665.975  [K] 	change: 4.81e+00 K, heat balance error 7.67e-14
+iteration:  2 	T max:  666.044  [K] 	change: 6.95e-02 K, heat balance error 4.76e-14
+iteration:  3 	T max:  666.04  [K] 	change: 4.53e-03 K, heat balance error 7.16e-14
+iteration:  4 	T max:  666.04  [K] 	change: 0.00e+00 K, heat balance error 1.11e-06
+SOLVING Section Number	 70  /  91
+iteration:  1 	T max:  662.063  [K] 	change: 4.83e+00 K, heat balance error 4.40e-14
+iteration:  2 	T max:  662.135  [K] 	change: 7.16e-02 K, heat balance error 1.87e-13
+iteration:  3 	T max:  662.13  [K] 	change: 4.70e-03 K, heat balance error 3.47e-14
+iteration:  4 	T max:  662.13  [K] 	change: 0.00e+00 K, heat balance error 1.17e-06
+SOLVING Section Number	 71  /  91
+iteration:  1 	T max:  658.064  [K] 	change: 4.88e+00 K, heat balance error 1.53e-13
+iteration:  2 	T max:  658.142  [K] 	change: 7.82e-02 K, heat balance error 2.74e-14
+iteration:  3 	T max:  658.137  [K] 	change: 5.13e-03 K, heat balance error 1.54e-14
+iteration:  4 	T max:  658.137  [K] 	change: 0.00e+00 K, heat balance error 1.29e-06
+SOLVING Section Number	 72  /  91
+iteration:  1 	T max:  644.648  [K] 	change: 5.08e+00 K, heat balance error 2.11e-14
+iteration:  2 	T max:  644.762  [K] 	change: 1.14e-01 K, heat balance error 7.84e-15
+iteration:  3 	T max:  644.754  [K] 	change: 7.46e-03 K, heat balance error 1.27e-13
+iteration:  4 	T max:  644.754  [K] 	change: 0.00e+00 K, heat balance error 1.97e-06
+SOLVING Section Number	 73  /  91
+iteration:  1 	T max:  635.048  [K] 	change: 5.13e+00 K, heat balance error 1.35e-13
+iteration:  2 	T max:  635.173  [K] 	change: 1.25e-01 K, heat balance error 1.64e-13
+iteration:  3 	T max:  635.165  [K] 	change: 8.19e-03 K, heat balance error 2.15e-13
+iteration:  4 	T max:  635.165  [K] 	change: 0.00e+00 K, heat balance error 2.24e-06
+SOLVING Section Number	 74  /  91
+iteration:  1 	T max:  626.553  [K] 	change: 5.08e+00 K, heat balance error 4.34e-14
+iteration:  2 	T max:  626.687  [K] 	change: 1.34e-01 K, heat balance error 6.94e-14
+iteration:  3 	T max:  626.678  [K] 	change: 8.76e-03 K, heat balance error 3.00e-14
+iteration:  4 	T max:  626.678  [K] 	change: 0.00e+00 K, heat balance error 2.46e-06
+SOLVING Section Number	 75  /  91
+iteration:  1 	T max:  620.466  [K] 	change: 5.08e+00 K, heat balance error 5.05e-14
+iteration:  2 	T max:  620.609  [K] 	change: 1.44e-01 K, heat balance error 6.66e-16
+iteration:  3 	T max:  620.6  [K] 	change: 9.32e-03 K, heat balance error 6.26e-14
+iteration:  4 	T max:  620.6  [K] 	change: 0.00e+00 K, heat balance error 2.67e-06
+SOLVING Section Number	 76  /  91
+iteration:  1 	T max:  614.191  [K] 	change: 5.05e+00 K, heat balance error 1.06e-13
+iteration:  2 	T max:  614.339  [K] 	change: 1.48e-01 K, heat balance error 1.04e-13
+iteration:  3 	T max:  614.33  [K] 	change: 9.57e-03 K, heat balance error 9.33e-14
+iteration:  4 	T max:  614.33  [K] 	change: 0.00e+00 K, heat balance error 2.80e-06
+SOLVING Section Number	 77  /  91
+iteration:  1 	T max:  608.391  [K] 	change: 5.05e+00 K, heat balance error 6.11e-14
+iteration:  2 	T max:  608.547  [K] 	change: 1.56e-01 K, heat balance error 1.24e-13
+iteration:  3 	T max:  608.537  [K] 	change: 9.99e-03 K, heat balance error 1.46e-13
+iteration:  4 	T max:  608.537  [K] 	change: 0.00e+00 K, heat balance error 2.99e-06
+SOLVING Section Number	 78  /  91
+iteration:  1 	T max:  603.316  [K] 	change: 4.97e+00 K, heat balance error 3.18e-14
+iteration:  2 	T max:  603.473  [K] 	change: 1.57e-01 K, heat balance error 9.87e-14
+iteration:  3 	T max:  603.463  [K] 	change: 1.00e-02 K, heat balance error 1.16e-13
+iteration:  4 	T max:  603.463  [K] 	change: 0.00e+00 K, heat balance error 3.03e-06
+SOLVING Section Number	 79  /  91
+iteration:  1 	T max:  598.951  [K] 	change: 4.94e+00 K, heat balance error 1.90e-13
+iteration:  2 	T max:  599.112  [K] 	change: 1.61e-01 K, heat balance error 9.61e-14
+iteration:  3 	T max:  599.101  [K] 	change: 1.02e-02 K, heat balance error 1.15e-14
+iteration:  4 	T max:  599.101  [K] 	change: 0.00e+00 K, heat balance error 3.14e-06
+SOLVING Section Number	 80  /  91
+iteration:  1 	T max:  594.532  [K] 	change: 4.90e+00 K, heat balance error 1.21e-13
+iteration:  2 	T max:  594.694  [K] 	change: 1.63e-01 K, heat balance error 1.26e-13
+iteration:  3 	T max:  594.684  [K] 	change: 1.03e-02 K, heat balance error 1.62e-13
+iteration:  4 	T max:  594.684  [K] 	change: 0.00e+00 K, heat balance error 3.20e-06
+SOLVING Section Number	 81  /  91
+iteration:  1 	T max:  590.937  [K] 	change: 4.86e+00 K, heat balance error 3.88e-14
+iteration:  2 	T max:  591.104  [K] 	change: 1.67e-01 K, heat balance error 5.05e-14
+iteration:  3 	T max:  591.093  [K] 	change: 1.05e-02 K, heat balance error 2.60e-13
+iteration:  4 	T max:  591.093  [K] 	change: 0.00e+00 K, heat balance error 3.30e-06
+SOLVING Section Number	 82  /  91
+iteration:  1 	T max:  587.119  [K] 	change: 4.82e+00 K, heat balance error 1.28e-13
+iteration:  2 	T max:  587.285  [K] 	change: 1.67e-01 K, heat balance error 5.78e-14
+iteration:  3 	T max:  587.274  [K] 	change: 1.04e-02 K, heat balance error 1.00e-13
+iteration:  4 	T max:  587.274  [K] 	change: 0.00e+00 K, heat balance error 3.34e-06
+SOLVING Section Number	 83  /  91
+iteration:  1 	T max:  584.308  [K] 	change: 4.79e+00 K, heat balance error 3.79e-14
+iteration:  2 	T max:  584.476  [K] 	change: 1.68e-01 K, heat balance error 1.03e-14
+iteration:  3 	T max:  584.466  [K] 	change: 1.05e-02 K, heat balance error 1.35e-13
+iteration:  4 	T max:  584.466  [K] 	change: 0.00e+00 K, heat balance error 3.39e-06
+SOLVING Section Number	 84  /  91
+iteration:  1 	T max:  580.841  [K] 	change: 4.74e+00 K, heat balance error 1.64e-13
+iteration:  2 	T max:  581.01  [K] 	change: 1.68e-01 K, heat balance error 2.78e-13
+iteration:  3 	T max:  580.999  [K] 	change: 1.04e-02 K, heat balance error 3.52e-13
+iteration:  4 	T max:  580.999  [K] 	change: 0.00e+00 K, heat balance error 3.43e-06
+SOLVING Section Number	 85  /  91
+iteration:  1 	T max:  578.117  [K] 	change: 4.70e+00 K, heat balance error 1.06e-14
+iteration:  2 	T max:  578.284  [K] 	change: 1.67e-01 K, heat balance error 3.08e-13
+iteration:  3 	T max:  578.273  [K] 	change: 1.03e-02 K, heat balance error 2.21e-13
+iteration:  4 	T max:  578.273  [K] 	change: 0.00e+00 K, heat balance error 3.42e-06
+SOLVING Section Number	 86  /  91
+iteration:  1 	T max:  576.119  [K] 	change: 4.66e+00 K, heat balance error 1.19e-13
+iteration:  2 	T max:  576.288  [K] 	change: 1.69e-01 K, heat balance error 1.39e-13
+iteration:  3 	T max:  576.277  [K] 	change: 1.04e-02 K, heat balance error 2.54e-13
+iteration:  4 	T max:  576.277  [K] 	change: 0.00e+00 K, heat balance error 3.48e-06
+SOLVING Section Number	 87  /  91
+iteration:  1 	T max:  573.718  [K] 	change: 4.61e+00 K, heat balance error 4.73e-14
+iteration:  2 	T max:  573.886  [K] 	change: 1.68e-01 K, heat balance error 8.11e-14
+iteration:  3 	T max:  573.876  [K] 	change: 1.03e-02 K, heat balance error 4.80e-14
+iteration:  4 	T max:  573.876  [K] 	change: 0.00e+00 K, heat balance error 3.48e-06
+SOLVING Section Number	 88  /  91
+iteration:  1 	T max:  571.218  [K] 	change: 4.55e+00 K, heat balance error 9.97e-14
+iteration:  2 	T max:  571.385  [K] 	change: 1.67e-01 K, heat balance error 2.23e-13
+iteration:  3 	T max:  571.374  [K] 	change: 1.02e-02 K, heat balance error 2.15e-13
+iteration:  4 	T max:  571.374  [K] 	change: 0.00e+00 K, heat balance error 3.48e-06
+SOLVING Section Number	 89  /  91
+iteration:  1 	T max:  569.518  [K] 	change: 4.50e+00 K, heat balance error 7.92e-14
+iteration:  2 	T max:  569.684  [K] 	change: 1.66e-01 K, heat balance error 1.99e-13
+iteration:  3 	T max:  569.674  [K] 	change: 1.01e-02 K, heat balance error 9.90e-14
+iteration:  4 	T max:  569.674  [K] 	change: 0.00e+00 K, heat balance error 3.46e-06
+SOLVING Section Number	 90  /  91
+iteration:  1 	T max:  568.016  [K] 	change: 4.46e+00 K, heat balance error 7.56e-14
+iteration:  2 	T max:  568.181  [K] 	change: 1.65e-01 K, heat balance error 1.27e-13
+iteration:  3 	T max:  568.171  [K] 	change: 1.01e-02 K, heat balance error 2.00e-13
+iteration:  4 	T max:  568.171  [K] 	change: 0.00e+00 K, heat balance error 3.48e-06
+SOLVING Section Number	 91  /  91
+iteration:  1 	T max:  566.101  [K] 	change: 4.42e+00 K, heat balance error 1.97e-13
+iteration:  2 	T max:  566.265  [K] 	change: 1.64e-01 K, heat balance error 3.73e-14
+iteration:  3 	T max:  566.255  [K] 	change: 1.00e-02 K, heat balance error 3.56e-13
+iteration:  4 	T max:  566.255  [K] 	change: 0.00e+00 K, heat balance error 3.48e-06
+TWO-PASS iteration 2: return pass at the turnaround off by -3.516 K and -3022.4 Pa
+TWO-PASS iteration 3: return pass outlet guess 461.62 K, 31.6765 bar
+SOLVING Section Number	 1  /  91
+iteration:  1 	T max:  565.98  [K] 	change: 1.55e+00 K, heat balance error 4.57e-13
+iteration:  2 	T max:  565.927  [K] 	change: 5.24e-02 K, heat balance error 3.74e-13
+iteration:  3 	T max:  565.927  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 2  /  91
+iteration:  1 	T max:  565.98  [K] 	change: 1.55e+00 K, heat balance error 2.62e-13
+iteration:  2 	T max:  565.927  [K] 	change: 5.24e-02 K, heat balance error 4.27e-13
+iteration:  3 	T max:  565.927  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 3  /  91
+iteration:  1 	T max:  565.316  [K] 	change: 1.55e+00 K, heat balance error 5.19e-13
+iteration:  2 	T max:  565.264  [K] 	change: 5.23e-02 K, heat balance error 4.08e-13
+iteration:  3 	T max:  565.264  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 4  /  91
+iteration:  1 	T max:  564.66  [K] 	change: 1.54e+00 K, heat balance error 1.93e-13
+iteration:  2 	T max:  564.607  [K] 	change: 5.21e-02 K, heat balance error 6.71e-14
+iteration:  3 	T max:  564.607  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 5  /  91
+iteration:  1 	T max:  564.01  [K] 	change: 1.54e+00 K, heat balance error 8.81e-14
+iteration:  2 	T max:  563.958  [K] 	change: 5.20e-02 K, heat balance error 5.56e-14
+iteration:  3 	T max:  563.958  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 6  /  91
+iteration:  1 	T max:  563.366  [K] 	change: 1.54e+00 K, heat balance error 5.07e-13
+iteration:  2 	T max:  563.314  [K] 	change: 5.19e-02 K, heat balance error 8.39e-13
+iteration:  3 	T max:  563.314  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 7  /  91
+iteration:  1 	T max:  562.73  [K] 	change: 1.54e+00 K, heat balance error 4.41e-14
+iteration:  2 	T max:  562.678  [K] 	change: 5.17e-02 K, heat balance error 3.16e-13
+iteration:  3 	T max:  562.678  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 8  /  91
+iteration:  1 	T max:  562.1  [K] 	change: 1.53e+00 K, heat balance error 9.83e-14
+iteration:  2 	T max:  562.048  [K] 	change: 5.16e-02 K, heat balance error 3.50e-13
+iteration:  3 	T max:  562.048  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 9  /  91
+iteration:  1 	T max:  561.477  [K] 	change: 1.53e+00 K, heat balance error 1.61e-13
+iteration:  2 	T max:  561.425  [K] 	change: 5.14e-02 K, heat balance error 4.50e-13
+iteration:  3 	T max:  561.425  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 10  /  91
+iteration:  1 	T max:  560.86  [K] 	change: 1.53e+00 K, heat balance error 4.33e-13
+iteration:  2 	T max:  560.809  [K] 	change: 5.13e-02 K, heat balance error 4.09e-13
+iteration:  3 	T max:  560.809  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 11  /  91
+iteration:  1 	T max:  560.251  [K] 	change: 1.52e+00 K, heat balance error 1.44e-13
+iteration:  2 	T max:  560.2  [K] 	change: 5.12e-02 K, heat balance error 4.17e-13
+iteration:  3 	T max:  560.2  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 12  /  91
+iteration:  1 	T max:  559.647  [K] 	change: 1.52e+00 K, heat balance error 7.51e-14
+iteration:  2 	T max:  559.596  [K] 	change: 5.10e-02 K, heat balance error 1.01e-13
+iteration:  3 	T max:  559.596  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 13  /  91
+iteration:  1 	T max:  559.051  [K] 	change: 1.52e+00 K, heat balance error 4.76e-13
+iteration:  2 	T max:  559.0  [K] 	change: 5.09e-02 K, heat balance error 1.11e-13
+iteration:  3 	T max:  559.0  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 14  /  91
+iteration:  1 	T max:  558.46  [K] 	change: 1.52e+00 K, heat balance error 5.87e-13
+iteration:  2 	T max:  558.409  [K] 	change: 5.07e-02 K, heat balance error 2.40e-13
+iteration:  3 	T max:  558.409  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 15  /  91
+iteration:  1 	T max:  557.876  [K] 	change: 1.51e+00 K, heat balance error 1.34e-13
+iteration:  2 	T max:  557.825  [K] 	change: 5.06e-02 K, heat balance error 9.26e-14
+iteration:  3 	T max:  557.825  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 16  /  91
+iteration:  1 	T max:  557.298  [K] 	change: 1.51e+00 K, heat balance error 4.01e-13
+iteration:  2 	T max:  557.247  [K] 	change: 5.05e-02 K, heat balance error 3.47e-13
+iteration:  3 	T max:  557.247  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 17  /  91
+iteration:  1 	T max:  556.725  [K] 	change: 1.51e+00 K, heat balance error 7.78e-14
+iteration:  2 	T max:  556.675  [K] 	change: 5.03e-02 K, heat balance error 2.79e-13
+iteration:  3 	T max:  556.675  [K] 	change: 0.00e+00 K, heat balance error 1.00e-05
+SOLVING Section Number	 18  /  91
+iteration:  1 	T max:  556.159  [K] 	change: 1.51e+00 K, heat balance error 3.19e-13
+iteration:  2 	T max:  556.109  [K] 	change: 5.02e-02 K, heat balance error 4.17e-13
+iteration:  3 	T max:  556.109  [K] 	change: 0.00e+00 K, heat balance error 1.00e-05
+SOLVING Section Number	 19  /  91
+iteration:  1 	T max:  555.599  [K] 	change: 1.50e+00 K, heat balance error 4.45e-13
+iteration:  2 	T max:  555.549  [K] 	change: 5.00e-02 K, heat balance error 2.36e-13
+iteration:  3 	T max:  555.549  [K] 	change: 0.00e+00 K, heat balance error 9.99e-06
+SOLVING Section Number	 20  /  91
+iteration:  1 	T max:  635.866  [K] 	change: 8.71e-01 K, heat balance error 9.75e-14
+iteration:  2 	T max:  635.814  [K] 	change: 5.25e-02 K, heat balance error 2.93e-13
+iteration:  3 	T max:  635.814  [K] 	change: 0.00e+00 K, heat balance error 1.06e-05
+SOLVING Section Number	 21  /  91
+iteration:  1 	T max:  635.04  [K] 	change: 8.63e-01 K, heat balance error 2.97e-13
+iteration:  2 	T max:  634.988  [K] 	change: 5.21e-02 K, heat balance error 1.07e-13
+iteration:  3 	T max:  634.988  [K] 	change: 0.00e+00 K, heat balance error 1.06e-05
+SOLVING Section Number	 22  /  91
+iteration:  1 	T max:  634.223  [K] 	change: 8.56e-01 K, heat balance error 2.04e-13
+iteration:  2 	T max:  634.171  [K] 	change: 5.18e-02 K, heat balance error 5.23e-13
+iteration:  3 	T max:  634.171  [K] 	change: 0.00e+00 K, heat balance error 1.05e-05
+SOLVING Section Number	 23  /  91
+iteration:  1 	T max:  633.415  [K] 	change: 8.49e-01 K, heat balance error 9.23e-14
+iteration:  2 	T max:  633.363  [K] 	change: 5.14e-02 K, heat balance error 4.98e-14
+iteration:  3 	T max:  633.363  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 24  /  91
+iteration:  1 	T max:  632.615  [K] 	change: 8.41e-01 K, heat balance error 1.50e-13
+iteration:  2 	T max:  632.564  [K] 	change: 5.10e-02 K, heat balance error 3.80e-13
+iteration:  3 	T max:  632.564  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 25  /  91
+iteration:  1 	T max:  631.824  [K] 	change: 8.34e-01 K, heat balance error 4.87e-14
+iteration:  2 	T max:  631.774  [K] 	change: 5.07e-02 K, heat balance error 1.78e-15
+iteration:  3 	T max:  631.774  [K] 	change: 0.00e+00 K, heat balance error 1.03e-05
+SOLVING Section Number	 26  /  91
+iteration:  1 	T max:  631.042  [K] 	change: 8.26e-01 K, heat balance error 6.75e-14
+iteration:  2 	T max:  630.992  [K] 	change: 5.03e-02 K, heat balance error 3.61e-13
+iteration:  3 	T max:  630.992  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 27  /  91
+iteration:  1 	T max:  630.268  [K] 	change: 8.19e-01 K, heat balance error 1.93e-13
+iteration:  2 	T max:  630.218  [K] 	change: 5.00e-02 K, heat balance error 5.69e-13
+iteration:  3 	T max:  630.218  [K] 	change: 0.00e+00 K, heat balance error 1.02e-05
+SOLVING Section Number	 28  /  91
+iteration:  1 	T max:  629.504  [K] 	change: 8.12e-01 K, heat balance error 3.07e-13
+iteration:  2 	T max:  629.454  [K] 	change: 4.96e-02 K, heat balance error 1.69e-13
+iteration:  3 	T max:  629.454  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 29  /  91
+iteration:  1 	T max:  628.748  [K] 	change: 8.05e-01 K, heat balance error 3.20e-14
+iteration:  2 	T max:  628.699  [K] 	change: 4.93e-02 K, heat balance error 1.06e-13
+iteration:  3 	T max:  628.699  [K] 	change: 0.00e+00 K, heat balance error 1.00e-05
+SOLVING Section Number	 30  /  91
+iteration:  1 	T max:  628.001  [K] 	change: 7.98e-01 K, heat balance error 6.07e-16
+iteration:  2 	T max:  627.952  [K] 	change: 4.89e-02 K, heat balance error 6.17e-13
+iteration:  3 	T max:  627.952  [K] 	change: 0.00e+00 K, heat balance error 9.97e-06
+SOLVING Section Number	 31  /  91
+iteration:  1 	T max:  627.263  [K] 	change: 7.91e-01 K, heat balance error 6.32e-13
+iteration:  2 	T max:  627.215  [K] 	change: 4.86e-02 K, heat balance error 5.83e-13
+iteration:  3 	T max:  627.215  [K] 	change: 0.00e+00 K, heat balance error 9.91e-06
+SOLVING Section Number	 32  /  91
+iteration:  1 	T max:  626.535  [K] 	change: 7.84e-01 K, heat balance error 4.16e-13
+iteration:  2 	T max:  626.487  [K] 	change: 4.82e-02 K, heat balance error 2.02e-14
+iteration:  3 	T max:  626.487  [K] 	change: 0.00e+00 K, heat balance error 9.85e-06
+SOLVING Section Number	 33  /  91
+iteration:  1 	T max:  625.816  [K] 	change: 7.77e-01 K, heat balance error 1.50e-13
+iteration:  2 	T max:  625.768  [K] 	change: 4.79e-02 K, heat balance error 1.09e-13
+iteration:  3 	T max:  625.768  [K] 	change: 0.00e+00 K, heat balance error 9.78e-06
+SOLVING Section Number	 34  /  91
+iteration:  1 	T max:  625.106  [K] 	change: 7.70e-01 K, heat balance error 3.02e-13
+iteration:  2 	T max:  625.059  [K] 	change: 4.76e-02 K, heat balance error 2.04e-13
+iteration:  3 	T max:  625.059  [K] 	change: 0.00e+00 K, heat balance error 9.72e-06
+SOLVING Section Number	 35  /  91
+iteration:  1 	T max:  624.407  [K] 	change: 7.64e-01 K, heat balance error 3.12e-14
+iteration:  2 	T max:  624.359  [K] 	change: 4.72e-02 K, heat balance error 1.43e-13
+iteration:  3 	T max:  624.359  [K] 	change: 0.00e+00 K, heat balance error 9.67e-06
+SOLVING Section Number	 36  /  91
+iteration:  1 	T max:  623.717  [K] 	change: 7.57e-01 K, heat balance error 1.80e-14
+iteration:  2 	T max:  623.67  [K] 	change: 4.69e-02 K, heat balance error 1.05e-13
+iteration:  3 	T max:  623.67  [K] 	change: 0.00e+00 K, heat balance error 9.61e-06
+SOLVING Section Number	 37  /  91
+iteration:  1 	T max:  623.037  [K] 	change: 7.50e-01 K, heat balance error 1.08e-13
+iteration:  2 	T max:  622.99  [K] 	change: 4.66e-02 K, heat balance error 4.10e-13
+iteration:  3 	T max:  622.99  [K] 	change: 0.00e+00 K, heat balance error 9.55e-06
+SOLVING Section Number	 38  /  91
+iteration:  1 	T max:  622.368  [K] 	change: 7.44e-01 K, heat balance error 1.20e-13
+iteration:  2 	T max:  622.321  [K] 	change: 4.63e-02 K, heat balance error 5.15e-13
+iteration:  3 	T max:  622.321  [K] 	change: 0.00e+00 K, heat balance error 9.49e-06
+SOLVING Section Number	 39  /  91
+iteration:  1 	T max:  621.708  [K] 	change: 7.37e-01 K, heat balance error 1.87e-13
+iteration:  2 	T max:  621.662  [K] 	change: 4.60e-02 K, heat balance error 6.34e-14
+iteration:  3 	T max:  621.662  [K] 	change: 0.00e+00 K, heat balance error 9.43e-06
+SOLVING Section Number	 40  /  91
+iteration:  1 	T max:  621.161  [K] 	change: 7.31e-01 K, heat balance error 7.74e-14
+iteration:  2 	T max:  621.115  [K] 	change: 4.55e-02 K, heat balance error 2.85e-13
+iteration:  3 	T max:  621.115  [K] 	change: 0.00e+00 K, heat balance error 9.35e-06
+SOLVING Section Number	 41  /  91
+iteration:  1 	T max:  620.729  [K] 	change: 7.23e-01 K, heat balance error 2.54e-14
+iteration:  2 	T max:  620.684  [K] 	change: 4.51e-02 K, heat balance error 5.88e-14
+iteration:  3 	T max:  620.684  [K] 	change: 0.00e+00 K, heat balance error 9.28e-06
+SOLVING Section Number	 42  /  91
+iteration:  1 	T max:  620.266  [K] 	change: 7.15e-01 K, heat balance error 1.77e-13
+iteration:  2 	T max:  620.221  [K] 	change: 4.51e-02 K, heat balance error 2.25e-14
+iteration:  3 	T max:  620.221  [K] 	change: 0.00e+00 K, heat balance error 9.28e-06
+SOLVING Section Number	 43  /  91
+iteration:  1 	T max:  619.891  [K] 	change: 7.07e-01 K, heat balance error 9.62e-14
+iteration:  2 	T max:  619.845  [K] 	change: 4.56e-02 K, heat balance error 2.92e-13
+iteration:  3 	T max:  619.845  [K] 	change: 0.00e+00 K, heat balance error 9.40e-06
+SOLVING Section Number	 44  /  91
+iteration:  1 	T max:  619.864  [K] 	change: 6.98e-01 K, heat balance error 4.57e-13
+iteration:  2 	T max:  619.818  [K] 	change: 4.55e-02 K, heat balance error 3.34e-14
+iteration:  3 	T max:  619.818  [K] 	change: 0.00e+00 K, heat balance error 9.40e-06
+SOLVING Section Number	 45  /  91
+iteration:  1 	T max:  620.24  [K] 	change: 6.90e-01 K, heat balance error 4.56e-13
+iteration:  2 	T max:  620.194  [K] 	change: 4.57e-02 K, heat balance error 2.34e-13
+iteration:  3 	T max:  620.194  [K] 	change: 0.00e+00 K, heat balance error 9.44e-06
+SOLVING Section Number	 46  /  91
+iteration:  1 	T max:  620.535  [K] 	change: 6.78e-01 K, heat balance error 3.60e-13
+iteration:  2 	T max:  620.489  [K] 	change: 4.59e-02 K, heat balance error 1.48e-13
+iteration:  3 	T max:  620.489  [K] 	change: 0.00e+00 K, heat balance error 9.51e-06
+SOLVING Section Number	 47  /  91
+iteration:  1 	T max:  620.503  [K] 	change: 6.69e-01 K, heat balance error 1.18e-13
+iteration:  2 	T max:  620.457  [K] 	change: 4.65e-02 K, heat balance error 5.68e-13
+iteration:  3 	T max:  620.457  [K] 	change: 0.00e+00 K, heat balance error 9.66e-06
+SOLVING Section Number	 48  /  91
+iteration:  1 	T max:  620.934  [K] 	change: 6.57e-01 K, heat balance error 2.26e-13
+iteration:  2 	T max:  620.888  [K] 	change: 4.60e-02 K, heat balance error 2.46e-13
+iteration:  3 	T max:  620.888  [K] 	change: 0.00e+00 K, heat balance error 9.60e-06
+SOLVING Section Number	 49  /  91
+iteration:  1 	T max:  621.181  [K] 	change: 6.45e-01 K, heat balance error 2.76e-13
+iteration:  2 	T max:  621.135  [K] 	change: 4.66e-02 K, heat balance error 4.27e-13
+iteration:  3 	T max:  621.135  [K] 	change: 0.00e+00 K, heat balance error 9.76e-06
+SOLVING Section Number	 50  /  91
+iteration:  1 	T max:  622.646  [K] 	change: 6.33e-01 K, heat balance error 2.15e-13
+iteration:  2 	T max:  622.598  [K] 	change: 4.74e-02 K, heat balance error 4.69e-13
+iteration:  3 	T max:  622.598  [K] 	change: 0.00e+00 K, heat balance error 9.95e-06
+SOLVING Section Number	 51  /  91
+iteration:  1 	T max:  623.462  [K] 	change: 6.20e-01 K, heat balance error 1.11e-13
+iteration:  2 	T max:  623.415  [K] 	change: 4.77e-02 K, heat balance error 3.09e-13
+iteration:  3 	T max:  623.415  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 52  /  91
+iteration:  1 	T max:  624.763  [K] 	change: 6.06e-01 K, heat balance error 9.72e-14
+iteration:  2 	T max:  624.715  [K] 	change: 4.79e-02 K, heat balance error 4.03e-14
+iteration:  3 	T max:  624.715  [K] 	change: 0.00e+00 K, heat balance error 1.01e-05
+SOLVING Section Number	 53  /  91
+iteration:  1 	T max:  626.33  [K] 	change: 5.94e-01 K, heat balance error 5.68e-14
+iteration:  2 	T max:  626.279  [K] 	change: 5.02e-02 K, heat balance error 2.89e-13
+iteration:  3 	T max:  626.279  [K] 	change: 0.00e+00 K, heat balance error 1.07e-05
+SOLVING Section Number	 54  /  91
+iteration:  1 	T max:  628.62  [K] 	change: 5.78e-01 K, heat balance error 2.47e-13
+iteration:  2 	T max:  628.569  [K] 	change: 5.14e-02 K, heat balance error 2.09e-13
+iteration:  3 	T max:  628.569  [K] 	change: 0.00e+00 K, heat balance error 1.09e-05
+SOLVING Section Number	 55  /  91
+iteration:  1 	T max:  630.729  [K] 	change: 5.62e-01 K, heat balance error 2.09e-13
+iteration:  2 	T max:  630.677  [K] 	change: 5.18e-02 K, heat balance error 4.41e-14
+iteration:  3 	T max:  630.677  [K] 	change: 0.00e+00 K, heat balance error 1.11e-05
+SOLVING Section Number	 56  /  91
+iteration:  1 	T max:  633.699  [K] 	change: 5.48e-01 K, heat balance error 1.39e-14
+iteration:  2 	T max:  633.643  [K] 	change: 5.56e-02 K, heat balance error 3.39e-13
+iteration:  3 	T max:  633.643  [K] 	change: 0.00e+00 K, heat balance error 1.19e-05
+SOLVING Section Number	 57  /  91
+iteration:  1 	T max:  636.442  [K] 	change: 5.32e-01 K, heat balance error 3.34e-13
+iteration:  2 	T max:  636.384  [K] 	change: 5.85e-02 K, heat balance error 1.14e-13
+iteration:  3 	T max:  636.384  [K] 	change: 0.00e+00 K, heat balance error 1.26e-05
+SOLVING Section Number	 58  /  91
+iteration:  1 	T max:  640.337  [K] 	change: 5.17e-01 K, heat balance error 6.98e-14
+iteration:  2 	T max:  640.276  [K] 	change: 6.02e-02 K, heat balance error 1.33e-13
+iteration:  3 	T max:  640.276  [K] 	change: 0.00e+00 K, heat balance error 1.30e-05
+SOLVING Section Number	 59  /  91
+iteration:  1 	T max:  643.282  [K] 	change: 5.03e-01 K, heat balance error 1.35e-13
+iteration:  2 	T max:  643.218  [K] 	change: 6.45e-02 K, heat balance error 2.93e-13
+iteration:  3 	T max:  643.221  [K] 	change: 3.47e-03 K, heat balance error 2.30e-13
+iteration:  4 	T max:  643.221  [K] 	change: 0.00e+00 K, heat balance error 7.56e-07
+SOLVING Section Number	 60  /  91
+iteration:  1 	T max:  648.503  [K] 	change: 4.88e-01 K, heat balance error 3.12e-13
+iteration:  2 	T max:  648.436  [K] 	change: 6.69e-02 K, heat balance error 1.93e-14
+iteration:  3 	T max:  648.44  [K] 	change: 3.69e-03 K, heat balance error 7.39e-15
+iteration:  4 	T max:  648.44  [K] 	change: 0.00e+00 K, heat balance error 8.05e-07
+SOLVING Section Number	 61  /  91
+iteration:  1 	T max:  652.31  [K] 	change: 4.77e-01 K, heat balance error 1.92e-14
+iteration:  2 	T max:  652.236  [K] 	change: 7.41e-02 K, heat balance error 3.55e-14
+iteration:  3 	T max:  652.24  [K] 	change: 4.19e-03 K, heat balance error 2.09e-13
+iteration:  4 	T max:  652.24  [K] 	change: 0.00e+00 K, heat balance error 9.23e-07
+SOLVING Section Number	 62  /  91
+iteration:  1 	T max:  658.486  [K] 	change: 4.72e-01 K, heat balance error 4.74e-15
+iteration:  2 	T max:  658.404  [K] 	change: 8.17e-02 K, heat balance error 2.53e-13
+iteration:  3 	T max:  658.409  [K] 	change: 4.75e-03 K, heat balance error 2.55e-13
+iteration:  4 	T max:  658.409  [K] 	change: 0.00e+00 K, heat balance error 1.05e-06
+SOLVING Section Number	 63  /  91
+iteration:  1 	T max:  661.911  [K] 	change: 4.62e-01 K, heat balance error 3.28e-14
+iteration:  2 	T max:  661.827  [K] 	change: 8.48e-02 K, heat balance error 7.75e-14
+iteration:  3 	T max:  661.832  [K] 	change: 5.03e-03 K, heat balance error 2.46e-13
+iteration:  4 	T max:  661.832  [K] 	change: 0.00e+00 K, heat balance error 1.12e-06
+SOLVING Section Number	 64  /  91
+iteration:  1 	T max:  666.452  [K] 	change: 4.64e-01 K, heat balance error 1.78e-13
+iteration:  2 	T max:  666.36  [K] 	change: 9.18e-02 K, heat balance error 7.98e-14
+iteration:  3 	T max:  666.366  [K] 	change: 5.58e-03 K, heat balance error 1.25e-13
+iteration:  4 	T max:  666.366  [K] 	change: 0.00e+00 K, heat balance error 1.26e-06
+SOLVING Section Number	 65  /  91
+iteration:  1 	T max:  670.468  [K] 	change: 4.73e-01 K, heat balance error 5.47e-14
+iteration:  2 	T max:  670.365  [K] 	change: 1.03e-01 K, heat balance error 2.57e-13
+iteration:  3 	T max:  670.372  [K] 	change: 6.41e-03 K, heat balance error 8.14e-14
+iteration:  4 	T max:  670.372  [K] 	change: 0.00e+00 K, heat balance error 1.45e-06
+SOLVING Section Number	 66  /  91
+iteration:  1 	T max:  671.5  [K] 	change: 4.70e-01 K, heat balance error 2.38e-14
+iteration:  2 	T max:  671.392  [K] 	change: 1.08e-01 K, heat balance error 1.07e-14
+iteration:  3 	T max:  671.399  [K] 	change: 6.82e-03 K, heat balance error 4.80e-14
+iteration:  4 	T max:  671.399  [K] 	change: 0.00e+00 K, heat balance error 1.57e-06
+SOLVING Section Number	 67  /  91
+iteration:  1 	T max:  672.399  [K] 	change: 4.71e-01 K, heat balance error 1.34e-13
+iteration:  2 	T max:  672.29  [K] 	change: 1.09e-01 K, heat balance error 2.39e-14
+iteration:  3 	T max:  672.297  [K] 	change: 7.01e-03 K, heat balance error 1.05e-13
+iteration:  4 	T max:  672.297  [K] 	change: 0.00e+00 K, heat balance error 1.64e-06
+SOLVING Section Number	 68  /  91
+iteration:  1 	T max:  671.269  [K] 	change: 4.71e-01 K, heat balance error 1.28e-13
+iteration:  2 	T max:  671.155  [K] 	change: 1.14e-01 K, heat balance error 1.21e-13
+iteration:  3 	T max:  671.163  [K] 	change: 7.49e-03 K, heat balance error 1.36e-13
+iteration:  4 	T max:  671.163  [K] 	change: 0.00e+00 K, heat balance error 1.79e-06
+SOLVING Section Number	 69  /  91
+iteration:  1 	T max:  666.304  [K] 	change: 4.97e-01 K, heat balance error 1.41e-14
+iteration:  2 	T max:  666.19  [K] 	change: 1.14e-01 K, heat balance error 1.88e-13
+iteration:  3 	T max:  666.198  [K] 	change: 7.48e-03 K, heat balance error 7.33e-14
+iteration:  4 	T max:  666.198  [K] 	change: 0.00e+00 K, heat balance error 1.82e-06
+SOLVING Section Number	 70  /  91
+iteration:  1 	T max:  662.393  [K] 	change: 4.95e-01 K, heat balance error 1.60e-13
+iteration:  2 	T max:  662.28  [K] 	change: 1.13e-01 K, heat balance error 1.38e-13
+iteration:  3 	T max:  662.288  [K] 	change: 7.43e-03 K, heat balance error 5.54e-14
+iteration:  4 	T max:  662.288  [K] 	change: 0.00e+00 K, heat balance error 1.85e-06
+SOLVING Section Number	 71  /  91
+iteration:  1 	T max:  658.415  [K] 	change: 5.03e-01 K, heat balance error 1.60e-13
+iteration:  2 	T max:  658.3  [K] 	change: 1.15e-01 K, heat balance error 1.09e-13
+iteration:  3 	T max:  658.307  [K] 	change: 7.59e-03 K, heat balance error 7.43e-14
+iteration:  4 	T max:  658.307  [K] 	change: 0.00e+00 K, heat balance error 1.91e-06
+SOLVING Section Number	 72  /  91
+iteration:  1 	T max:  645.066  [K] 	change: 5.28e-01 K, heat balance error 7.97e-14
+iteration:  2 	T max:  644.96  [K] 	change: 1.06e-01 K, heat balance error 2.51e-13
+iteration:  3 	T max:  644.967  [K] 	change: 6.98e-03 K, heat balance error 8.56e-14
+iteration:  4 	T max:  644.967  [K] 	change: 0.00e+00 K, heat balance error 1.84e-06
+SOLVING Section Number	 73  /  91
+iteration:  1 	T max:  635.486  [K] 	change: 5.31e-01 K, heat balance error 1.62e-13
+iteration:  2 	T max:  635.383  [K] 	change: 1.03e-01 K, heat balance error 1.73e-16
+iteration:  3 	T max:  635.39  [K] 	change: 6.72e-03 K, heat balance error 4.47e-14
+iteration:  4 	T max:  635.39  [K] 	change: 0.00e+00 K, heat balance error 1.83e-06
+SOLVING Section Number	 74  /  91
+iteration:  1 	T max:  627.001  [K] 	change: 5.21e-01 K, heat balance error 2.05e-13
+iteration:  2 	T max:  626.904  [K] 	change: 9.68e-02 K, heat balance error 1.91e-13
+iteration:  3 	T max:  626.911  [K] 	change: 6.29e-03 K, heat balance error 1.94e-13
+iteration:  4 	T max:  626.911  [K] 	change: 0.00e+00 K, heat balance error 1.76e-06
+SOLVING Section Number	 75  /  91
+iteration:  1 	T max:  620.924  [K] 	change: 5.17e-01 K, heat balance error 1.67e-13
+iteration:  2 	T max:  620.832  [K] 	change: 9.17e-02 K, heat balance error 1.22e-14
+iteration:  3 	T max:  620.838  [K] 	change: 5.94e-03 K, heat balance error 6.22e-15
+iteration:  4 	T max:  620.838  [K] 	change: 0.00e+00 K, heat balance error 1.70e-06
+SOLVING Section Number	 76  /  91
+iteration:  1 	T max:  614.645  [K] 	change: 5.10e-01 K, heat balance error 1.33e-13
+iteration:  2 	T max:  614.557  [K] 	change: 8.86e-02 K, heat balance error 1.93e-13
+iteration:  3 	T max:  614.563  [K] 	change: 5.70e-03 K, heat balance error 1.65e-14
+iteration:  4 	T max:  614.563  [K] 	change: 0.00e+00 K, heat balance error 1.67e-06
+SOLVING Section Number	 77  /  91
+iteration:  1 	T max:  608.852  [K] 	change: 5.06e-01 K, heat balance error 1.01e-13
+iteration:  2 	T max:  608.77  [K] 	change: 8.23e-02 K, heat balance error 9.53e-14
+iteration:  3 	T max:  608.775  [K] 	change: 5.26e-03 K, heat balance error 1.04e-13
+iteration:  4 	T max:  608.775  [K] 	change: 0.00e+00 K, heat balance error 1.57e-06
+SOLVING Section Number	 78  /  91
+iteration:  1 	T max:  603.786  [K] 	change: 4.95e-01 K, heat balance error 1.21e-13
+iteration:  2 	T max:  603.704  [K] 	change: 8.19e-02 K, heat balance error 3.53e-14
+iteration:  3 	T max:  603.71  [K] 	change: 5.20e-03 K, heat balance error 1.62e-13
+iteration:  4 	T max:  603.71  [K] 	change: 0.00e+00 K, heat balance error 1.57e-06
+SOLVING Section Number	 79  /  91
+iteration:  1 	T max:  599.423  [K] 	change: 4.89e-01 K, heat balance error 2.95e-14
+iteration:  2 	T max:  599.345  [K] 	change: 7.82e-02 K, heat balance error 1.96e-13
+iteration:  3 	T max:  599.35  [K] 	change: 4.95e-03 K, heat balance error 7.34e-14
+iteration:  4 	T max:  599.35  [K] 	change: 0.00e+00 K, heat balance error 1.52e-06
+SOLVING Section Number	 80  /  91
+iteration:  1 	T max:  595.004  [K] 	change: 4.82e-01 K, heat balance error 1.76e-13
+iteration:  2 	T max:  594.929  [K] 	change: 7.58e-02 K, heat balance error 8.13e-14
+iteration:  3 	T max:  594.933  [K] 	change: 4.77e-03 K, heat balance error 1.43e-14
+iteration:  4 	T max:  594.933  [K] 	change: 0.00e+00 K, heat balance error 1.49e-06
+SOLVING Section Number	 81  /  91
+iteration:  1 	T max:  591.409  [K] 	change: 4.73e-01 K, heat balance error 1.86e-13
+iteration:  2 	T max:  591.338  [K] 	change: 7.13e-02 K, heat balance error 3.21e-13
+iteration:  3 	T max:  591.342  [K] 	change: 4.46e-03 K, heat balance error 7.92e-14
+iteration:  4 	T max:  591.342  [K] 	change: 0.00e+00 K, heat balance error 1.40e-06
+SOLVING Section Number	 82  /  91
+iteration:  1 	T max:  587.585  [K] 	change: 4.66e-01 K, heat balance error 8.48e-15
+iteration:  2 	T max:  587.516  [K] 	change: 6.93e-02 K, heat balance error 6.62e-14
+iteration:  3 	T max:  587.52  [K] 	change: 4.32e-03 K, heat balance error 1.75e-13
+iteration:  4 	T max:  587.52  [K] 	change: 0.00e+00 K, heat balance error 1.38e-06
+SOLVING Section Number	 83  /  91
+iteration:  1 	T max:  584.776  [K] 	change: 4.60e-01 K, heat balance error 2.91e-13
+iteration:  2 	T max:  584.709  [K] 	change: 6.69e-02 K, heat balance error 1.42e-13
+iteration:  3 	T max:  584.713  [K] 	change: 4.15e-03 K, heat balance error 6.14e-14
+iteration:  4 	T max:  584.713  [K] 	change: 0.00e+00 K, heat balance error 1.34e-06
+SOLVING Section Number	 84  /  91
+iteration:  1 	T max:  581.304  [K] 	change: 4.52e-01 K, heat balance error 5.33e-14
+iteration:  2 	T max:  581.239  [K] 	change: 6.45e-02 K, heat balance error 1.68e-14
+iteration:  3 	T max:  581.243  [K] 	change: 3.98e-03 K, heat balance error 3.38e-13
+iteration:  4 	T max:  581.243  [K] 	change: 0.00e+00 K, heat balance error 1.31e-06
+SOLVING Section Number	 85  /  91
+iteration:  1 	T max:  578.577  [K] 	change: 4.46e-01 K, heat balance error 1.05e-13
+iteration:  2 	T max:  578.513  [K] 	change: 6.43e-02 K, heat balance error 1.15e-13
+iteration:  3 	T max:  578.517  [K] 	change: 3.95e-03 K, heat balance error 2.06e-13
+iteration:  4 	T max:  578.517  [K] 	change: 0.00e+00 K, heat balance error 1.31e-06
+SOLVING Section Number	 86  /  91
+iteration:  1 	T max:  576.572  [K] 	change: 4.38e-01 K, heat balance error 1.01e-13
+iteration:  2 	T max:  576.512  [K] 	change: 6.02e-02 K, heat balance error 2.10e-13
+iteration:  3 	T max:  576.516  [K] 	change: 3.69e-03 K, heat balance error 4.28e-13
+iteration:  4 	T max:  576.516  [K] 	change: 0.00e+00 K, heat balance error 1.23e-06
+SOLVING Section Number	 87  /  91
+iteration:  1 	T max:  574.167  [K] 	change: 4.30e-01 K, heat balance error 1.65e-13
+iteration:  2 	T max:  574.108  [K] 	change: 5.91e-02 K, heat balance error 4.20e-13
+iteration:  3 	T max:  574.112  [K] 	change: 3.61e-03 K, heat balance error 1.75e-13
+iteration:  4 	T max:  574.112  [K] 	change: 0.00e+00 K, heat balance error 1.22e-06
+SOLVING Section Number	 88  /  91
+iteration:  1 	T max:  571.662  [K] 	change: 4.19e-01 K, heat balance error 1.46e-13
+iteration:  2 	T max:  571.604  [K] 	change: 5.79e-02 K, heat balance error 1.50e-13
+iteration:  3 	T max:  571.608  [K] 	change: 3.52e-03 K, heat balance error 1.96e-13
+iteration:  4 	T max:  571.608  [K] 	change: 0.00e+00 K, heat balance error 1.20e-06
+SOLVING Section Number	 89  /  91
+iteration:  1 	T max:  569.957  [K] 	change: 4.12e-01 K, heat balance error 2.28e-14
+iteration:  2 	T max:  569.9  [K] 	change: 5.74e-02 K, heat balance error 2.35e-13
+iteration:  3 	T max:  569.903  [K] 	change: 3.48e-03 K, heat balance error 2.58e-13
+iteration:  4 	T max:  569.903  [K] 	change: 0.00e+00 K, heat balance error 1.19e-06
+SOLVING Section Number	 90  /  91
+iteration:  1 	T max:  568.448  [K] 	change: 4.04e-01 K, heat balance error 2.05e-13
+iteration:  2 	T max:  568.393  [K] 	change: 5.57e-02 K, heat balance error 3.53e-13
+iteration:  3 	T max:  568.396  [K] 	change: 3.38e-03 K, heat balance error 3.85e-13
+iteration:  4 	T max:  568.396  [K] 	change: 0.00e+00 K, heat balance error 1.16e-06
+SOLVING Section Number	 91  /  91
+iteration:  1 	T max:  566.526  [K] 	change: 3.95e-01 K, heat balance error 1.85e-13
+iteration:  2 	T max:  566.472  [K] 	change: 5.35e-02 K, heat balance error 3.73e-13
+iteration:  3 	T max:  566.476  [K] 	change: 3.24e-03 K, heat balance error 6.70e-14
+iteration:  4 	T max:  566.476  [K] 	change: 0.00e+00 K, heat balance error 1.12e-06
+TWO-PASS iteration 3: return pass at the turnaround off by 0.004 K and 377.0 Pa
+TWO-PASS iteration 4: return pass outlet guess 461.61 K, 31.6727 bar
+SOLVING Section Number	 1  /  91
+iteration:  1 	T max:  565.935  [K] 	change: 7.37e-03 K, heat balance error 4.74e-13
+iteration:  2 	T max:  565.927  [K] 	change: 7.70e-03 K, heat balance error 3.33e-13
+iteration:  3 	T max:  565.927  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 2  /  91
+iteration:  1 	T max:  565.935  [K] 	change: 7.37e-03 K, heat balance error 3.72e-14
+iteration:  2 	T max:  565.927  [K] 	change: 7.70e-03 K, heat balance error 5.84e-13
+iteration:  3 	T max:  565.927  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 3  /  91
+iteration:  1 	T max:  565.271  [K] 	change: 7.37e-03 K, heat balance error 3.74e-14
+iteration:  2 	T max:  565.264  [K] 	change: 7.70e-03 K, heat balance error 4.84e-13
+iteration:  3 	T max:  565.264  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 4  /  91
+iteration:  1 	T max:  564.615  [K] 	change: 7.37e-03 K, heat balance error 9.59e-16
+iteration:  2 	T max:  564.607  [K] 	change: 7.70e-03 K, heat balance error 3.76e-13
+iteration:  3 	T max:  564.607  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 5  /  91
+iteration:  1 	T max:  563.965  [K] 	change: 7.36e-03 K, heat balance error 3.26e-13
+iteration:  2 	T max:  563.957  [K] 	change: 7.70e-03 K, heat balance error 4.61e-13
+iteration:  3 	T max:  563.957  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 6  /  91
+iteration:  1 	T max:  563.322  [K] 	change: 7.36e-03 K, heat balance error 6.70e-13
+iteration:  2 	T max:  563.314  [K] 	change: 7.70e-03 K, heat balance error 3.35e-13
+iteration:  3 	T max:  563.314  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 7  /  91
+iteration:  1 	T max:  562.685  [K] 	change: 7.36e-03 K, heat balance error 1.06e-13
+iteration:  2 	T max:  562.678  [K] 	change: 7.70e-03 K, heat balance error 2.42e-14
+iteration:  3 	T max:  562.678  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 8  /  91
+iteration:  1 	T max:  562.056  [K] 	change: 7.36e-03 K, heat balance error 3.69e-13
+iteration:  2 	T max:  562.048  [K] 	change: 7.70e-03 K, heat balance error 1.71e-14
+iteration:  3 	T max:  562.048  [K] 	change: 0.00e+00 K, heat balance error 1.53e-06
+SOLVING Section Number	 9  /  91
+iteration:  1 	T max:  561.433  [K] 	change: 7.35e-03 K, heat balance error 1.08e-13
+iteration:  2 	T max:  561.425  [K] 	change: 7.70e-03 K, heat balance error 1.90e-14
+iteration:  3 	T max:  561.425  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 10  /  91
+iteration:  1 	T max:  560.817  [K] 	change: 7.35e-03 K, heat balance error 3.88e-13
+iteration:  2 	T max:  560.809  [K] 	change: 7.70e-03 K, heat balance error 2.72e-13
+iteration:  3 	T max:  560.809  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 11  /  91
+iteration:  1 	T max:  560.207  [K] 	change: 7.35e-03 K, heat balance error 2.05e-13
+iteration:  2 	T max:  560.199  [K] 	change: 7.70e-03 K, heat balance error 1.89e-13
+iteration:  3 	T max:  560.199  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 12  /  91
+iteration:  1 	T max:  559.604  [K] 	change: 7.34e-03 K, heat balance error 4.79e-13
+iteration:  2 	T max:  559.596  [K] 	change: 7.70e-03 K, heat balance error 1.78e-13
+iteration:  3 	T max:  559.596  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 13  /  91
+iteration:  1 	T max:  559.007  [K] 	change: 7.34e-03 K, heat balance error 9.17e-13
+iteration:  2 	T max:  558.999  [K] 	change: 7.70e-03 K, heat balance error 8.24e-13
+iteration:  3 	T max:  558.999  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 14  /  91
+iteration:  1 	T max:  558.417  [K] 	change: 7.34e-03 K, heat balance error 3.16e-13
+iteration:  2 	T max:  558.409  [K] 	change: 7.70e-03 K, heat balance error 2.38e-15
+iteration:  3 	T max:  558.409  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 15  /  91
+iteration:  1 	T max:  557.833  [K] 	change: 7.33e-03 K, heat balance error 2.46e-14
+iteration:  2 	T max:  557.825  [K] 	change: 7.70e-03 K, heat balance error 8.14e-14
+iteration:  3 	T max:  557.825  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 16  /  91
+iteration:  1 	T max:  557.254  [K] 	change: 7.33e-03 K, heat balance error 1.88e-13
+iteration:  2 	T max:  557.247  [K] 	change: 7.70e-03 K, heat balance error 2.60e-13
+iteration:  3 	T max:  557.247  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 17  /  91
+iteration:  1 	T max:  556.682  [K] 	change: 7.33e-03 K, heat balance error 6.92e-13
+iteration:  2 	T max:  556.675  [K] 	change: 7.70e-03 K, heat balance error 1.61e-13
+iteration:  3 	T max:  556.675  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 18  /  91
+iteration:  1 	T max:  556.116  [K] 	change: 7.33e-03 K, heat balance error 2.49e-13
+iteration:  2 	T max:  556.109  [K] 	change: 7.70e-03 K, heat balance error 1.69e-13
+iteration:  3 	T max:  556.109  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 19  /  91
+iteration:  1 	T max:  555.556  [K] 	change: 7.32e-03 K, heat balance error 2.10e-13
+iteration:  2 	T max:  555.548  [K] 	change: 7.70e-03 K, heat balance error 5.08e-14
+iteration:  3 	T max:  555.548  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 20  /  91
+iteration:  1 	T max:  635.832  [K] 	change: 1.84e-02 K, heat balance error 1.47e-13
+iteration:  2 	T max:  635.814  [K] 	change: 1.78e-02 K, heat balance error 3.56e-13
+iteration:  3 	T max:  635.814  [K] 	change: 0.00e+00 K, heat balance error 3.63e-06
+SOLVING Section Number	 21  /  91
+iteration:  1 	T max:  635.006  [K] 	change: 1.84e-02 K, heat balance error 2.34e-14
+iteration:  2 	T max:  634.989  [K] 	change: 1.78e-02 K, heat balance error 4.69e-13
+iteration:  3 	T max:  634.989  [K] 	change: 0.00e+00 K, heat balance error 3.63e-06
+SOLVING Section Number	 22  /  91
+iteration:  1 	T max:  634.19  [K] 	change: 1.84e-02 K, heat balance error 6.78e-14
+iteration:  2 	T max:  634.172  [K] 	change: 1.78e-02 K, heat balance error 4.18e-13
+iteration:  3 	T max:  634.172  [K] 	change: 0.00e+00 K, heat balance error 3.64e-06
+SOLVING Section Number	 23  /  91
+iteration:  1 	T max:  633.382  [K] 	change: 1.84e-02 K, heat balance error 2.06e-13
+iteration:  2 	T max:  633.364  [K] 	change: 1.79e-02 K, heat balance error 2.61e-13
+iteration:  3 	T max:  633.364  [K] 	change: 0.00e+00 K, heat balance error 3.64e-06
+SOLVING Section Number	 24  /  91
+iteration:  1 	T max:  632.582  [K] 	change: 1.84e-02 K, heat balance error 9.66e-14
+iteration:  2 	T max:  632.565  [K] 	change: 1.79e-02 K, heat balance error 6.36e-13
+iteration:  3 	T max:  632.565  [K] 	change: 0.00e+00 K, heat balance error 3.64e-06
+SOLVING Section Number	 25  /  91
+iteration:  1 	T max:  631.792  [K] 	change: 1.84e-02 K, heat balance error 4.23e-13
+iteration:  2 	T max:  631.774  [K] 	change: 1.79e-02 K, heat balance error 3.74e-13
+iteration:  3 	T max:  631.774  [K] 	change: 0.00e+00 K, heat balance error 3.65e-06
+SOLVING Section Number	 26  /  91
+iteration:  1 	T max:  631.01  [K] 	change: 1.84e-02 K, heat balance error 1.07e-13
+iteration:  2 	T max:  630.992  [K] 	change: 1.79e-02 K, heat balance error 7.29e-14
+iteration:  3 	T max:  630.992  [K] 	change: 0.00e+00 K, heat balance error 3.65e-06
+SOLVING Section Number	 27  /  91
+iteration:  1 	T max:  630.237  [K] 	change: 1.84e-02 K, heat balance error 2.92e-14
+iteration:  2 	T max:  630.219  [K] 	change: 1.79e-02 K, heat balance error 4.79e-14
+iteration:  3 	T max:  630.219  [K] 	change: 0.00e+00 K, heat balance error 3.66e-06
+SOLVING Section Number	 28  /  91
+iteration:  1 	T max:  629.473  [K] 	change: 1.84e-02 K, heat balance error 1.46e-13
+iteration:  2 	T max:  629.455  [K] 	change: 1.79e-02 K, heat balance error 3.62e-13
+iteration:  3 	T max:  629.455  [K] 	change: 0.00e+00 K, heat balance error 3.66e-06
+SOLVING Section Number	 29  /  91
+iteration:  1 	T max:  628.717  [K] 	change: 1.84e-02 K, heat balance error 3.81e-14
+iteration:  2 	T max:  628.699  [K] 	change: 1.79e-02 K, heat balance error 1.02e-14
+iteration:  3 	T max:  628.699  [K] 	change: 0.00e+00 K, heat balance error 3.67e-06
+SOLVING Section Number	 30  /  91
+iteration:  1 	T max:  627.971  [K] 	change: 1.84e-02 K, heat balance error 3.03e-13
+iteration:  2 	T max:  627.953  [K] 	change: 1.79e-02 K, heat balance error 2.04e-15
+iteration:  3 	T max:  627.953  [K] 	change: 0.00e+00 K, heat balance error 3.67e-06
+SOLVING Section Number	 31  /  91
+iteration:  1 	T max:  627.233  [K] 	change: 1.84e-02 K, heat balance error 1.02e-13
+iteration:  2 	T max:  627.215  [K] 	change: 1.79e-02 K, heat balance error 3.18e-13
+iteration:  3 	T max:  627.215  [K] 	change: 0.00e+00 K, heat balance error 3.67e-06
+SOLVING Section Number	 32  /  91
+iteration:  1 	T max:  626.505  [K] 	change: 1.84e-02 K, heat balance error 5.50e-13
+iteration:  2 	T max:  626.487  [K] 	change: 1.79e-02 K, heat balance error 4.56e-13
+iteration:  3 	T max:  626.487  [K] 	change: 0.00e+00 K, heat balance error 3.68e-06
+SOLVING Section Number	 33  /  91
+iteration:  1 	T max:  625.786  [K] 	change: 1.84e-02 K, heat balance error 1.25e-13
+iteration:  2 	T max:  625.768  [K] 	change: 1.79e-02 K, heat balance error 2.59e-13
+iteration:  3 	T max:  625.768  [K] 	change: 0.00e+00 K, heat balance error 3.68e-06
+SOLVING Section Number	 34  /  91
+iteration:  1 	T max:  625.077  [K] 	change: 1.84e-02 K, heat balance error 2.41e-13
+iteration:  2 	T max:  625.059  [K] 	change: 1.79e-02 K, heat balance error 4.87e-13
+iteration:  3 	T max:  625.059  [K] 	change: 0.00e+00 K, heat balance error 3.68e-06
+SOLVING Section Number	 35  /  91
+iteration:  1 	T max:  624.378  [K] 	change: 1.84e-02 K, heat balance error 1.59e-14
+iteration:  2 	T max:  624.36  [K] 	change: 1.79e-02 K, heat balance error 1.73e-13
+iteration:  3 	T max:  624.36  [K] 	change: 0.00e+00 K, heat balance error 3.69e-06
+SOLVING Section Number	 36  /  91
+iteration:  1 	T max:  623.688  [K] 	change: 1.84e-02 K, heat balance error 4.26e-14
+iteration:  2 	T max:  623.67  [K] 	change: 1.80e-02 K, heat balance error 3.14e-14
+iteration:  3 	T max:  623.67  [K] 	change: 0.00e+00 K, heat balance error 3.69e-06
+SOLVING Section Number	 37  /  91
+iteration:  1 	T max:  623.009  [K] 	change: 1.84e-02 K, heat balance error 2.63e-13
+iteration:  2 	T max:  622.991  [K] 	change: 1.80e-02 K, heat balance error 2.11e-14
+iteration:  3 	T max:  622.991  [K] 	change: 0.00e+00 K, heat balance error 3.69e-06
+SOLVING Section Number	 38  /  91
+iteration:  1 	T max:  622.34  [K] 	change: 1.84e-02 K, heat balance error 1.37e-13
+iteration:  2 	T max:  622.322  [K] 	change: 1.80e-02 K, heat balance error 1.18e-13
+iteration:  3 	T max:  622.322  [K] 	change: 0.00e+00 K, heat balance error 3.70e-06
+SOLVING Section Number	 39  /  91
+iteration:  1 	T max:  621.681  [K] 	change: 1.84e-02 K, heat balance error 6.01e-13
+iteration:  2 	T max:  621.663  [K] 	change: 1.80e-02 K, heat balance error 5.59e-13
+iteration:  3 	T max:  621.663  [K] 	change: 0.00e+00 K, heat balance error 3.70e-06
+SOLVING Section Number	 40  /  91
+iteration:  1 	T max:  621.133  [K] 	change: 1.83e-02 K, heat balance error 4.24e-13
+iteration:  2 	T max:  621.116  [K] 	change: 1.78e-02 K, heat balance error 2.95e-14
+iteration:  3 	T max:  621.116  [K] 	change: 0.00e+00 K, heat balance error 3.68e-06
+SOLVING Section Number	 41  /  91
+iteration:  1 	T max:  620.702  [K] 	change: 1.82e-02 K, heat balance error 1.22e-13
+iteration:  2 	T max:  620.684  [K] 	change: 1.78e-02 K, heat balance error 4.22e-13
+iteration:  3 	T max:  620.684  [K] 	change: 0.00e+00 K, heat balance error 3.66e-06
+SOLVING Section Number	 42  /  91
+iteration:  1 	T max:  620.24  [K] 	change: 1.85e-02 K, heat balance error 1.84e-13
+iteration:  2 	T max:  620.222  [K] 	change: 1.81e-02 K, heat balance error 1.46e-14
+iteration:  3 	T max:  620.222  [K] 	change: 0.00e+00 K, heat balance error 3.74e-06
+SOLVING Section Number	 43  /  91
+iteration:  1 	T max:  619.865  [K] 	change: 1.94e-02 K, heat balance error 3.35e-13
+iteration:  2 	T max:  619.846  [K] 	change: 1.89e-02 K, heat balance error 3.05e-13
+iteration:  3 	T max:  619.846  [K] 	change: 0.00e+00 K, heat balance error 3.92e-06
+SOLVING Section Number	 44  /  91
+iteration:  1 	T max:  619.838  [K] 	change: 1.96e-02 K, heat balance error 1.54e-13
+iteration:  2 	T max:  619.819  [K] 	change: 1.92e-02 K, heat balance error 2.60e-14
+iteration:  3 	T max:  619.819  [K] 	change: 0.00e+00 K, heat balance error 3.98e-06
+SOLVING Section Number	 45  /  91
+iteration:  1 	T max:  620.214  [K] 	change: 2.01e-02 K, heat balance error 9.98e-13
+iteration:  2 	T max:  620.195  [K] 	change: 1.97e-02 K, heat balance error 8.53e-14
+iteration:  3 	T max:  620.195  [K] 	change: 0.00e+00 K, heat balance error 4.08e-06
+SOLVING Section Number	 46  /  91
+iteration:  1 	T max:  620.51  [K] 	change: 2.08e-02 K, heat balance error 2.23e-13
+iteration:  2 	T max:  620.49  [K] 	change: 2.04e-02 K, heat balance error 3.47e-13
+iteration:  3 	T max:  620.49  [K] 	change: 0.00e+00 K, heat balance error 4.23e-06
+SOLVING Section Number	 47  /  91
+iteration:  1 	T max:  620.479  [K] 	change: 2.18e-02 K, heat balance error 6.29e-13
+iteration:  2 	T max:  620.457  [K] 	change: 2.14e-02 K, heat balance error 1.62e-13
+iteration:  3 	T max:  620.457  [K] 	change: 0.00e+00 K, heat balance error 4.46e-06
+SOLVING Section Number	 48  /  91
+iteration:  1 	T max:  620.91  [K] 	change: 2.17e-02 K, heat balance error 5.13e-13
+iteration:  2 	T max:  620.889  [K] 	change: 2.13e-02 K, heat balance error 2.16e-13
+iteration:  3 	T max:  620.889  [K] 	change: 0.00e+00 K, heat balance error 4.47e-06
+SOLVING Section Number	 49  /  91
+iteration:  1 	T max:  621.157  [K] 	change: 2.29e-02 K, heat balance error 1.88e-13
+iteration:  2 	T max:  621.135  [K] 	change: 2.25e-02 K, heat balance error 7.09e-13
+iteration:  3 	T max:  621.135  [K] 	change: 0.00e+00 K, heat balance error 4.72e-06
+SOLVING Section Number	 50  /  91
+iteration:  1 	T max:  622.622  [K] 	change: 2.41e-02 K, heat balance error 1.63e-13
+iteration:  2 	T max:  622.598  [K] 	change: 2.37e-02 K, heat balance error 7.02e-15
+iteration:  3 	T max:  622.598  [K] 	change: 0.00e+00 K, heat balance error 4.99e-06
+SOLVING Section Number	 51  /  91
+iteration:  1 	T max:  623.44  [K] 	change: 2.50e-02 K, heat balance error 1.56e-13
+iteration:  2 	T max:  623.415  [K] 	change: 2.46e-02 K, heat balance error 2.40e-13
+iteration:  3 	T max:  623.415  [K] 	change: 0.00e+00 K, heat balance error 5.19e-06
+SOLVING Section Number	 52  /  91
+iteration:  1 	T max:  624.741  [K] 	change: 2.58e-02 K, heat balance error 3.64e-13
+iteration:  2 	T max:  624.715  [K] 	change: 2.54e-02 K, heat balance error 1.50e-14
+iteration:  3 	T max:  624.715  [K] 	change: 0.00e+00 K, heat balance error 5.38e-06
+SOLVING Section Number	 53  /  91
+iteration:  1 	T max:  626.308  [K] 	change: 2.88e-02 K, heat balance error 1.45e-13
+iteration:  2 	T max:  626.28  [K] 	change: 2.83e-02 K, heat balance error 1.99e-14
+iteration:  3 	T max:  626.28  [K] 	change: 0.00e+00 K, heat balance error 6.03e-06
+SOLVING Section Number	 54  /  91
+iteration:  1 	T max:  628.599  [K] 	change: 3.05e-02 K, heat balance error 1.04e-13
+iteration:  2 	T max:  628.569  [K] 	change: 3.01e-02 K, heat balance error 5.04e-14
+iteration:  3 	T max:  628.569  [K] 	change: 0.00e+00 K, heat balance error 6.42e-06
+SOLVING Section Number	 55  /  91
+iteration:  1 	T max:  630.709  [K] 	change: 3.17e-02 K, heat balance error 1.93e-13
+iteration:  2 	T max:  630.677  [K] 	change: 3.12e-02 K, heat balance error 2.66e-14
+iteration:  3 	T max:  630.677  [K] 	change: 0.00e+00 K, heat balance error 6.69e-06
+SOLVING Section Number	 56  /  91
+iteration:  1 	T max:  633.68  [K] 	change: 3.63e-02 K, heat balance error 3.03e-13
+iteration:  2 	T max:  633.644  [K] 	change: 3.59e-02 K, heat balance error 6.29e-14
+iteration:  3 	T max:  633.644  [K] 	change: 0.00e+00 K, heat balance error 7.71e-06
+SOLVING Section Number	 57  /  91
+iteration:  1 	T max:  636.424  [K] 	change: 4.00e-02 K, heat balance error 3.23e-13
+iteration:  2 	T max:  636.384  [K] 	change: 3.96e-02 K, heat balance error 4.09e-15
+iteration:  3 	T max:  636.384  [K] 	change: 0.00e+00 K, heat balance error 8.57e-06
+SOLVING Section Number	 58  /  91
+iteration:  1 	T max:  640.319  [K] 	change: 4.26e-02 K, heat balance error 2.65e-13
+iteration:  2 	T max:  640.277  [K] 	change: 4.22e-02 K, heat balance error 1.09e-13
+iteration:  3 	T max:  640.277  [K] 	change: 0.00e+00 K, heat balance error 9.17e-06
+SOLVING Section Number	 59  /  91
+iteration:  1 	T max:  643.266  [K] 	change: 4.44e-02 K, heat balance error 3.33e-13
+iteration:  2 	T max:  643.218  [K] 	change: 4.75e-02 K, heat balance error 9.30e-14
+iteration:  3 	T max:  643.218  [K] 	change: 0.00e+00 K, heat balance error 1.04e-05
+SOLVING Section Number	 60  /  91
+iteration:  1 	T max:  648.487  [K] 	change: 4.76e-02 K, heat balance error 1.41e-13
+iteration:  2 	T max:  648.436  [K] 	change: 5.09e-02 K, heat balance error 9.35e-14
+iteration:  3 	T max:  648.436  [K] 	change: 0.00e+00 K, heat balance error 1.12e-05
+SOLVING Section Number	 61  /  91
+iteration:  1 	T max:  652.296  [K] 	change: 5.56e-02 K, heat balance error 1.41e-13
+iteration:  2 	T max:  652.236  [K] 	change: 5.94e-02 K, heat balance error 5.33e-14
+iteration:  3 	T max:  652.24  [K] 	change: 3.36e-03 K, heat balance error 1.17e-13
+iteration:  4 	T max:  652.24  [K] 	change: 0.00e+00 K, heat balance error 7.39e-07
+SOLVING Section Number	 62  /  91
+iteration:  1 	T max:  658.473  [K] 	change: 6.35e-02 K, heat balance error 1.86e-13
+iteration:  2 	T max:  658.405  [K] 	change: 6.79e-02 K, heat balance error 6.11e-14
+iteration:  3 	T max:  658.409  [K] 	change: 3.95e-03 K, heat balance error 4.69e-14
+iteration:  4 	T max:  658.409  [K] 	change: 0.00e+00 K, heat balance error 8.73e-07
+SOLVING Section Number	 63  /  91
+iteration:  1 	T max:  661.899  [K] 	change: 6.76e-02 K, heat balance error 1.25e-14
+iteration:  2 	T max:  661.827  [K] 	change: 7.23e-02 K, heat balance error 1.52e-13
+iteration:  3 	T max:  661.831  [K] 	change: 4.29e-03 K, heat balance error 7.66e-14
+iteration:  4 	T max:  661.831  [K] 	change: 0.00e+00 K, heat balance error 9.56e-07
+SOLVING Section Number	 64  /  91
+iteration:  1 	T max:  666.441  [K] 	change: 7.46e-02 K, heat balance error 1.05e-13
+iteration:  2 	T max:  666.361  [K] 	change: 7.99e-02 K, heat balance error 5.68e-14
+iteration:  3 	T max:  666.366  [K] 	change: 4.86e-03 K, heat balance error 1.84e-13
+iteration:  4 	T max:  666.366  [K] 	change: 0.00e+00 K, heat balance error 1.09e-06
+SOLVING Section Number	 65  /  91
+iteration:  1 	T max:  670.457  [K] 	change: 8.55e-02 K, heat balance error 3.43e-14
+iteration:  2 	T max:  670.366  [K] 	change: 9.16e-02 K, heat balance error 1.60e-13
+iteration:  3 	T max:  670.371  [K] 	change: 5.70e-03 K, heat balance error 1.31e-14
+iteration:  4 	T max:  670.371  [K] 	change: 0.00e+00 K, heat balance error 1.29e-06
+SOLVING Section Number	 66  /  91
+iteration:  1 	T max:  671.49  [K] 	change: 9.04e-02 K, heat balance error 1.74e-13
+iteration:  2 	T max:  671.393  [K] 	change: 9.68e-02 K, heat balance error 1.33e-13
+iteration:  3 	T max:  671.399  [K] 	change: 6.14e-03 K, heat balance error 5.92e-14
+iteration:  4 	T max:  671.399  [K] 	change: 0.00e+00 K, heat balance error 1.42e-06
+SOLVING Section Number	 67  /  91
+iteration:  1 	T max:  672.389  [K] 	change: 9.17e-02 K, heat balance error 2.32e-13
+iteration:  2 	T max:  672.29  [K] 	change: 9.83e-02 K, heat balance error 9.23e-14
+iteration:  3 	T max:  672.297  [K] 	change: 6.35e-03 K, heat balance error 2.34e-13
+iteration:  4 	T max:  672.297  [K] 	change: 0.00e+00 K, heat balance error 1.49e-06
+SOLVING Section Number	 68  /  91
+iteration:  1 	T max:  671.26  [K] 	change: 9.73e-02 K, heat balance error 9.39e-15
+iteration:  2 	T max:  671.155  [K] 	change: 1.04e-01 K, heat balance error 6.15e-14
+iteration:  3 	T max:  671.162  [K] 	change: 6.84e-03 K, heat balance error 1.24e-13
+iteration:  4 	T max:  671.162  [K] 	change: 0.00e+00 K, heat balance error 1.63e-06
+SOLVING Section Number	 69  /  91
+iteration:  1 	T max:  666.293  [K] 	change: 9.55e-02 K, heat balance error 9.09e-14
+iteration:  2 	T max:  666.191  [K] 	change: 1.03e-01 K, heat balance error 1.19e-13
+iteration:  3 	T max:  666.197  [K] 	change: 6.74e-03 K, heat balance error 6.89e-14
+iteration:  4 	T max:  666.197  [K] 	change: 0.00e+00 K, heat balance error 1.64e-06
+SOLVING Section Number	 70  /  91
+iteration:  1 	T max:  662.382  [K] 	change: 9.45e-02 K, heat balance error 3.29e-14
+iteration:  2 	T max:  662.281  [K] 	change: 1.01e-01 K, heat balance error 1.74e-13
+iteration:  3 	T max:  662.287  [K] 	change: 6.69e-03 K, heat balance error 7.18e-14
+iteration:  4 	T max:  662.287  [K] 	change: 0.00e+00 K, heat balance error 1.66e-06
+SOLVING Section Number	 71  /  91
+iteration:  1 	T max:  658.403  [K] 	change: 9.56e-02 K, heat balance error 1.08e-14
+iteration:  2 	T max:  658.3  [K] 	change: 1.03e-01 K, heat balance error 4.73e-14
+iteration:  3 	T max:  658.307  [K] 	change: 6.78e-03 K, heat balance error 5.33e-14
+iteration:  4 	T max:  658.307  [K] 	change: 0.00e+00 K, heat balance error 1.71e-06
+SOLVING Section Number	 72  /  91
+iteration:  1 	T max:  645.051  [K] 	change: 8.43e-02 K, heat balance error 3.62e-14
+iteration:  2 	T max:  644.961  [K] 	change: 9.07e-02 K, heat balance error 2.95e-13
+iteration:  3 	T max:  644.967  [K] 	change: 5.96e-03 K, heat balance error 4.03e-15
+iteration:  4 	T max:  644.967  [K] 	change: 0.00e+00 K, heat balance error 1.57e-06
+SOLVING Section Number	 73  /  91
+iteration:  1 	T max:  635.47  [K] 	change: 8.03e-02 K, heat balance error 1.07e-13
+iteration:  2 	T max:  635.384  [K] 	change: 8.64e-02 K, heat balance error 8.84e-15
+iteration:  3 	T max:  635.39  [K] 	change: 5.65e-03 K, heat balance error 7.26e-14
+iteration:  4 	T max:  635.39  [K] 	change: 0.00e+00 K, heat balance error 1.54e-06
+SOLVING Section Number	 74  /  91
+iteration:  1 	T max:  626.985  [K] 	change: 7.44e-02 K, heat balance error 1.23e-13
+iteration:  2 	T max:  626.905  [K] 	change: 8.00e-02 K, heat balance error 3.29e-14
+iteration:  3 	T max:  626.91  [K] 	change: 5.20e-03 K, heat balance error 6.35e-14
+iteration:  4 	T max:  626.91  [K] 	change: 0.00e+00 K, heat balance error 1.46e-06
+SOLVING Section Number	 75  /  91
+iteration:  1 	T max:  620.907  [K] 	change: 6.93e-02 K, heat balance error 2.85e-13
+iteration:  2 	T max:  620.833  [K] 	change: 7.45e-02 K, heat balance error 6.53e-14
+iteration:  3 	T max:  620.837  [K] 	change: 4.83e-03 K, heat balance error 3.83e-14
+iteration:  4 	T max:  620.837  [K] 	change: 0.00e+00 K, heat balance error 1.38e-06
+SOLVING Section Number	 76  /  91
+iteration:  1 	T max:  614.628  [K] 	change: 6.62e-02 K, heat balance error 7.37e-14
+iteration:  2 	T max:  614.558  [K] 	change: 7.12e-02 K, heat balance error 1.15e-13
+iteration:  3 	T max:  614.562  [K] 	change: 4.58e-03 K, heat balance error 1.38e-13
+iteration:  4 	T max:  614.562  [K] 	change: 0.00e+00 K, heat balance error 1.34e-06
+SOLVING Section Number	 77  /  91
+iteration:  1 	T max:  608.835  [K] 	change: 6.01e-02 K, heat balance error 1.13e-13
+iteration:  2 	T max:  608.771  [K] 	change: 6.47e-02 K, heat balance error 9.26e-14
+iteration:  3 	T max:  608.775  [K] 	change: 4.14e-03 K, heat balance error 4.56e-14
+iteration:  4 	T max:  608.775  [K] 	change: 0.00e+00 K, heat balance error 1.24e-06
+SOLVING Section Number	 78  /  91
+iteration:  1 	T max:  603.769  [K] 	change: 5.97e-02 K, heat balance error 2.52e-13
+iteration:  2 	T max:  603.705  [K] 	change: 6.42e-02 K, heat balance error 1.43e-13
+iteration:  3 	T max:  603.709  [K] 	change: 4.08e-03 K, heat balance error 1.64e-13
+iteration:  4 	T max:  603.709  [K] 	change: 0.00e+00 K, heat balance error 1.23e-06
+SOLVING Section Number	 79  /  91
+iteration:  1 	T max:  599.406  [K] 	change: 5.63e-02 K, heat balance error 1.67e-13
+iteration:  2 	T max:  599.346  [K] 	change: 6.05e-02 K, heat balance error 1.67e-13
+iteration:  3 	T max:  599.349  [K] 	change: 3.83e-03 K, heat balance error 1.20e-13
+iteration:  4 	T max:  599.349  [K] 	change: 0.00e+00 K, heat balance error 1.18e-06
+SOLVING Section Number	 80  /  91
+iteration:  1 	T max:  594.987  [K] 	change: 5.41e-02 K, heat balance error 1.41e-13
+iteration:  2 	T max:  594.929  [K] 	change: 5.82e-02 K, heat balance error 1.22e-14
+iteration:  3 	T max:  594.933  [K] 	change: 3.66e-03 K, heat balance error 1.39e-13
+iteration:  4 	T max:  594.933  [K] 	change: 0.00e+00 K, heat balance error 1.14e-06
+SOLVING Section Number	 81  /  91
+iteration:  1 	T max:  591.392  [K] 	change: 4.99e-02 K, heat balance error 1.02e-13
+iteration:  2 	T max:  591.339  [K] 	change: 5.37e-02 K, heat balance error 3.23e-14
+iteration:  3 	T max:  591.342  [K] 	change: 3.36e-03 K, heat balance error 9.16e-14
+iteration:  4 	T max:  591.342  [K] 	change: 0.00e+00 K, heat balance error 1.06e-06
+SOLVING Section Number	 82  /  91
+iteration:  1 	T max:  587.568  [K] 	change: 4.83e-02 K, heat balance error 1.53e-13
+iteration:  2 	T max:  587.517  [K] 	change: 5.19e-02 K, heat balance error 4.42e-14
+iteration:  3 	T max:  587.52  [K] 	change: 3.24e-03 K, heat balance error 9.64e-14
+iteration:  4 	T max:  587.52  [K] 	change: 0.00e+00 K, heat balance error 1.03e-06
+SOLVING Section Number	 83  /  91
+iteration:  1 	T max:  584.759  [K] 	change: 4.61e-02 K, heat balance error 6.53e-14
+iteration:  2 	T max:  584.709  [K] 	change: 4.96e-02 K, heat balance error 4.75e-14
+iteration:  3 	T max:  584.712  [K] 	change: 3.08e-03 K, heat balance error 4.03e-14
+iteration:  4 	T max:  584.712  [K] 	change: 0.00e+00 K, heat balance error 9.96e-07
+SOLVING Section Number	 84  /  91
+iteration:  1 	T max:  581.287  [K] 	change: 4.41e-02 K, heat balance error 4.70e-15
+iteration:  2 	T max:  581.24  [K] 	change: 4.75e-02 K, heat balance error 5.87e-14
+iteration:  3 	T max:  581.24  [K] 	change: 0.00e+00 K, heat balance error 1.56e-05
+SOLVING Section Number	 85  /  91
+iteration:  1 	T max:  578.561  [K] 	change: 4.41e-02 K, heat balance error 1.95e-13
+iteration:  2 	T max:  578.513  [K] 	change: 4.74e-02 K, heat balance error 3.68e-14
+iteration:  3 	T max:  578.513  [K] 	change: 0.00e+00 K, heat balance error 1.57e-05
+SOLVING Section Number	 86  /  91
+iteration:  1 	T max:  576.556  [K] 	change: 4.05e-02 K, heat balance error 1.39e-13
+iteration:  2 	T max:  576.513  [K] 	change: 4.36e-02 K, heat balance error 2.57e-13
+iteration:  3 	T max:  576.513  [K] 	change: 0.00e+00 K, heat balance error 1.46e-05
+SOLVING Section Number	 87  /  91
+iteration:  1 	T max:  574.152  [K] 	change: 3.98e-02 K, heat balance error 3.94e-13
+iteration:  2 	T max:  574.109  [K] 	change: 4.28e-02 K, heat balance error 1.61e-13
+iteration:  3 	T max:  574.109  [K] 	change: 0.00e+00 K, heat balance error 1.45e-05
+SOLVING Section Number	 88  /  91
+iteration:  1 	T max:  571.647  [K] 	change: 3.89e-02 K, heat balance error 2.57e-13
+iteration:  2 	T max:  571.605  [K] 	change: 4.18e-02 K, heat balance error 1.76e-13
+iteration:  3 	T max:  571.605  [K] 	change: 0.00e+00 K, heat balance error 1.42e-05
+SOLVING Section Number	 89  /  91
+iteration:  1 	T max:  569.942  [K] 	change: 3.87e-02 K, heat balance error 2.80e-13
+iteration:  2 	T max:  569.9  [K] 	change: 4.16e-02 K, heat balance error 8.99e-14
+iteration:  3 	T max:  569.9  [K] 	change: 0.00e+00 K, heat balance error 1.43e-05
+SOLVING Section Number	 90  /  91
+iteration:  1 	T max:  568.433  [K] 	change: 3.75e-02 K, heat balance error 8.42e-15
+iteration:  2 	T max:  568.393  [K] 	change: 4.03e-02 K, heat balance error 2.31e-13
+iteration:  3 	T max:  568.393  [K] 	change: 0.00e+00 K, heat balance error 1.39e-05
+SOLVING Section Number	 91  /  91
+iteration:  1 	T max:  566.511  [K] 	change: 3.57e-02 K, heat balance error 4.81e-14
+iteration:  2 	T max:  566.473  [K] 	change: 3.84e-02 K, heat balance error 3.12e-13
+iteration:  3 	T max:  566.473  [K] 	change: 0.00e+00 K, heat balance error 1.34e-05
+TWO-PASS iteration 4: return pass at the turnaround off by -0.000 K and -0.4 Pa

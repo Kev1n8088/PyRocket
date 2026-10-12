@@ -1,0 +1,10 @@
+# best design from optimize.py for parsecrp111alu, replaces the cooling channel inputs of the config
+material  = matlib.IN718
+n         = 58
+h_c       = 0.001                             # channel height [m]
+t_w_i     = 0.0008                             # hot wall thickness [m]
+helix_pitch_deg_per_mm = None
+helix_angle            = 30
+channel_width = None                          # width grows with the radius: 1.000 mm normal to the flow at the throat
+psi       = 0.484942006892
+cell_size = 0.15 * t_w_i                          # keep the mesh resolution relative to the wall thickness

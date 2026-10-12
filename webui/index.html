@@ -399,7 +399,6 @@ function renderOptimize() {
     <div class="grid">
       <label class="field">Grid density<select id="odens">${['coarse', 'normal', 'fine'].map(d => `<option ${(f.density || 'normal') === d ? 'selected' : ''}>${d}</option>`).join('')}</select></label>
       <label class="field">Designs verified in 2D<input type="number" min="0" id="over" value="${val('verify', 3)}"></label>
-      <label class="field">Longitudinal stress ΔT<select id="olong"><option value="shell" ${f.longitudinal === 'wall' ? '' : 'selected'}>Hot wall to coolant-side wall (shell)</option><option value="wall" ${f.longitudinal === 'wall' ? 'selected' : ''}>Across the hot wall</option></select></label>
       <label class="field">Fast section model<select id="osec"><option value="grid" ${f.section_model === 'network' ? '' : 'selected'}>Grid (accurate)</option><option value="network" ${f.section_model === 'network' ? 'selected' : ''}>Network (fastest)</option></select></label>
       <label class="field">Parallel jobs<input type="number" min="1" max="${S.cpus}" id="ojobs" value="${val('jobs', Math.max(1, S.cpus - 1))}"></label>
       <label class="field">Output folder<input type="text" id="oout" value="${val('out', S.resultsOut)}"></label>
@@ -414,7 +413,7 @@ function renderOptimize() {
       min_channel_height: $('#ochmin').value, max_channel_height: $('#ochmax').value, wall: $('#owall').value, max_coolant_wall_temp: $('#ocwall').value, max_coolant_outlet_temp: $('#ocout').value,
       min_boil_margin: $('#oboil').value, min_bulk_boil_margin: $('#obulk').value, allow_bulk_boiling: $('#oallow').checked, materials: [...main.querySelectorAll('input[name=mat]:checked')].map(i => i.value),
       modes: [...main.querySelectorAll('input[name=mode]:checked')].map(i => i.value), density: $('#odens').value, verify: $('#over').value,
-      longitudinal: $('#olong').value, section_model: $('#osec').value, jobs: $('#ojobs').value, out: $('#oout').value || 'results' };
+      section_model: $('#osec').value, jobs: $('#ojobs').value, out: $('#oout').value || 'results' };
     S.optForm = body;
     try { const r = await api('/api/optimize', body); openJob(r.id); } catch (e) { $('#oerr').textContent = e.message; }
   };

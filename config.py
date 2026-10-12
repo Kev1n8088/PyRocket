@@ -23,28 +23,49 @@ ox              = 'O2'
 hot_gas_method  = 'standard-bartz'                         # use either 'cinjarev', 'standard-bartz' or 'modified-bartz'
 bartz_knockdown = 1.0                                # knockdown factor for bartz heat transfer. 0.9 typical for smooth hotwall + traditional impinging jet injector, can be as low as 0.5 with interesting recirculation zones. 1.0 for no knockdown
 
-# Operating point of combustion chamber 
+# Operating point of combustion chamber: core flow only, i.e. the propellant that actually burns. Film coolant (below) is
+# additional propellant assumed not to burn, so it is excluded from this O/F and mass flow, and from the hot gas heat
+# transfer calculations, which use the core flow only
 eta_c_star      = 0.8                               # c* efficiency
-MR              = 1.4
-m_dot           = 1.65                                # total mass flow [kg/s]
-m_dot_f         = m_dot / (MR + 1)
-m_dot_ox        = m_dot - m_dot_f
+MR_core         = 1.4                                # core (combustion) oxidiser/fuel mixture ratio
+m_dot_core      = 1.65                                # core mass flow [kg/s]: oxidiser + fuel that actually combusts
+m_dot_f         = m_dot_core / (MR_core + 1)
+m_dot_ox        = m_dot_core - m_dot_f
 Pc              = 27e5                               # Chamber pressure [Pa]
+
+# Film cooling settings for coolant originating at the injector face. Assumed not to burn, so excluded from the core O/F,
+# mass flow and heat transfer above
+m_dot_film = 0.1 * m_dot_f                           # set mass flow to 0.0 to deactivate film cooing
+injection_velocity = 10								  # [m/s]
+injector_diameter  = 0.4e-3							  # [m]
+
+m_dot           = m_dot_core + m_dot_film            # total propellant mass flow [kg/s] (core + film), for reference only
 
 # Coolant input
 cooling_fluid   = ['n-dodecane']                     # needs to be list of str (thermo names); RP1 -> 'n-dodecane' (surrogate), IPA -> 'isopropanol'
 fluid_mass_frac = [1.0]    			                 # mass fractions of the cooling fluid (needs to add up to 1)
-m_dot_coolant   = m_dot_f                 		 	 # mass flow through the cooling channels
+m_dot_coolant   = m_dot_f + m_dot_film                  # mass flow through the cooling channels: core fuel + film, both routed through the jacket
 inlet_temp      = 288.0                     		 # inlet temperature [K]
 inlet_pressure  = 45e5                               # Cooling channel inlet pressure [Pa]
 
 cooling_method  = 'gnielinski'                       # use either 'gnielinski', 'dittus-boelter' or 'dittus-boelter-simple', pay attention to suitable Re number range
 ambient_temp    = 288.15							 # ambient temperature for radiation boundary condition [K] (must be type float)!!
 
-# Film cooling settings for coolant originating at the injector face
-m_dot_film = 0.1 * m_dot_coolant                      # set mass flow to 0.0 to deactivate film cooing
-injection_velocity = 10								  # [m/s]
-injector_diameter  = 0.4e-3							  # [m]
+# Throttle points: further operating points of this engine, each run as its own case next to the design point above and
+# written to <out>/<config name>_<name>/, so the summary compares all points side by side. Per entry:
+#   throttle   fraction of the design core mass flow, which also scales the chamber pressure (required)
+#   MR_core    core mixture ratio at this point, a fixed area injector shifts O/F when the engine is throttled
+#              (default: the design point MR_core)
+#   name       names the case folder (default: the throttle as a percentage, e.g. 60pct)
+#   inlet      'hold' or 'scale' for this point only (default: throttle_inlet below)
+#   overrides  dict of any further config inputs to replace at this point
+# The film keeps the fraction of the fuel flow it has at the design point, so it follows the throttled fuel flow instead of
+# being scaled with the throttle. The coolant flow follows as core fuel + film. An empty list runs the design point alone.
+#   throttle_points = [dict(throttle=0.6, MR_core=1.15), dict(name='half', throttle=0.5, MR_core=1.10)]
+throttle_points = []
+throttle_inlet  = 'hold'                             # jacket inlet pressure at a throttle point: 'hold' (throttle valve downstream of the
+                                                     # jacket) or 'scale' (valve upstream, the inlet follows Pc plus the feed pressure
+                                                     # drop, which goes with m_dot^2)
 
 # Chamber geometry, r_1 and r_2 follow RPA nomenclature
 D_c       = 76e-3                                   # chamber diamter [m]
@@ -61,8 +82,6 @@ nozzle_type = 'bezier'                               # use either 'parabola' (le
 L_e       = 63.42e-3                                 # nozzle length from throat to exit [m], only used for 'bezier'
 step_size = 0.003                                    # step size along the chamber contour [m]
 material  = matlib.AlSi10Mg
-stress_longitudinal = 'shell'                        # hot wall stress margin (RPE method, materials with stress data): temperature difference of the longitudinal
-                                                     # thermal stress, 'shell' = hot wall to coolant-side wall, 'wall' = across the hot wall
 # cooling channel geometry; h_c, psi, t_w_i can be functions of x
 n         = 40                                       # number of cooling channels [int]
 h_c       = 1e-3                                     # radial height of cooling channels [m] CAN BE FLOAT OR FUNCTION

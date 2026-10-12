@@ -43,8 +43,8 @@ class HeatTransfer():
         self.geometry = geometry             			# engine contour
         self.material = material             			# material object
         self.coolant = coolant               			# themro Mixture object
-        self.m_dot = m_dot                   			# total mass flow
-        self.m_dot_coolant = m_dot_coolant   			# coolant mass flow [kg/s]
+        self.m_dot = m_dot                   			# core (combustion) mass flow, excludes film coolant, which is assumed not to burn
+        self.m_dot_coolant = m_dot_coolant   			# coolant mass flow [kg/s], core fuel + film combined
         self.model = model                   			# hot gas side heat transfer model
         self.cool_model = cool_model		 			# coolant side heat transfer model
         self.eta_c_star = eta_c_star       			# combustion efficiency

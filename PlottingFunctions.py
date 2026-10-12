@@ -33,6 +33,9 @@ class Plotting1D():
         if self.two_pass():
             plt.plot(self.geometry[:,0]*1e3, Units.temperature(self.data[:,13]), color='b', linestyle=':', label='Coolant bulk temperature, return pass')
         plt.plot(self.geometry[:,0]*1e3, Units.temperature(self.data[:,6]), color='r', linestyle='--', label='Inner wall temperature')
+        plt.plot(self.geometry[:,0]*1e3, Units.temperature(self.data[:,12]), color='g', linestyle='--', label='Coolant-side wall temperature')
+        if self.two_pass():
+            plt.plot(self.geometry[:,0]*1e3, Units.temperature(self.data[:,18]), color='g', linestyle=':', label='Coolant-side wall temperature, return pass')
         plt.xlabel('x coordiante [mm]')
         plt.ylabel('Temperature [' + Units.temperature_unit() + ']')
         plt.legend(loc='best')
@@ -109,12 +112,12 @@ class Plotting1D():
             plt.show()
         
 
-    def stress_plot(self, stress, longitudinal='shell'):
+    def stress_plot(self, stress):
         # hot wall stresses against the yield strength (top) and the stress margin (bottom), see Stress.wall_stress
         x = self.geometry[:,0]*1e3
         f, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6.4, 6.4))
         ax1.plot(x, stress['sigma_t']/1e6, color='b', label='Tangential')
-        ax1.plot(x, stress['sigma_l']/1e6, color='g', label='Longitudinal (' + ('hot to coolant-side wall' if longitudinal == 'shell' else 'across the hot wall') + ')')
+        ax1.plot(x, stress['sigma_l']/1e6, color='g', label='Longitudinal (hot to coolant-side wall)')
         ax1.plot(x, stress['sigma_vm']/1e6, color='r', label='Von Mises')
         ax1.plot(x, stress['yield']/1e6, color='k', linestyle='--', label='Yield strength at the hot wall temperature')
         ax1.set_ylabel('Stress [MPa]')

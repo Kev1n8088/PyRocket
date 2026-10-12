@@ -14,6 +14,10 @@
 #   python3 run.py a.py b.py --jobs 2       run several configs, two at a time
 #   python3 run.py --summary-only           rebuild the summary from existing results
 # Each case is written to <out>/<config name>/, the comparison to <out>/summary.png and <out>/summary.csv
+#
+# A config with throttle_points (see config.py) expands into one case per operating point: its design point in
+# <out>/<config name>/ and each throttle point in <out>/<config name>_<point name>/. They are run and summarised like
+# separate cases, so the summary compares all points of the engine side by side.
 
 import argparse
 import glob
@@ -51,6 +55,27 @@ def expand_configs(paths):
     return configs
 
 
+def expand_cases(configs, out):
+    # (config path, save path, overrides, extra) of every case to run: one per operating point of every config, i.e. its
+    # design point and any throttle_points it defines (see CaseSetup.operating_points)
+    from CaseSetup import operating_points
+
+    cases = []
+    for config_path in configs:
+        try:
+            points = operating_points(config_path)
+        except Exception as e:
+            sys.exit('Cannot read the operating points of %s: %s' % (config_path, e))
+        for name, overrides, extra in points:
+            cases.append((config_path, os.path.join(out, name), overrides, extra))
+
+    names = [os.path.basename(os.path.normpath(s)) for _, s, _, _ in cases]
+    duplicates = sorted({n for n in names if names.count(n) > 1})
+    if duplicates:
+        sys.exit('Case names must be unique, they name the output folders. Duplicates: ' + ', '.join(duplicates))
+    return cases
+
+
 def run_case(config_path, save_path, quiet, overrides=None, extra=None):
     # runs a single config in its own process, so cases can not affect each other
     # overrides replace config inputs (see CaseSetup.read_inputs), extra is stored with the case summary
@@ -83,7 +108,7 @@ def run_case(config_path, save_path, quiet, overrides=None, extra=None):
             material=config.material,
             coolant=config.coolant,
             cooling_geometry=config.cooling_geom,
-            m_dot=config.m_dot,
+            m_dot=config.m_dot_core,
             m_dot_coolant=config.m_dot_coolant,
             T_amb = config.ambient_temp,
             output=config.output,
@@ -108,11 +133,10 @@ def run_case(config_path, save_path, quiet, overrides=None, extra=None):
 
         # hot wall stress margin, for materials with temperature dependent mechanical properties
         stress = None
-        longitudinal = getattr(config, 'stress_longitudinal', 'shell')
         if Stress.has_stress_data(config.material):
-            stress = Stress.chamber_stress(config.material, config.output, config.cooling_geom, config.gas.p_s, longitudinal)
+            stress = Stress.chamber_stress(config.material, config.output, config.cooling_geom, config.gas.p_s)
             Stress.write_csv(stress, config.geometry, os.path.join(config.save_path, 'stress.csv'))
-            plot.stress_plot(stress, longitudinal)
+            plot.stress_plot(stress)
         else:
             print('No stress estimate: %s has no temperature dependent mechanical properties in MaterialLib' % config.material.name)
 
@@ -161,27 +185,31 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     configs = expand_configs(args.configs)
-    save_paths = [os.path.join(args.out, os.path.splitext(os.path.basename(c))[0]) for c in configs]
+    # one case per operating point: the design point of every config and the throttle points it defines
+    todo = expand_cases(configs, args.out)
+    print('Cases: ' + ', '.join(os.path.basename(os.path.normpath(s)) for _, s, _, _ in todo), flush=True)
 
     if args.summary_only:
         cases = []
-        for c, save_path in zip(configs, save_paths):
+        for config_path, save_path, _, _ in todo:
             if os.path.isfile(os.path.join(save_path, 'summary.json')):
                 cases.append(Summary.read_case(save_path))
             else:
-                print('No results found for ' + c + ', skipping')
+                print('No results found for ' + os.path.basename(os.path.normpath(save_path)) + ', skipping')
     else:
         if args.jobs > 1:
             # one thread per case, avoids oversubscribing the cpu with parallel cases
             for var in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS'):
                 os.environ.setdefault(var, '1')
-            print('Running %d cases, %d in parallel. Progress is written to <case>/log.txt' % (len(configs), args.jobs))
+            print('Running %d cases, %d in parallel. Progress is written to <case>/log.txt' % (len(todo), args.jobs))
 
         # fresh process for every case
         ctx = multiprocessing.get_context('spawn')
-        with ctx.Pool(processes=max(1, min(args.jobs, len(configs))), maxtasksperchild=1) as pool:
-            overrides = {'save_fig': False} if len(configs) > 1 and not args.section_images else None
-            cases = pool.starmap(run_case, [(c, s, args.jobs > 1 or args.logs, overrides) for c, s in zip(configs, save_paths)])
+        with ctx.Pool(processes=max(1, min(args.jobs, len(todo))), maxtasksperchild=1) as pool:
+            # the per-section images are kept for a single case only, they cost about 70 ms per section
+            common = {} if len(todo) == 1 or args.section_images else {'save_fig': False}
+            cases = pool.starmap(run_case, [(c, s, args.jobs > 1 or args.logs, dict(o, **common), extra)
+                                            for c, s, o, extra in todo])
 
     if not cases:
         sys.exit('No cases to summarise')

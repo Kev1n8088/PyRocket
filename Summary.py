@@ -23,6 +23,7 @@ METRICS = [
     ('T_wall_max',       'Max inner wall temp',        Units.temperature_unit(), Units.temperature),
     ('T_wall_median',    'Median inner wall temp',     Units.temperature_unit(), Units.temperature),
     ('T_wall_throat',    'Inner wall temp at throat',  Units.temperature_unit(), Units.temperature),
+    ('T_wall_coolant_max', 'Max coolant-side wall temp', Units.temperature_unit(), Units.temperature),
     ('T_coolant_out',    'Coolant outlet temp',        Units.temperature_unit(), Units.temperature),
     ('dp_coolant',       'Coolant pressure drop',      'bar',    lambda v: v / 1e5),
     ('dp_injector',      'Coolant outlet P minus Pc',  'bar',    lambda v: v / 1e5),
@@ -122,8 +123,7 @@ def case_stats(cfg, runtime, stress=None):
         stats.update({'stress_margin_min': float(stress['margin'][i]), 'x_stress_margin_min': float(x[i]),
                       'sigma_vm_at_min_margin': float(stress['sigma_vm'][i]), 'sigma_t_at_min_margin': float(stress['sigma_t'][i]),
                       'sigma_l_at_min_margin': float(stress['sigma_l'][i]), 'yield_at_min_margin': float(stress['yield'][i]),
-                      'sigma_vm_max': float(np.max(stress['sigma_vm'])),
-                      'stress_longitudinal': getattr(cfg, 'stress_longitudinal', 'shell')})
+                      'sigma_vm_max': float(np.max(stress['sigma_vm']))})
     if two_pass:
         stats.update({'passes': 2, 'dp_turnaround': float(out.dp_turnaround), 'two_pass_iterations': int(out.two_pass_iterations),
                       'T_coolant_turnaround': float(out.T_c[-1 if cfg.start_idx == 0 else 0])})
@@ -190,25 +190,31 @@ def plot_summary(cases, results_dir, path, ordered=False, heading='PyRocket case
     fig = plt.figure(figsize=(17, 3.6 + bar_rows * bar_height + 0.9), facecolor=SURFACE)
     grid = fig.add_gridspec(1 + bar_rows, 4, height_ratios=[3.6] + [bar_height] * bar_rows, hspace=0.55, wspace=0.28)
 
-    # profiles along the contour, columns of sim_data.csv
+    # profiles along the contour, columns of sim_data.csv. The return pass of a two-pass case sits 6 columns further right
     profiles = [
-        (6, 'Inner wall temperature [' + Units.temperature_unit() + ']',   Units.temperature),
-        (7, 'Coolant bulk temperature [' + Units.temperature_unit() + ']', Units.temperature),
-        (8, 'Coolant pressure [bar]',       lambda v: v / 1e5),
-        (5, 'Heat flux [MW/m²]',            lambda v: v / 1e6),
+        (6,  'Inner wall temperature [' + Units.temperature_unit() + ']',       Units.temperature),
+        (12, 'Coolant-side wall temperature [' + Units.temperature_unit() + ']', Units.temperature),
+        (7,  'Coolant bulk temperature [' + Units.temperature_unit() + ']',     Units.temperature),
+        (8,  'Coolant pressure [bar]',       lambda v: v / 1e5),
+        (5,  'Heat flux [MW/m²]',            lambda v: v / 1e6),
     ]
+    # the profiles share the top row, independent of the four columns of bar charts below
+    profile_grid = grid[0, :].subgridspec(1, len(profiles), wspace=0.28)
+    two_pass_shown = False
     for col, (data_col, title, conv) in enumerate(profiles):
-        ax = fig.add_subplot(grid[0, col])
+        ax = fig.add_subplot(profile_grid[0, col])
         style_axes(ax)
         for case, color in zip(cases, colors):
             data = np.genfromtxt(os.path.join(results_dir, case['case'], 'sim_data.csv'), delimiter=',', skip_header=1)
             ax.plot(data[:,1], conv(data[:,data_col]), color=color, linewidth=2, label=case['case'])
             # return pass of two-pass cooling, dashed in the colour of its case
-            if data_col in (7, 8) and data.shape[1] > 14 and np.all(np.isfinite(data[:,data_col + 6])):
+            if data_col in (7, 8, 12) and data.shape[1] > data_col + 6 and np.all(np.isfinite(data[:,data_col + 6])):
                 ax.plot(data[:,1], conv(data[:,data_col + 6]), color=color, linewidth=1.5, linestyle='--')
+                two_pass_shown = True
             ax.axvline(case['x_throat'] * 1e3, color=BASELINE, linewidth=1, linestyle=':', zorder=0)
         ax.set_title(title, fontsize=10, loc='left')
-        ax.set_xlabel('x coordinate [mm]  (dotted: throat' + (', dashed: return pass' if data_col in (7, 8) else '') + ')', fontsize=8, color=TEXT_2)
+        # the line conventions are noted once for the whole row, they do not fit under every panel
+        ax.set_xlabel('x coordinate [mm]', fontsize=8, color=TEXT_2)
 
     # one bar chart per statistic, cases share the same order and color in every panel
     y = np.arange(n)[::-1]
@@ -242,6 +248,7 @@ def plot_summary(cases, results_dir, path, ordered=False, heading='PyRocket case
 
     handles, labels = fig.axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc='upper left', bbox_to_anchor=(0.125, 0.995), ncol=min(n, 8), frameon=False, fontsize=9, labelcolor=TEXT)
+    fig.text(0.9, 0.995, 'dotted: throat' + (',  dashed: return pass' if two_pass_shown else ''), ha='right', va='top', fontsize=9, color=TEXT_2)
     fig.suptitle(heading, x=0.125, ha='left', y=1.03, fontsize=13, color=TEXT)
     fig.savefig(path, dpi=200, bbox_inches='tight', facecolor=SURFACE)
     plt.close(fig)
